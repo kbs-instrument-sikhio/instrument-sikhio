@@ -832,10 +832,11 @@ document.getElementById("gearBtn").addEventListener("click",async function(){
   const pin=prompt("ใส่รหัสผู้ดูแล:");
   if(pin===null)return;
 
-  /* ตรวจรหัสภายในก่อนเสมอ */
+  /* ตรวจ PIN ในเครื่องก่อนเสมอ — ถ้าผิดหยุดทันที */
   if(pin!==ADMIN_PIN){alert("รหัสไม่ถูกต้อง");return;}
 
-  /* ถ้ามี API_URL ลองตรวจกับ server ด้วย (timeout 5 วิ) — ถ้า server ไม่ตอบ ใช้ local PIN แทน */
+  /* ถ้ามี API → ลองส่งตรวจ server เพิ่ม (timeout 5 วิ)
+     server ไม่ตอบ/error → ผ่านด้วย local PIN ที่ตรวจไปแล้ว */
   if(API_URL){
     try{
       const ctrl=new AbortController();
@@ -843,10 +844,9 @@ document.getElementById("gearBtn").addEventListener("click",async function(){
       const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({pin:pin,action:"verify"}),signal:ctrl.signal});
       clearTimeout(tid);
       const j=await r.json();
-      if(!j.ok){alert("รหัสไม่ถูกต้อง (server)");return;}
+      if(!j.ok){alert("รหัสไม่ถูกต้อง");return;}
     }catch(err){
-      /* server ไม่ตอบหรือ timeout → ใช้ local PIN ที่ตรวจผ่านแล้วข้างบนแทน */
-      console.warn("Server verify failed, using local PIN:",err.message);
+      console.warn("Server verify failed — using local PIN:",err.message);
     }
   }
 
