@@ -960,16 +960,20 @@ function buildEditor(){
     +'<div style="margin-top:12px"><label class="ed-lb">ป้ายกำกับด้านล่าง (คั่นด้วยเครื่องหมาย | เช่น ISO 9001|KBS SUGAR)</label>'
     +'<input class="ed" id="edPolBadges" value="'+esc(((EDIT.policy&&EDIT.policy.badges)||[]).join("|"))+'"></div>'
     +'</div>'
+    +'<div class="ed-card"><h3>📚 หัวข้อ Learning</h3><div class="hint">วางลิงค์ไฟล์รูปจาก Google Drive</div><div id="edTopics"></div><button class="ed-add" id="addTopic">＋ เพิ่มหัวข้อ</button></div>'
     +'<div class="ed-card"><h3>👥 บุคลากร</h3><div class="hint">แต่ละ "ชั้น" = หนึ่งแถวในผัง</div><div id="edOrg"></div><button class="ed-add" id="addLevel">＋ เพิ่มชั้นใหม่</button>'
     +'<div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+esc(EDIT.orgUpdate)+'" placeholder="22/2/2569"></div></div>'
   );
 
   renderEdNews();renderEdLinks();renderEdForms();renderEdPolicy();renderEdTopics();renderEdOrg();
-  document.getElementById("addNews").onclick=function(){collect();EDIT.news.push({tag:"ประกาศ",text:"",type:"normal"});renderEdNews();};
-  document.getElementById("addForm").onclick=function(){collect();EDIT.forms.push({label:"",desc:"",url:"",admin:false});renderEdForms();};
-  document.getElementById("addPolItem").onclick=function(){collect();if(!EDIT.policy)EDIT.policy={};if(!EDIT.policy.items)EDIT.policy.items=[];EDIT.policy.items.push("");renderEdPolicy();};
-  document.getElementById("addTopic").onclick=function(){collect();EDIT.topics.push({t:"",id:""});renderEdTopics();};
-  document.getElementById("addLevel").onclick=function(){collect();EDIT.org.push([{n:"",t:"พนักงานเครื่องมือวัด"}]);renderEdOrg();};
+
+  /* ผูก event ด้วย helper ที่ปลอดภัย — ถ้าหา element ไม่เจอจะ log แทน crash */
+  function bindBtn(id,fn){var el=document.getElementById(id);if(el)el.onclick=fn;else console.warn("ไม่พบปุ่ม:",id);}
+  bindBtn("addNews",    function(){collect();EDIT.news.push({tag:"ประกาศ",text:"",type:"normal"});renderEdNews();});
+  bindBtn("addForm",    function(){collect();EDIT.forms.push({label:"",desc:"",url:"",admin:false});renderEdForms();});
+  bindBtn("addPolItem", function(){collect();if(!EDIT.policy)EDIT.policy={};if(!EDIT.policy.items)EDIT.policy.items=[];EDIT.policy.items.push("");renderEdPolicy();});
+  bindBtn("addTopic",   function(){collect();EDIT.topics.push({t:"",id:""});renderEdTopics();});
+  bindBtn("addLevel",   function(){collect();EDIT.org.push([{n:"",t:"พนักงานเครื่องมือวัด"}]);renderEdOrg();});
 
   /* logo upload */
   document.getElementById("logoFileInput").addEventListener("change",function(e){
