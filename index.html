@@ -187,18 +187,7 @@ img{max-width:100%}
 
 .sb-divider{border:none;border-top:1px solid var(--line);margin:6px 12px}
 
-/* บุคลากร sidebar */
-.sb-org{padding:10px 12px 16px}
-.sb-org-title{font-size:.7rem;font-weight:700;letter-spacing:1.2px;color:var(--ink-3);text-transform:uppercase;font-family:'Prompt';padding:0 4px 8px}
-.sb-person{display:flex;align-items:center;gap:9px;padding:7px 4px;border-bottom:1px dashed #EAECEF}
-.sb-person:last-child{border-bottom:none}
-.sb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-2));display:flex;align-items:center;justify-content:center;flex:none}
-.sb-av svg{width:17px;height:17px;fill:var(--gold)}
-.sb-person-info b{display:block;font-size:.78rem;font-weight:600;line-height:1.2}
-.sb-person-info small{font-size:.68rem;color:var(--ink-3);line-height:1.2}
-.sb-person.lead .sb-av{background:linear-gradient(135deg,var(--gold),#B8882A)}
-.sb-person.lead .sb-av svg{fill:#fff}
-.sb-update{font-size:.68rem;color:var(--ink-3);text-align:right;padding:6px 4px 0}
+/* บุคลากร sidebar — ซ่อนแล้ว */
 
 /* ============================================================ MAIN CONTENT */
 .main{flex:1;min-width:0;padding:20px 22px 60px}
@@ -436,13 +425,6 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
         <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>สต็อคในแผนก
       </a>
     </nav>
-
-    <hr class="sb-divider">
-    <div class="sb-org">
-      <div class="sb-org-title">บุคลากร</div>
-      <div id="sbOrgList"></div>
-      <div class="sb-update" id="sbOrgUpdate"></div>
-    </div>
   </aside>
 
   <!-- ===== MAIN ===== -->
@@ -687,14 +669,6 @@ function renderAll(){
       </tr>`).join("")).join("")}</tbody>`;
   document.getElementById("orgUpdate").textContent="อัปเดตล่าสุด "+DATA.orgUpdate;
   document.getElementById("menuOrgCount").textContent=`${allPeople.length} คน`;
-
-  /* Sidebar org */
-  document.getElementById("sbOrgList").innerHTML=allPeople.slice(0,5).map(p=>`
-    <div class="sb-person${p.lead?" lead":""}">
-      <span class="sb-av">${AV}</span>
-      <div class="sb-person-info"><b>${esc(p.n)}</b><small>${esc(p.t)}</small></div>
-    </div>`).join("")+(allPeople.length>5?`<div style="font-size:.72rem;color:var(--ink-3);padding:4px 4px 0">และอีก ${allPeople.length-5} คน</div>`:"");
-  document.getElementById("sbOrgUpdate").textContent="อัปเดต "+DATA.orgUpdate;
 
   /* Search index */
   INDEX=[];
