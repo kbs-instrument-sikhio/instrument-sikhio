@@ -828,28 +828,10 @@ document.addEventListener("click",function(e){if(!e.target.closest(".topbar-sear
 let EDIT=null;
 const deep=function(o){return JSON.parse(JSON.stringify(o));};
 
-document.getElementById("gearBtn").addEventListener("click",async function(){
+document.getElementById("gearBtn").addEventListener("click",function(){
   const pin=prompt("ใส่รหัสผู้ดูแล:");
   if(pin===null)return;
-
-  /* ตรวจ PIN ในเครื่องก่อนเสมอ — ถ้าผิดหยุดทันที */
   if(pin!==ADMIN_PIN){alert("รหัสไม่ถูกต้อง");return;}
-
-  /* ถ้ามี API → ลองส่งตรวจ server เพิ่ม (timeout 5 วิ)
-     server ไม่ตอบ/error → ผ่านด้วย local PIN ที่ตรวจไปแล้ว */
-  if(API_URL){
-    try{
-      const ctrl=new AbortController();
-      const tid=setTimeout(function(){ctrl.abort();},5000);
-      const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({pin:pin,action:"verify"}),signal:ctrl.signal});
-      clearTimeout(tid);
-      const j=await r.json();
-      if(!j.ok){alert("รหัสไม่ถูกต้อง");return;}
-    }catch(err){
-      console.warn("Server verify failed — using local PIN:",err.message);
-    }
-  }
-
   sessionPin=pin;EDIT=deep(DATA);buildEditor();showPage("admin");
 });
 
