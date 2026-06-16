@@ -842,13 +842,8 @@ document.getElementById("gearBtn").addEventListener("click",function(){
   if(pin!==ADMIN_PIN){alert("รหัสไม่ถูกต้อง");return;}
   sessionPin=pin;
   EDIT=deep(DATA);
-  try{
-    buildEditor();
-    showPage("admin");
-  }catch(err){
-    alert("เกิดข้อผิดพลาดในโหมดผู้ดูแล:\n"+err.message+"\n\nกรุณาแจ้ง error นี้เพื่อแก้ไข");
-    console.error("buildEditor error:",err);
-  }
+  showPage("admin");   /* แสดงหน้าก่อน เพื่อให้ editorBody display:block */
+  buildEditor();       /* แล้วค่อย render editor */
 });
 
 /* ============================================================ buildEditor */
@@ -871,6 +866,7 @@ function buildEditor(){
   if(!EDIT.org) EDIT.org=[];
 
   const eb=document.getElementById("editorBody");
+  if(!eb){console.error("editorBody not found");return;}
   eb.innerHTML=""; /* ล้างก่อน */
 
   const tNavy=(EDIT.theme&&EDIT.theme.navy)||"#003866";
