@@ -826,13 +826,29 @@ document.addEventListener("click",function(e){if(!e.target.closest(".topbar-sear
 
 /* ============================================================ Admin */
 let EDIT=null;
-const deep=function(o){return JSON.parse(JSON.stringify(o));};
+const deep=function(o){
+  try{return JSON.parse(JSON.stringify(o));}
+  catch(e){
+    /* ถ้า logo ใหญ่เกิน ตัด logo ออกแล้ว clone ใหม่ */
+    console.warn("deep() failed, retrying without logo:",e.message);
+    const copy=JSON.parse(JSON.stringify(Object.assign({},o,{logo:""})));
+    return copy;
+  }
+};
 
 document.getElementById("gearBtn").addEventListener("click",function(){
   const pin=prompt("ใส่รหัสผู้ดูแล:");
   if(pin===null)return;
   if(pin!==ADMIN_PIN){alert("รหัสไม่ถูกต้อง");return;}
-  sessionPin=pin;EDIT=deep(DATA);buildEditor();showPage("admin");
+  sessionPin=pin;
+  EDIT=deep(DATA);
+  try{
+    buildEditor();
+    showPage("admin");
+  }catch(err){
+    alert("เกิดข้อผิดพลาดในโหมดผู้ดูแล:\n"+err.message+"\n\nกรุณาแจ้ง error นี้เพื่อแก้ไข");
+    console.error("buildEditor error:",err);
+  }
 });
 
 /* ============================================================ buildEditor */
@@ -844,6 +860,16 @@ function makeEl(tag,attrs,html){
 }
 
 function buildEditor(){
+  /* guard: ถ้า EDIT ยังเป็น null ให้ copy จาก DATA ก่อน */
+  if(!EDIT) EDIT=deep(DATA);
+  if(!EDIT.theme) EDIT.theme={navy:"#003866",gold:"#D4A437"};
+  if(!EDIT.policy) EDIT.policy={companyName:"บริษัท เคบีเอส เพาเวอร์ จำกัด",intro:"",items:[],badges:["ISO 9001 · SGS Certified","KBS SUGAR"]};
+  if(!EDIT.news) EDIT.news=[];
+  if(!EDIT.links) EDIT.links={};
+  if(!EDIT.forms) EDIT.forms=[];
+  if(!EDIT.topics) EDIT.topics=[];
+  if(!EDIT.org) EDIT.org=[];
+
   const eb=document.getElementById("editorBody");
   eb.innerHTML=""; /* ล้างก่อน */
 
