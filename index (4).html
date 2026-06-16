@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แผนกเครื่องมือวัด สีคิ้ว | KBS Sugar Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/json" id="SITE_DATA">
+{
+ "news": [
+  {"tag": "ความปลอดภัย", "text": "ให้พนักงานสวมใส่อุปกรณ์ PPE ให้ถูกต้องและครบถ้วน พร้อมทั้งเปิด Work ให้เรียบร้อย ก่อนเข้าปฏิบัติงาน", "type": "normal"},
+  {"tag": "ประกาศโรงงาน", "text": "บริษัท น้ำตาลครบุรี สาขาสีคิ้ว แจ้งหยุดหีบอ้อยประจำปี 2568/2569 ในวันที่ 29/03/2569", "type": "alert"}
+ ],
+ "links": {
+  "repairData":   "https://drive.google.com/drive/folders/1N3n0ywhvCViG7CvqxNQf1sR2ctTZevL6",
+  "receiveData":  "https://drive.google.com/drive/u/0/folders/1crlZt8f_Iu7NJEaXCJa7fdRxSk6E1h8y",
+  "withdrawData": "https://docs.google.com/spreadsheets/d/1tFHLxSl2U1mlyZRkV-i72kCEHzFrQPtjvVbmyYWoMLQ/edit?gid=1798877394#gid=1798877394",
+  "stockList":    "https://docs.google.com/spreadsheets/d/1tFHLxSl2U1mlyZRkV-i72kCEHzFrQPtjvVbmyYWoMLQ/edit?gid=0#gid=0"
+ },
+ "forms": [
+  {"label": "กรอกข้อมูลรับพัสดุ", "desc": "บันทึกการรับพัสดุเข้าแผนก", "url": "https://docs.google.com/forms/d/e/1FAIpQLSd1NDemVJ3_n-gw5GmyL8dpVja2zOWz3pBl4g_EquVEe6imPg/viewform", "admin": false},
+  {"label": "กรอกข้อมูลงานซ่อม", "desc": "บันทึกงานซ่อม / แจ้งงานในแผนก", "url": "https://forms.gle/rg5Yi5oQJeVhHFVw9", "admin": false},
+  {"label": "กรอกข้อมูลเบิกพัสดุในแผนก", "desc": "บันทึกการเบิกใช้พัสดุ", "url": "https://forms.gle/H7x6gCXTvX8PeKHi6", "admin": false},
+  {"label": "เพิ่มสต็อคในแผนก", "desc": "สำหรับผู้ดูแลระบบเท่านั้น", "url": "https://forms.gle/MxmofDg1n8uV2sFy6", "admin": true},
+  {"label": "รายการสต็อคในแผนกทั้งหมด", "desc": "ดูยอดคงเหลือทุกรายการ", "url": "https://docs.google.com/spreadsheets/d/1tFHLxSl2U1mlyZRkV-i72kCEHzFrQPtjvVbmyYWoMLQ/edit?gid=0#gid=0", "admin": true}
+ ],
+ "topics": [
+  {"t": "สำนักงานชั่งตวงวัด คือใคร ?", "id": "1REYDhHfxdQjDVulJ3stey_InFfjzY-nS"},
+  {"t": "ประโยชน์ของการทำ 5 ส.", "id": "11vA0i9bcahMJ0Ye2rHqEiBvXRS7Yta50"},
+  {"t": "ข้อแตกต่าง PM กับ PdM", "id": "1cHQxBE5HXn8OUi_5g31sPI-XYe28GjUX"},
+  {"t": "ทำความรู้จัก Certificate สอบเทียบ", "id": "1WUIP5NorelXPAE3rmehIDTKuGiVWNn6A"},
+  {"t": "ทำความรู้จัก Diff Pressure", "id": "1tWOkfJ9Ns3TqZ_P2IWkUns0A30lN0GPy"},
+  {"t": "Pressure & Compound Gauge", "id": "1zezS7ps9zem3KpBiUuX1ZYIWwaXyMjDe"},
+  {"t": "ทำความรู้จัก RTD", "id": "1AAZK7p2DMPs5vInpYF05GRPG3scY3QLn"},
+  {"t": "ทำความรู้จัก Steam Trap", "id": "15RRm7Ae4b1SyPS_9URMBmndHPAcYZKAZ"},
+  {"t": "ทำความรู้จัก Turbulent Flow", "id": "1e8hO-sBKNreBrESlNHeMbZm17Vjz7IrY"},
+  {"t": "ประโยชน์ของ Siphon Tube", "id": "1ByOefCZYN8_728Ztvo_ESYB8Qf6OXv1-"},
+  {"t": "รู้จักหน่วยวัด pressure gauge", "id": "1ob8xzP_pvE_TYfqv0Or3XtC-2ai_tQez"},
+  {"t": "Diaphragm Gauge", "id": "1MWezmh8vLqH6PRXx_n7ODyNFSwkZQpj1"},
+  {"t": "การเลือกใช้ RTD กับ TC", "id": "1InYspIwc2us_R4AQRyLM87xli0CbOh2S"},
+  {"t": "ชนิดเกลียวของ Gauge", "id": "1qZ37Z2jo1ZWPH5Vb6WFXtQ1TkBTnseCB"},
+  {"t": "Seal Valve ชนิดต่างๆ", "id": "1zKzjh1m452ziIRSPxFi9mJhw9JYjA7eR"},
+  {"t": "การเลือก Action Fail ของวาล์ว", "id": "1tZvVDhV6RXoAOEmk1WgeWhoWLDtX4Q5X"},
+  {"t": "การเลือกใช้หัวขับวาล์ว_1", "id": "1pGGilL_1L6IeL7Odi-svTWhVx-WQgjeE"},
+  {"t": "การเลือกใช้หัวขับวาล์ว_2", "id": "1JHoH8_7p1dRTtuGkUsz3LNWooBLMfF_S"},
+  {"t": "อาการ Flashing และ Cavitation", "id": "1UfajcAor9BpXGtchXWthzKIuNnAGVecJ"},
+  {"t": "มาตรฐานหน้าแปลน", "id": "1fq3eIaKAF29hJKv5obkHJDuIOki99ItJ"},
+  {"t": "ความปลอดภัยในการเชื่อม", "id": "1pqDOQre9O85d7snlkCnyMVxYFwRTtES6"}
+ ],
+ "org": [
+  [{"n": "นายอำพร นาคประสาท", "t": "หัวหน้าแผนกเครื่องมือวัด", "lead": true}],
+  [{"n": "นายจิรภัทร ยาพิมาย", "t": "หัวหน้ากะแผนกเครื่องมือวัด", "lead": true},
+   {"n": "นายธีระวุฒิ ท่าเกลือ", "t": "หัวหน้ากะแผนกเครื่องมือวัด", "lead": true}],
+  [{"n": "นายทัศนัยย์ ธรรมเสมอ", "t": "พนักงานเครื่องมือวัด"},
+   {"n": "นายบุรินทร์ บัวศรีทอง", "t": "พนักงานเครื่องมือวัด"},
+   {"n": "นายกมลเทพ ศรีมูลลัน", "t": "พนักงานเครื่องมือวัด"}],
+  [{"n": "นางสาวอนัญญา ธรรมส่งสุข", "t": "พนักงานเครื่องมือวัด"},
+   {"n": "นายธีระพงษ์ ทับพุดซา", "t": "พนักงานเครื่องมือวัด"},
+   {"n": "นายธนวัฒน์ เขื่องสะถุ่ง", "t": "พนักงานเครื่องมือวัด"}],
+  [{"n": "นายปริทัศน์ แทนสระน้อย", "t": "พนักงานเครื่องมือวัด"},
+   {"n": "นายสิทธิศักดิ์ ภูผิวฟ้า", "t": "พนักงานเครื่องมือวัด"}]
+ ],
+ "orgUpdate": "22/2/2569",
+ "logo": "",
+ "theme": {"navy":"#003866","gold":"#D4A437"}
+}
+</script>
+
+<style>
+/* ============================================================ TOKENS */
+:root{
+  --navy:#003866; --navy-2:#004a87; --navy-3:#00305a;
+  --gold:#D4A437; --yellow:#F2C200;
+  --bg:#F0F2F5; --surface:#fff;
+  --ink:#1E2329; --ink-2:#5C6370; --ink-3:#9AA0A8;
+  --line:#DDE1E7; --red:#C0392B; --red-bg:#FDECEC;
+  --green:#1E8A4A;
+  --radius:10px; --shadow:0 2px 8px rgba(0,0,0,.10);
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:15px}
+h1,h2,h3,b,strong,.f-prompt{font-family:'Prompt',sans-serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:4px}
+
+/* ============================================================ TOP BAR */
+.topbar{
+  background:linear-gradient(90deg, var(--navy-3) 0%, var(--navy) 60%, var(--navy-2) 100%);
+  color:#fff; height:56px; display:flex; align-items:center;
+  padding:0 20px; gap:16px; position:sticky; top:0; z-index:100;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+.topbar-logo{
+  display:flex; align-items:center; gap:10px;
+  font-family:'Prompt'; font-weight:700; font-size:1.05rem; letter-spacing:.3px;
+}
+.topbar-logo .mark{
+  width:36px; height:36px; background:var(--gold); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; flex:none;
+}
+.topbar-logo .mark svg{width:22px;height:22px;fill:var(--navy)}
+.topbar-logo sub{display:block;font-size:.68rem;font-weight:400;opacity:.75;letter-spacing:.5px;margin-top:-2px}
+.topbar-search{
+  flex:1; max-width:340px; margin-left:auto;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+  border-radius:8px; display:flex; align-items:center; gap:8px; padding:0 12px; height:34px;
+  position:relative;
+}
+.topbar-search input{background:transparent;border:none;outline:none;color:#fff;font:inherit;font-size:.88rem;width:100%}
+.topbar-search input::placeholder{color:rgba(255,255,255,.5)}
+.topbar-search svg{width:16px;height:16px;fill:rgba(255,255,255,.5);flex:none}
+.search-results{
+  position:absolute; top:calc(100% + 8px); left:0; right:0;
+  background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.15);
+  overflow:hidden; display:none; color:var(--ink); z-index:200;
+}
+.search-results.show{display:block}
+.search-results button{
+  display:flex;flex-direction:column;align-items:flex-start;gap:1px;
+  width:100%;text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);font-size:.88rem;
+}
+.search-results button:hover{background:#FFF8DC}
+.sr-type{font-size:.7rem;color:var(--gold);font-weight:600}
+.gear-btn{
+  width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);margin-left:8px;
+}
+.gear-btn svg{width:18px;height:18px;fill:rgba(255,255,255,.8)}
+.gear-btn:hover{background:rgba(255,255,255,.2)}
+.date-chip{font-size:.75rem;color:rgba(255,255,255,.65);white-space:nowrap}
+
+/* ============================================================ DRAFT BAR */
+.draft-bar{
+  display:none;background:#FFF3CD;color:#664D03;text-align:center;
+  padding:8px 16px;font-size:.84rem;border-bottom:1px solid #FFE083;
+}
+.draft-bar.show{display:block}
+.draft-bar button{text-decoration:underline;font-weight:600;color:#664D03;margin:0 6px}
+
+/* ============================================================ LAYOUT */
+.wrap{display:flex;min-height:calc(100vh - 56px)}
+
+/* ============================================================ SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);flex:none;
+  background:var(--surface);
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;
+  position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:#D0D4DA;border-radius:2px}
+
+/* โลโก้ sidebar */
+.sb-brand{
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);
+  color:#fff;padding:20px 16px 18px;text-align:center;
+  border-bottom:3px solid var(--gold);
+}
+.sb-brand .avatar-wrap{
+  width:72px;height:72px;border-radius:50%;background:var(--gold);
+  margin:0 auto 12px;display:flex;align-items:center;justify-content:center;
+  border:3px solid rgba(255,255,255,.3);
+}
+.sb-brand .avatar-wrap svg{width:38px;height:38px;fill:var(--navy)}
+.sb-brand h2{font-size:.92rem;font-weight:700;line-height:1.3;margin-bottom:4px}
+.sb-brand small{font-size:.72rem;opacity:.7;font-family:'Sarabun';font-weight:300}
+
+/* เมนู sidebar */
+.sb-menu{padding:10px 0;flex:1}
+.sb-section{padding:6px 14px 2px;font-size:.7rem;font-weight:700;letter-spacing:1.2px;color:var(--ink-3);text-transform:uppercase;font-family:'Prompt'}
+.sb-item{
+  display:flex;align-items:center;gap:10px;padding:9px 16px;
+  font-size:.875rem;cursor:pointer;transition:background .12s ease;
+  border-left:3px solid transparent;width:100%;text-align:left;
+  color:var(--ink-2);
+}
+.sb-item svg{width:18px;height:18px;fill:currentColor;flex:none;opacity:.7}
+.sb-item:hover{background:#F5F6F8;color:var(--navy)}
+.sb-item:hover svg{opacity:1}
+.sb-item.active{background:#EEF3FA;color:var(--navy);font-weight:600;border-left-color:var(--gold)}
+.sb-item.active svg{opacity:1;fill:var(--navy)}
+.sb-item .badge{font-size:.65rem;font-weight:700;background:var(--navy);color:#fff;border-radius:10px;padding:2px 7px;margin-left:auto}
+
+.sb-divider{border:none;border-top:1px solid var(--line);margin:6px 12px}
+
+/* บุคลากร sidebar — ซ่อนแล้ว */
+
+/* ============================================================ MAIN CONTENT */
+.main{flex:1;min-width:0;padding:20px 22px 60px}
+
+/* ============================================================ PAGES */
+.page{display:none}
+.page.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.page.active{animation:none}}
+
+/* ============================================================ WIDGETS */
+.widget{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
+.widget-head{
+  background:linear-gradient(90deg,var(--navy) 0%,var(--navy-2) 100%);
+  color:#fff;padding:9px 16px;
+  font-family:'Prompt';font-size:.85rem;font-weight:600;letter-spacing:.3px;
+  display:flex;align-items:center;gap:8px;
+}
+.widget-head svg{width:16px;height:16px;fill:var(--gold);flex:none}
+.widget-head .wh-link{margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.7);text-decoration:underline;cursor:pointer;font-family:'Sarabun';font-weight:400}
+.widget-body{padding:14px 16px}
+
+/* ============================================================ ประกาศ */
+.notice{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:11px 14px;margin-bottom:8px;border-radius:8px;
+  background:#FFFBEA;border-left:4px solid var(--gold);
+}
+.notice:last-child{margin-bottom:0}
+.notice.alert{background:var(--red-bg);border-left-color:var(--red)}
+.notice-ic{width:32px;height:32px;border-radius:8px;flex:none;background:#FFF0B3;display:flex;align-items:center;justify-content:center}
+.notice.alert .notice-ic{background:#FDD}
+.notice-ic svg{width:18px;height:18px;fill:#A07800}
+.notice.alert .notice-ic svg{fill:var(--red)}
+.notice .tag{display:inline-block;font-family:'Prompt';font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:4px;margin-bottom:3px;background:#FFE57A;color:#6B4F00}
+.notice.alert .tag{background:#FFCDD2;color:var(--red)}
+.notice p{font-size:.875rem;line-height:1.55}
+
+/* ============================================================ MENU GRID */
+.menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.menu-grid{grid-template-columns:repeat(2,1fr)}}
+.menu-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-align:center;transition:all .14s ease;cursor:pointer;
+}
+.menu-card:hover{border-color:var(--gold);box-shadow:0 4px 12px rgba(0,56,102,.12);transform:translateY(-2px)}
+.menu-ic{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(140deg,var(--navy) 0%,var(--navy-2) 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.menu-ic.gold{background:linear-gradient(140deg,var(--gold) 0%,#B8882A 100%)}
+.menu-ic svg{width:24px;height:24px;fill:#fff}
+.menu-ic.gold svg{fill:var(--navy)}
+.menu-card b{font-family:'Prompt';font-weight:600;font-size:.82rem;line-height:1.25;color:var(--navy)}
+.menu-card span{font-size:.72rem;color:var(--ink-3);line-height:1.3}
+
+/* ============================================================ FORM LIST */
+.form-row{
+  display:flex;align-items:center;gap:12px;padding:11px 14px;
+  border-bottom:1px solid var(--line);transition:background .1s ease;
+}
+.form-row:last-child{border-bottom:none}
+.form-row:hover{background:#F8F9FB}
+.form-ic{width:34px;height:34px;border-radius:8px;flex:none;background:#EEF3FA;display:flex;align-items:center;justify-content:center}
+.form-ic svg{width:17px;height:17px;fill:var(--navy)}
+.form-row .txt{flex:1;min-width:0}
+.form-row b{display:block;font-family:'Prompt';font-weight:600;font-size:.85rem;color:var(--navy)}
+.form-row small{font-size:.74rem;color:var(--ink-3)}
+.badge-admin{font-family:'Prompt';font-size:.65rem;font-weight:700;color:#fff;background:var(--navy);border-radius:4px;padding:2px 7px;flex:none}
+.chev{width:16px;height:16px;fill:var(--ink-3);flex:none}
+
+/* ============================================================ LEARNING CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.cards-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
+.kcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;cursor:pointer;
+  transition:all .14s ease;
+}
+.kcard:hover{border-color:var(--gold);box-shadow:0 4px 12px rgba(0,56,102,.12);transform:translateY(-2px)}
+.kcard .thumb{width:100%;aspect-ratio:1;background:#EEF0F3;position:relative;display:flex;align-items:center;justify-content:center}
+.kcard .thumb svg{width:35%;height:35%;fill:#C5C9D0}
+.kcard .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.kcard .cap{padding:8px 10px 10px;font-family:'Prompt';font-weight:500;font-size:.78rem;line-height:1.3;color:var(--navy);border-top:2px solid var(--gold)}
+
+/* ============================================================ LOGO */
+.avatar-wrap img.logo-img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.topbar-logo .mark img.logo-img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+
+/* ============================================================ THEME EDITOR */
+.theme-row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.theme-col{flex:1;min-width:120px}
+.color-preview{
+  width:100%;height:38px;border-radius:8px;border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;margin-top:6px;
+  font-family:'Prompt';font-size:.72rem;font-weight:700;letter-spacing:.5px;
+}
+.logo-preview-box{
+  display:flex;align-items:center;gap:14px;padding:14px;
+  background:#F5F7FB;border-radius:10px;margin-top:10px;border:1px solid var(--line);
+}
+.logo-preview-circle{
+  width:64px;height:64px;border-radius:50%;flex:none;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.logo-preview-circle svg{width:34px;height:34px}
+.logo-preview-circle img{width:100%;height:100%;object-fit:cover}
+.logo-preview-label{font-size:.8rem;color:var(--ink-2);line-height:1.5}
+.logo-preview-label b{display:block;font-family:'Prompt';font-size:.9rem;color:var(--ink)}
+.upload-area{
+  border:2px dashed #C8CDD5;border-radius:10px;padding:16px;text-align:center;
+  cursor:pointer;transition:border-color .15s ease;position:relative;
+}
+.upload-area:hover{border-color:var(--gold)}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload-area svg{width:26px;height:26px;fill:#9AA0A8;margin:0 auto 6px}
+.upload-area p{font-size:.8rem;color:var(--ink-3)}
+.upload-area .fname{font-size:.82rem;font-weight:600;color:var(--navy);margin-top:4px}
+.org-table{width:100%;border-collapse:collapse}
+.org-table th{background:linear-gradient(90deg,var(--navy),var(--navy-2));color:#fff;padding:8px 12px;font-family:'Prompt';font-size:.82rem;font-weight:600;text-align:left}
+.org-table td{padding:9px 12px;border-bottom:1px solid var(--line);font-size:.875rem;vertical-align:middle}
+.org-table tr:hover td{background:#F5F7FB}
+.org-table tr.lead td{background:#FFFBEA}
+.org-table .av-sm{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-2));display:flex;align-items:center;justify-content:center;flex:none}
+.org-table .av-sm.gold{background:linear-gradient(135deg,var(--gold),#B8882A)}
+.org-table .av-sm svg{width:17px;height:17px;fill:#fff}
+.org-table td:first-child{padding-left:8px}
+.pos-badge{display:inline-block;font-family:'Prompt';font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;background:#EEF3FA;color:var(--navy)}
+.pos-badge.lead{background:#FFF0C8;color:#7B5800}
+
+/* ============================================================ POLICY */
+.policy-body{font-size:.9rem;line-height:1.8;font-weight:300}
+.policy-body ol{padding-left:1.5em;display:grid;gap:8px;margin-top:10px}
+.policy-body ol li::marker{color:var(--gold);font-weight:700}
+.policy-footer{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);display:flex;gap:8px;flex-wrap:wrap}
+.cert-pill{font-family:'Prompt';font-size:.75rem;font-weight:600;background:#EEF3FA;color:var(--navy);border-radius:20px;padding:5px 14px}
+
+/* ============================================================ PAGE TITLE */
+.page-title{margin-bottom:18px}
+.page-title .eyebrow{font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-family:'Prompt';display:block;margin-bottom:2px}
+.page-title h2{font-size:1.25rem;font-weight:700;color:var(--navy)}
+.breadcrumb{font-size:.78rem;color:var(--ink-3);margin-bottom:14px}
+.breadcrumb span{color:var(--navy);font-weight:500}
+
+/* ============================================================ ADMIN EDITOR */
+.ed-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+.ed-card h3{font-family:'Prompt';font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:3px}
+.ed-card .hint{font-size:.78rem;color:var(--ink-3);margin-bottom:12px}
+.ed-item{border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:10px;display:grid;gap:8px;background:#FAFBFC}
+.ed-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.ed-grid2{grid-template-columns:1fr}}
+input.ed,textarea.ed,select.ed{width:100%;border:1px solid #D0D5DC;border-radius:8px;padding:8px 12px;font:inherit;font-size:.875rem;background:#fff}
+input.ed:focus,textarea.ed:focus,select.ed:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+textarea.ed{resize:vertical;min-height:52px}
+label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--ink-2);display:block;margin-bottom:3px}
+.ed-check{display:flex;align-items:center;gap:7px;font-size:.85rem}
+.ed-check input{width:16px;height:16px;accent-color:var(--gold)}
+.ed-item-bar{display:flex;justify-content:flex-end}
+.ed-del{font-family:'Prompt';font-size:.75rem;font-weight:600;color:var(--red);background:#FFECEC;border-radius:6px;padding:5px 12px}
+.ed-del:hover{background:#FFDCDC}
+.ed-add{width:100%;border:2px dashed #D0D5DC;border-radius:8px;padding:10px;font-family:'Prompt';font-size:.84rem;font-weight:600;color:var(--ink-3)}
+.ed-add:hover{border-color:var(--gold);color:var(--gold)}
+.ed-level{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px;background:#FAFBFC}
+.ed-level h4{font-family:'Prompt';font-size:.82rem;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.ed-note{background:#EEF3FA;border-left:4px solid var(--navy);border-radius:8px;padding:11px 14px;font-size:.85rem;line-height:1.6;margin-bottom:14px}
+.ed-note b{font-family:'Prompt';color:var(--navy)}
+.ed-actions{
+  position:sticky;bottom:0;z-index:20;
+  background:rgba(240,242,245,.95);backdrop-filter:blur(6px);
+  border-top:1px solid var(--line);padding:12px 0;
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+.btn{font-family:'Prompt';font-weight:600;font-size:.84rem;border-radius:8px;padding:9px 20px;cursor:pointer}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:var(--navy-3)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:#C4942F}
+.btn-ghost{background:#E8EBF0;color:var(--ink)}
+.btn-ghost:hover{background:#DDE0E6}
+.btn-danger{background:#FFECEC;color:var(--red)}
+.btn-danger:hover{background:#FFDCDC}
+
+/* ============================================================ MOBILE */
+.ham-btn{display:none;flex:none;width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.1);align-items:center;justify-content:center}
+.ham-btn svg{width:20px;height:20px;fill:#fff}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:89}
+
+@media(max-width:720px){
+  .sidebar{position:fixed;left:-260px;top:56px;height:calc(100vh - 56px);z-index:90;transition:left .25s ease;width:240px}
+  .sidebar.open{left:0}
+  .sb-overlay.show{display:block}
+  .ham-btn{display:flex}
+  .main{padding:14px 14px 70px}
+  .menu-grid{grid-template-columns:repeat(2,1fr)}
+  .cards-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== TOP BAR ========== -->
+<div class="draft-bar" id="draftBar">
+  <b>โหมดร่าง</b> — เห็นเฉพาะเครื่องนี้ยังไม่ถึงพนักงานคนอื่น
+  <button id="draftPublishBtn">เผยแพร่</button><button id="draftClearBtn">ยกเลิกร่าง</button>
+</div>
+
+<div class="topbar">
+  <button class="ham-btn" id="hamBtn" aria-label="เมนู"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg></button>
+  <div class="topbar-logo">
+    <span class="mark" id="topLogoMark"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg></span>
+    <div>แผนกเครื่องมือวัด สีคิ้ว<sub>KBS Sugar Group</sub></div>
+  </div>
+  <div class="topbar-search">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+    <input id="searchInput" type="search" placeholder="ค้นหา..." aria-label="ค้นหา">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+  <span class="date-chip" id="dateChip"></span>
+  <button class="gear-btn" id="gearBtn" title="โหมดผู้ดูแล" aria-label="โหมดผู้ดูแล">
+    <svg viewBox="0 0 24 24"><path d="M19.14 12.94a7 7 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.3 7.3 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.58.24-1.13.55-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.71 8.48a.5.5 0 0 0 .12.64l2.03 1.58a7 7 0 0 0 0 1.88l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.4.32.61.22l2.39-.96c.49.39 1.04.7 1.62.94l.36 2.54c.04.24.25.42.49.42h3.8c.24 0 .45-.18.49-.42l.36-2.54a7.3 7.3 0 0 0 1.62-.94l2.39.96c.21.1.48.01.61-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5z"/></svg>
+  </button>
+</div>
+
+<!-- ========== LAYOUT ========== -->
+<div class="sb-overlay" id="sbOverlay"></div>
+<div class="wrap">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="avatar-wrap" id="sbLogoWrap"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg></div>
+      <h2>แผนกเครื่องมือวัด</h2>
+      <small>สาขาสีคิ้ว · KBS Sugar Group</small>
+    </div>
+
+    <nav class="sb-menu">
+      <div class="sb-section">เมนูหลัก</div>
+      <button class="sb-item active" data-page="home">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>หน้าหลัก
+      </button>
+      <button class="sb-item" data-page="learning">
+        <svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1z"/></svg>
+        Learning <span class="badge" id="sbLearnBadge">21</span>
+      </button>
+      <button class="sb-item" data-page="employees">
+        <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.34 0-8 1.67-8 5v3h16v-3c0-3.33-4.66-5-8-5z"/></svg>บุคลากร
+      </button>
+      <button class="sb-item" data-page="policy">
+        <svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3z"/></svg>นโยบายคุณภาพ
+      </button>
+
+      <hr class="sb-divider">
+      <div class="sb-section">ข้อมูลแผนก</div>
+      <a class="sb-item" data-link="repairData">
+        <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>ข้อมูลงานซ่อม
+      </a>
+      <a class="sb-item" data-link="receiveData">
+        <svg viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2zm0 2.2 7 3.5-7 3.5-7-3.5 7-3.5zM4 9.5l7 3.5v6.8l-7-3.5V9.5zm9 10.3v-6.8l7-3.5v6.8l-7 3.5z"/></svg>การรับพัสดุ
+      </a>
+      <a class="sb-item" data-link="withdrawData">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>การเบิกภายใน
+      </a>
+      <a class="sb-item" data-link="stockList">
+        <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>สต็อคในแผนก
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="breadcrumb">หน้าหลัก › <span>ภาพรวม</span></div>
+
+      <div class="widget">
+        <div class="widget-head"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>ประกาศ / ข่าวสาร</div>
+        <div class="widget-body" id="noticeStack" style="display:grid;gap:8px"></div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-head"><svg viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/></svg>เมนูหลัก</div>
+        <div class="widget-body">
+          <div class="menu-grid" id="menuGrid">
+            <a class="menu-card" data-link="repairData">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span>
+              <b>ข้อมูลงานซ่อม</b><span>ประวัติและบันทึก</span>
+            </a>
+            <a class="menu-card" data-link="receiveData">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2zm0 2.2 7 3.5-7 3.5-7-3.5 7-3.5zM4 9.5l7 3.5v6.8l-7-3.5V9.5zm9 10.3v-6.8l7-3.5v6.8l-7 3.5z"/></svg></span>
+              <b>การรับพัสดุ</b><span>ข้อมูลรับเข้า</span>
+            </a>
+            <a class="menu-card" data-link="withdrawData">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></span>
+              <b>การเบิกภายใน</b><span>สรุปการเบิกพัสดุ</span>
+            </a>
+            <a class="menu-card" data-link="stockList">
+              <span class="menu-ic gold"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg></span>
+              <b>สต็อคในแผนก</b><span>รายการสต็อค</span>
+            </a>
+            <button class="menu-card" data-page="learning">
+              <span class="menu-ic gold"><svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1zm-2 7H8V7h8v2z"/></svg></span>
+              <b>Learning</b><span id="menuLearnCount">21 หัวข้อ</span>
+            </button>
+            <button class="menu-card" data-page="employees">
+              <span class="menu-ic gold"><svg viewBox="0 0 24 24"><path d="M16 11a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 16 11zm-8 0a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 8 11zm0 2c-2.7 0-8 1.3-8 4v3h16v-3c0-2.7-5.3-4-8-4zm8 0h-.9a5.6 5.6 0 0 1 2.9 4v3h6v-3c0-2.7-5.3-4-8-4z"/></svg></span>
+              <b>บุคลากร</b><span id="menuOrgCount">ผังโครงสร้าง</span>
+            </button>
+            <button class="menu-card" data-page="policy">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3zm-1.2 13.6-3-3 1.4-1.4 1.6 1.6 4-4 1.4 1.4-5.4 5.4z"/></svg></span>
+              <b>นโยบายคุณภาพ</b><span>ISO-9001</span>
+            </button>
+            <button class="menu-card" data-page="other">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg></span>
+              <b>อื่น ๆ</b><span>เพิ่มเติม</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-head"><svg viewBox="0 0 24 24"><path d="M19 13v6H5v-6H3v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2zM13 12.67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/></svg>แบบฟอร์มกรอกข้อมูล</div>
+        <div id="formList"></div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-head">
+          <svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1z"/></svg>
+          ความรู้ Instrument (ล่าสุด)
+          <button class="wh-link" data-page="learning" id="seeAllBtn">ดูทั้งหมด</button>
+        </div>
+        <div class="widget-body">
+          <div class="cards-grid" id="learnPreview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEARNING -->
+    <div class="page" id="page-learning">
+      <div class="breadcrumb">หน้าหลัก › <span>ความรู้ Instrument</span></div>
+      <div class="page-title"><span class="eyebrow">Learning</span><h2>ความรู้เกี่ยวกับ Instrument</h2></div>
+      <div class="widget">
+        <div class="widget-body">
+          <div class="cards-grid" id="cardsAll"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPLOYEES -->
+    <div class="page" id="page-employees">
+      <div class="breadcrumb">หน้าหลัก › <span>บุคลากร</span></div>
+      <div class="page-title"><span class="eyebrow">Team</span><h2>ข้อมูลบุคลากร แผนกเครื่องมือวัด สีคิ้ว</h2></div>
+      <div class="widget">
+        <div class="widget-head"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.34 0-8 1.67-8 5v3h16v-3c0-3.33-4.66-5-8-5z"/></svg>ผังโครงสร้างแผนก</div>
+        <div class="widget-body" style="overflow-x:auto">
+          <table class="org-table" id="orgChart"></table>
+        </div>
+        <div class="widget-body" style="padding-top:4px">
+          <span style="font-size:.75rem;color:var(--ink-3)" id="orgUpdate"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLICY -->
+    <div class="page" id="page-policy">
+      <div class="breadcrumb">หน้าหลัก › <span>นโยบายคุณภาพ</span></div>
+      <div class="page-title"><span class="eyebrow">ISO-9001</span><h2>นโยบายคุณภาพ</h2></div>
+      <div class="widget">
+        <div class="widget-head"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3z"/></svg>บริษัท เคบีเอส เพาเวอร์ จำกัด</div>
+        <div class="widget-body">
+          <div class="policy-body">
+            <p>เราจะมุ่งมั่นผลิตกระแสไฟฟ้าที่มีคุณภาพจากพลังงานชีวมวล โดยใช้เทคโนโลยีการผลิตที่ทันสมัย ใช้การบริหารกระบวนการผลิตที่มีคุณภาพและประสิทธิภาพสูงสุด รวมทั้งคำนึงถึงความปลอดภัย อาชีวอนามัย และอนุรักษ์ความหลากหลายทางชีวภาพด้านสิ่งแวดล้อมของบริษัทและชุมชน เพื่อตอบสนองความต้องการของลูกค้า สอดคล้องตามกฎหมาย และระบบการบริหารงานคุณภาพ โดยปฏิบัติดังนี้</p>
+            <ol>
+              <li>มุ่งเน้นการทำงานที่มีประสิทธิภาพและประสิทธิผล เพื่อลดความผิดพลาดและความสูญเสียในทุกกระบวนการ</li>
+              <li>ปฏิบัติตามข้อกำหนดของลูกค้าในทุก ๆ ด้าน ตลอดจนปรับปรุงความพึงพอใจของลูกค้าอย่างต่อเนื่อง</li>
+              <li>ดำเนินงานกับคู่ค้าด้วยความยุติธรรมและซื่อสัตย์ ตลอดจนสร้างความสัมพันธ์ที่ดีกับคู่ค้า เพื่อให้มั่นใจว่าวัตถุดิบและอุปกรณ์ที่สั่งซื้อมีคุณภาพตามกำหนด</li>
+              <li>มั่นใจว่าพนักงานได้รับการฝึกอบรมอย่างเพียงพอ เหมาะสมและต่อเนื่อง รวมทั้งการส่งเสริมให้พนักงานเข้าร่วมกิจกรรมต่าง ๆ เพื่อพัฒนาทักษะซึ่งเป็นปัจจัยสำคัญในการรักษาคุณภาพของสินค้าและบริการ</li>
+              <li>มุ่งมั่นที่จะปฏิบัติให้สอดคล้องตามกฎหมาย กฎระเบียบ ข้อบังคับที่เกี่ยวข้อง รวมถึงมาตรฐานระบบการบริหารคุณภาพอย่างเคร่งครัด</li>
+            </ol>
+            <div class="policy-footer"><span class="cert-pill">ISO 9001 · SGS Certified</span><span class="cert-pill">KBS SUGAR</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OTHER -->
+    <div class="page" id="page-other">
+      <div class="breadcrumb">หน้าหลัก › <span>อื่น ๆ</span></div>
+      <div class="widget">
+        <div class="widget-head"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>เมนูอื่น ๆ</div>
+        <div class="widget-body"><p style="color:var(--ink-2);font-size:.9rem">พื้นที่สำหรับเมนูหรือลิงค์เพิ่มเติมของแผนก</p></div>
+      </div>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="page" id="page-admin">
+      <div class="breadcrumb">หน้าหลัก › <span>โหมดผู้ดูแล</span></div>
+      <div class="page-title"><span class="eyebrow">Admin</span><h2>แก้ไขข้อมูลเว็บ</h2></div>
+      <div class="ed-note">
+        <b>วิธีใช้:</b> แก้ข้อมูลด้านล่าง → กด <b>"ดูตัวอย่าง"</b> เพื่อเช็คผลบนเครื่องตัวเอง →
+        พอใจแล้วกด <b>"เผยแพร่"</b><br>
+        • <b>โหมดคลาวด์</b>: ข้อมูลขึ้นระบบทันที พนักงานทุกคนเห็นเมื่อรีเฟรช<br>
+        • <b>โหมดออฟไลน์</b>: ดาวน์โหลดไฟล์ใหม่แล้วนำไปวางแทนไฟล์เดิม
+      </div>
+      <div id="editorBody"></div>
+      <div class="ed-actions">
+        <button class="btn btn-ghost" id="edPreview">👁 ดูตัวอย่าง</button>
+        <button class="btn btn-gold"  id="edPublish">🚀 เผยแพร่</button>
+        <button class="btn btn-ghost" id="edDownload">⬇ ดาวน์โหลดไฟล์สำรอง</button>
+        <button class="btn btn-danger" id="edDiscard">ยกเลิกร่าง</button>
+        <button class="btn btn-primary" id="edExit">ออกจากโหมดแก้ไข</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const API_URL   = "https://script.google.com/macros/s/AKfycbzpsdyvlTUxdLNbnUIogoooW3boDOV478UmProFSPg93sz82Qt6olBd7Y7ZxVv28su0vw/exec";
+const ADMIN_PIN = "2569";
+const DRAFT_KEY = "kbsInstSikhioDraft";
+let sessionPin  = "";
+
+/* ---------- โหลดข้อมูล ---------- */
+function loadEmbedded(){ return JSON.parse(document.getElementById("SITE_DATA").textContent); }
+let DATA;
+try{
+  const draft = localStorage.getItem(DRAFT_KEY);
+  DATA = draft ? JSON.parse(draft) : loadEmbedded();
+  if(draft) document.getElementById("draftBar").classList.add("show");
+}catch(e){ DATA = loadEmbedded(); }
+
+const driveView  = id => "https://drive.google.com/file/d/"+id+"/view";
+const driveThumb = id => "https://drive.google.com/thumbnail?id="+id+"&sz=w400";
+const esc = s => String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const extractId = s => { const m=String(s||"").match(/[-\w]{25,}/); return m?m[0]:String(s||"").trim(); };
+
+/* ---------- SVG helpers ---------- */
+const PLACE_ICON='<svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-5h2v5zm4 0h-2V7h2v10zm4 0h-2v-8h2v8z"/></svg>';
+const AV='<svg viewBox="0 0 24 24"><path d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 9c4 0 8 2 8 5v2H4v-2c0-3 4-5 8-5z"/></svg>';
+const NOTICE_IC={
+  normal:'<svg viewBox="0 0 24 24"><path d="M12 2 4.5 5.5v5.1c0 4.6 3 8.9 7.5 10.4 4.5-1.5 7.5-5.8 7.5-10.4V5.5L12 2zm0 5a1.3 1.3 0 1 1 0 2.6A1.3 1.3 0 0 1 12 7zm1.2 11h-2.4v-7h2.4v7z"/></svg>',
+  alert:'<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>'
+};
+const FORM_IC='<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
+const CHEV='<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6V6z"/></svg>';
+const LOGO_SVG='<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg>';
+
+/* ---------- สร้าง Learning card ---------- */
+function cardHTML(o){
+  const id=extractId(o.id);
+  return '<a class="kcard" href="'+driveView(id)+'" target="_blank" rel="noopener">'
+    +'<span class="thumb">'+PLACE_ICON+'<img src="https://lh3.googleusercontent.com/d/'+id+'=w400" alt="'+esc(o.t)+'" loading="lazy" referrerpolicy="no-referrer"'
+    +' onerror="if(!this.dataset.f){this.dataset.f=1;this.src=\'https://drive.google.com/thumbnail?id='+id+'&sz=w400\';}else{this.remove();}"></span>'
+    +'<span class="cap">'+esc(o.t)+'</span></a>';
+}
+
+/* ---------- Apply Theme & Logo ---------- */
+function adjustColor(hex,amt){
+  const n=parseInt(hex.replace("#",""),16);
+  const r=Math.min(255,Math.max(0,((n>>16)&255)+amt));
+  const g=Math.min(255,Math.max(0,((n>>8)&255)+amt));
+  const b=Math.min(255,Math.max(0,(n&255)+amt));
+  return "#"+[r,g,b].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+function applyTheme(theme){
+  if(!theme) return;
+  const r=document.documentElement.style;
+  if(theme.navy){ r.setProperty("--navy",theme.navy); r.setProperty("--navy-2",adjustColor(theme.navy,18)); r.setProperty("--navy-3",adjustColor(theme.navy,-12)); }
+  if(theme.gold){ r.setProperty("--gold",theme.gold); r.setProperty("--yellow",adjustColor(theme.gold,30)); }
+}
+function applyLogo(src){
+  const sbWrap=document.getElementById("sbLogoWrap");
+  const topMark=document.getElementById("topLogoMark");
+  if(src){
+    const imgHtml='<img class="logo-img" src="'+src+'" alt="โลโก้">';
+    sbWrap.innerHTML=imgHtml;
+    topMark.innerHTML=imgHtml;
+  } else {
+    sbWrap.innerHTML=LOGO_SVG;
+    topMark.innerHTML=LOGO_SVG;
+  }
+}
+
+/* ---------- Render ทุกส่วน ---------- */
+let INDEX=[];
+function renderAll(){
+  /* ประกาศ */
+  document.getElementById("noticeStack").innerHTML=DATA.news.map(function(n){
+    return '<div class="notice'+(n.type==="alert"?" alert":"")+'"><span class="notice-ic">'+NOTICE_IC[n.type==="alert"?"alert":"normal"]+'</span><p><span class="tag">'+esc(n.tag)+'</span><br>'+esc(n.text)+'</p></div>';
+  }).join("");
+
+  /* ลิงค์เมนู + sidebar */
+  Array.from(document.querySelectorAll("[data-link]")).forEach(function(el){
+    const url=DATA.links[el.dataset.link]||"";
+    if(url){el.setAttribute("href",url);el.setAttribute("target","_blank");el.setAttribute("rel","noopener");}
+    else{el.removeAttribute("href");}
+  });
+
+  /* แบบฟอร์ม */
+  document.getElementById("formList").innerHTML=DATA.forms.map(function(f){
+    return '<a class="form-row" href="'+esc(f.url)+'" target="_blank" rel="noopener"><span class="form-ic">'+FORM_IC+'</span><span class="txt"><b>'+esc(f.label)+'</b><small>'+esc(f.desc)+'</small></span>'+(f.admin?'<span class="badge-admin">Admin</span>':"")+CHEV+'</a>';
+  }).join("");
+
+  /* Learning */
+  document.getElementById("cardsAll").innerHTML=DATA.topics.map(cardHTML).join("");
+  document.getElementById("learnPreview").innerHTML=DATA.topics.slice(0,8).map(cardHTML).join("");
+  const cnt=DATA.topics.length;
+  document.getElementById("seeAllBtn").textContent="ดูทั้งหมด ("+cnt+")";
+  document.getElementById("menuLearnCount").textContent=cnt+" หัวข้อ";
+  document.getElementById("sbLearnBadge").textContent=cnt;
+
+  /* ผังพนักงาน — table */
+  const allPeople=DATA.org.reduce(function(acc,row){return acc.concat(row);}, []);
+  document.getElementById("orgChart").innerHTML=
+    '<thead><tr><th style="width:40px"></th><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th><th>ชั้น</th></tr></thead><tbody>'
+    +DATA.org.map(function(row,li){
+      return row.map(function(p){
+        return '<tr class="'+(p.lead?"lead":"")+'">'
+          +'<td><div class="av-sm'+(p.lead?" gold":"")+'">'+AV+'</div></td>'
+          +'<td><b>'+esc(p.n)+'</b></td>'
+          +'<td><span class="pos-badge'+(p.lead?" lead":"")+'">'+esc(p.t)+'</span></td>'
+          +'<td style="color:var(--ink-3);font-size:.78rem">ชั้น '+(li+1)+'</td></tr>';
+      }).join("");
+    }).join("")+'</tbody>';
+  document.getElementById("orgUpdate").textContent="อัปเดตล่าสุด "+DATA.orgUpdate;
+  document.getElementById("menuOrgCount").textContent=allPeople.length+" คน";
+
+  /* ธีมและโลโก้ */
+  applyTheme(DATA.theme);
+  applyLogo(DATA.logo||"");
+
+  /* Search index */
+  INDEX=[];
+  document.querySelectorAll("#menuGrid .menu-card").forEach(function(b){INDEX.push({label:b.querySelector("b").textContent,type:"เมนู",el:b});});
+  DATA.forms.forEach(function(f){INDEX.push({label:f.label,type:"แบบฟอร์ม",url:f.url});});
+  DATA.topics.forEach(function(o){INDEX.push({label:o.t,type:"ความรู้ Instrument",url:driveView(extractId(o.id))});});
+  DATA.org.reduce(function(acc,r){return acc.concat(r);},[]).forEach(function(p){INDEX.push({label:p.n+" — "+p.t,type:"พนักงาน",page:"employees"});});
+}
+
+/* วันที่ */
+document.getElementById("dateChip").textContent=new Date().toLocaleDateString("th-TH",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+renderAll();
+
+/* ดึงข้อมูลจากคลาวด์ */
+async function syncFromCloud(){
+  if(!API_URL||localStorage.getItem(DRAFT_KEY)) return;
+  try{
+    const r=await fetch(API_URL+"?v="+Date.now());
+    const j=await r.json();
+    if(j&&j.news&&j.topics){DATA=j;renderAll();}
+  }catch(e){console.warn("sync failed",e);}
+}
+syncFromCloud();
+
+/* ============================================================ Navigation */
+function showPage(id){
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
+  document.getElementById("page-"+id).classList.add("active");
+  document.querySelectorAll(".sb-item[data-page]").forEach(function(b){b.classList.toggle("active",b.dataset.page===id);});
+  window.scrollTo({top:0});
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sbOverlay").classList.remove("show");
+}
+document.addEventListener("click",function(e){
+  const pg=e.target.closest("[data-page]");
+  if(pg){e.preventDefault();showPage(pg.dataset.page);return;}
+  const lk=e.target.closest("[data-link]");
+  if(lk&&!lk.getAttribute("href")){e.preventDefault();alert("ยังไม่ได้กำหนดลิงค์ — ตั้งค่าในโหมดผู้ดูแล ⚙️");}
+});
+document.getElementById("hamBtn").addEventListener("click",function(){
+  document.getElementById("sidebar").classList.toggle("open");
+  document.getElementById("sbOverlay").classList.toggle("show");
+});
+document.getElementById("sbOverlay").addEventListener("click",function(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sbOverlay").classList.remove("show");
+});
+
+/* ============================================================ Search */
+const input=document.getElementById("searchInput");
+const resBox=document.getElementById("searchResults");
+input.addEventListener("input",function(){
+  const q=input.value.trim().toLowerCase();
+  if(!q){resBox.classList.remove("show");resBox.innerHTML="";return;}
+  const hits=INDEX.filter(function(i){return i.label.toLowerCase().includes(q);}).slice(0,8);
+  resBox.innerHTML=hits.length
+    ?hits.map(function(h){return '<button data-idx="'+INDEX.indexOf(h)+'"><span class="sr-type">'+h.type+'</span>'+esc(h.label)+'</button>';}).join("")
+    :'<button disabled><span class="sr-type">ไม่พบผลลัพธ์</span>ลองคำค้นอื่น เช่น "เบิก" "RTD"</button>';
+  resBox.classList.add("show");
+});
+resBox.addEventListener("click",function(e){
+  const b=e.target.closest("button[data-idx]"); if(!b) return;
+  const item=INDEX[+b.dataset.idx];
+  resBox.classList.remove("show");input.value="";
+  if(item.el){item.el.click();}
+  else if(item.url){const a=document.createElement("a");a.href=item.url;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();}
+  else if(item.page){showPage(item.page);}
+});
+document.addEventListener("click",function(e){if(!e.target.closest(".topbar-search"))resBox.classList.remove("show");});
+
+/* ============================================================ Admin */
+let EDIT=null;
+const deep=function(o){return JSON.parse(JSON.stringify(o));};
+
+document.getElementById("gearBtn").addEventListener("click",async function(){
+  const pin=prompt("ใส่รหัสผู้ดูแล:");
+  if(pin===null)return;
+  if(API_URL){
+    try{
+      const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({pin:pin,action:"verify"})});
+      const j=await r.json();
+      if(!j.ok){alert("รหัสไม่ถูกต้อง");return;}
+    }catch(err){alert("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: "+err.message);return;}
+  }else if(pin!==ADMIN_PIN){alert("รหัสไม่ถูกต้อง");return;}
+  sessionPin=pin;EDIT=deep(DATA);buildEditor();showPage("admin");
+});
+
+/* ============================================================ buildEditor */
+function buildEditor(){
+  const eb=document.getElementById("editorBody");
+  const tNavy=(EDIT.theme&&EDIT.theme.navy)||"#003866";
+  const tGold=(EDIT.theme&&EDIT.theme.gold)||"#D4A437";
+  const hasLogo=!!(EDIT.logo);
+
+  eb.innerHTML=
+    '<div class="ed-card">'
+    +'<h3>🎨 รูปโลโก้ และ สีธีม</h3>'
+    +'<div class="hint">เปลี่ยนโลโก้และโทนสีของเว็บ — สีจะ Preview ทันทีหลังเลือก</div>'
+    +'<label class="ed-lb" style="margin-bottom:8px">รูปโลโก้</label>'
+    +'<div class="upload-area" id="logoDropArea">'
+    +'<input type="file" id="logoFileInput" accept="image/*">'
+    +'<svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#9AA0A8;display:block;margin:0 auto 6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>'
+    +'<p>คลิกหรือลากรูปมาวางที่นี่<br><small>JPG, PNG — ไม่เกิน 1 MB แนะนำรูปสี่เหลี่ยมจัตุรัส</small></p>'
+    +'<div class="fname" id="logoFileName">'+(hasLogo?"✓ มีโลโก้อยู่แล้ว — อัปโหลดใหม่เพื่อเปลี่ยน":"ยังไม่ได้เลือกไฟล์")+'</div>'
+    +'</div>'
+    +'<div class="logo-preview-box">'
+    +'<div class="logo-preview-circle" id="logoPreviewCircle" style="background:'+tGold+'">'
+    +(hasLogo?'<img src="'+EDIT.logo+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">':'<svg viewBox="0 0 24 24" style="width:34px;height:34px;fill:#003866"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg>')
+    +'</div>'
+    +'<div class="logo-preview-label"><b>ตัวอย่างโลโก้</b><br>แสดงในวงกลมที่ Sidebar และแถบด้านบน'
+    +(hasLogo?'<button id="logoDeleteBtn" style="font-size:.75rem;color:#C0392B;text-decoration:underline;background:none;border:none;cursor:pointer;margin-top:6px;display:block">✕ ลบโลโก้ออก</button>':"")
+    +'</div></div>'
+    +'<div style="margin-top:20px"><label class="ed-lb" style="margin-bottom:8px">สีธีมเว็บ</label>'
+    +'<div class="theme-row">'
+    +'<div class="theme-col"><label class="ed-lb">สีหลัก (Header/Sidebar/Widget)</label>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-top:4px">'
+    +'<input type="color" id="colorNavy" value="'+tNavy+'" style="width:44px;height:38px;border:2px solid #dde1e7;border-radius:8px;cursor:pointer;padding:2px">'
+    +'<input class="ed" id="colorNavyHex" value="'+tNavy+'" style="font-family:monospace;max-width:100px" placeholder="#003866"></div>'
+    +'<div class="color-preview" id="previewNavy" style="background:'+tNavy+';color:#fff">'+tNavy+'</div></div>'
+    +'<div class="theme-col"><label class="ed-lb">สีทอง (Accent/ไอคอน)</label>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-top:4px">'
+    +'<input type="color" id="colorGold" value="'+tGold+'" style="width:44px;height:38px;border:2px solid #dde1e7;border-radius:8px;cursor:pointer;padding:2px">'
+    +'<input class="ed" id="colorGoldHex" value="'+tGold+'" style="font-family:monospace;max-width:100px" placeholder="#D4A437"></div>'
+    +'<div class="color-preview" id="previewGold" style="background:'+tGold+';color:#fff">'+tGold+'</div></div>'
+    +'<div class="theme-col" style="max-width:160px"><label class="ed-lb">รีเซ็ต</label>'
+    +'<button id="resetThemeBtn" class="btn btn-ghost" style="margin-top:4px;width:100%">↺ รีเซ็ต KBS</button></div>'
+    +'</div></div></div>'
+    +'<div class="ed-card"><h3>📢 ประกาศ / ข่าวสาร</h3><div class="hint">ประเภท "สำคัญ" จะเป็นแถบสีแดง</div><div id="edNews"></div><button class="ed-add" id="addNews">＋ เพิ่มประกาศ</button></div>'
+    +'<div class="ed-card"><h3>🔗 ลิงค์เมนูหลัก</h3><div class="hint">URL ของ Google Drive / Sheet</div><div id="edLinks"></div></div>'
+    +'<div class="ed-card"><h3>📝 แบบฟอร์มกรอกข้อมูล</h3><div class="hint">ลิงค์ Google Form</div><div id="edForms"></div><button class="ed-add" id="addForm">＋ เพิ่มแบบฟอร์ม</button></div>'
+    +'<div class="ed-card"><h3>📚 หัวข้อ Learning</h3><div class="hint">วางลิงค์ไฟล์รูปจาก Google Drive</div><div id="edTopics"></div><button class="ed-add" id="addTopic">＋ เพิ่มหัวข้อ</button></div>'
+    +'<div class="ed-card"><h3>👥 บุคลากร</h3><div class="hint">แต่ละ "ชั้น" = หนึ่งแถวในผัง</div><div id="edOrg"></div><button class="ed-add" id="addLevel">＋ เพิ่มชั้นใหม่</button>'
+    +'<div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+esc(EDIT.orgUpdate)+'" placeholder="22/2/2569"></div></div>';
+
+  renderEdNews();renderEdLinks();renderEdForms();renderEdTopics();renderEdOrg();
+  document.getElementById("addNews").onclick=function(){collect();EDIT.news.push({tag:"ประกาศ",text:"",type:"normal"});renderEdNews();};
+  document.getElementById("addForm").onclick=function(){collect();EDIT.forms.push({label:"",desc:"",url:"",admin:false});renderEdForms();};
+  document.getElementById("addTopic").onclick=function(){collect();EDIT.topics.push({t:"",id:""});renderEdTopics();};
+  document.getElementById("addLevel").onclick=function(){collect();EDIT.org.push([{n:"",t:"พนักงานเครื่องมือวัด"}]);renderEdOrg();};
+
+  /* logo upload */
+  document.getElementById("logoFileInput").addEventListener("change",function(e){
+    const file=e.target.files[0]; if(!file) return;
+    if(file.size>1024*1024){alert("ไฟล์ใหญ่เกิน 1 MB — กรุณาลดขนาดรูปก่อน");return;}
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      EDIT.logo=ev.target.result;
+      document.getElementById("logoFileName").textContent="✓ "+file.name;
+      document.getElementById("logoPreviewCircle").innerHTML='<img src="'+ev.target.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+      applyLogo(ev.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* ลบโลโก้ */
+  const delBtn=document.getElementById("logoDeleteBtn");
+  if(delBtn){
+    delBtn.addEventListener("click",function(){
+      EDIT.logo="";
+      applyLogo("");
+      document.getElementById("logoFileName").textContent="ลบโลโก้แล้ว";
+      document.getElementById("logoPreviewCircle").innerHTML='<svg viewBox="0 0 24 24" style="width:34px;height:34px;fill:#003866"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg>';
+      delBtn.remove();
+    });
+  }
+
+  /* color pickers */
+  bindColor("colorNavy","colorNavyHex","previewNavy","--navy","navy");
+  bindColor("colorGold","colorGoldHex","previewGold","--gold","gold");
+
+  document.getElementById("resetThemeBtn").addEventListener("click",function(){
+    EDIT.theme={navy:"#003866",gold:"#D4A437"};
+    ["colorNavy","colorNavyHex"].forEach(function(id){document.getElementById(id).value="#003866";});
+    ["colorGold","colorGoldHex"].forEach(function(id){document.getElementById(id).value="#D4A437";});
+    document.getElementById("previewNavy").style.background="#003866";
+    document.getElementById("previewNavy").textContent="#003866";
+    document.getElementById("previewGold").style.background="#D4A437";
+    document.getElementById("previewGold").textContent="#D4A437";
+    applyTheme(EDIT.theme);
+  });
+}
+
+/* bindColor — global */
+function bindColor(pickerId,hexId,previewId,cssVar,themeKey){
+  const picker=document.getElementById(pickerId);
+  const hexEl=document.getElementById(hexId);
+  const preview=document.getElementById(previewId);
+  function sync(){
+    const v=picker.value;
+    hexEl.value=v; preview.style.background=v; preview.textContent=v;
+    document.documentElement.style.setProperty(cssVar,v);
+    if(!EDIT.theme) EDIT.theme={};
+    EDIT.theme[themeKey]=v;
+  }
+  picker.addEventListener("input",sync);
+  hexEl.addEventListener("change",function(){picker.value=hexEl.value;sync();});
+}
+
+/* renderEd* */
+function renderEdNews(){
+  document.getElementById("edNews").innerHTML=EDIT.news.map(function(n,i){
+    return '<div class="ed-item" data-news="'+i+'">'
+      +'<div class="ed-grid2"><div><label class="ed-lb">หมวด</label><input class="ed" data-f="tag" value="'+esc(n.tag)+'"></div>'
+      +'<div><label class="ed-lb">ประเภท</label><select class="ed" data-f="type">'
+      +'<option value="normal"'+(n.type!=="alert"?" selected":"")+'>ทั่วไป (เหลือง)</option>'
+      +'<option value="alert"'+(n.type==="alert"?" selected":"")+'>สำคัญ (แดง)</option>'
+      +'</select></div></div>'
+      +'<div><label class="ed-lb">ข้อความ</label><textarea class="ed" data-f="text">'+esc(n.text)+'</textarea></div>'
+      +'<div class="ed-item-bar"><button class="ed-del" data-delnews="'+i+'">ลบ</button></div></div>';
+  }).join("");
+  document.querySelectorAll("[data-delnews]").forEach(function(b){b.onclick=function(){collect();EDIT.news.splice(+b.dataset.delnews,1);renderEdNews();};});
+}
+const LINK_LABELS={repairData:"ข้อมูลงานซ่อม",receiveData:"การรับพัสดุ",withdrawData:"การเบิกภายใน",stockList:"สต็อคในแผนก"};
+function renderEdLinks(){
+  document.getElementById("edLinks").innerHTML=Object.keys(LINK_LABELS).map(function(k){
+    return '<div style="margin-bottom:10px"><label class="ed-lb">'+LINK_LABELS[k]+'</label><input class="ed" data-linkkey="'+k+'" value="'+esc(EDIT.links[k]||"")+'" placeholder="https://..."></div>';
+  }).join("");
+}
+function renderEdForms(){
+  document.getElementById("edForms").innerHTML=EDIT.forms.map(function(f,i){
+    return '<div class="ed-item" data-form="'+i+'">'
+      +'<div class="ed-grid2"><div><label class="ed-lb">ชื่อแบบฟอร์ม</label><input class="ed" data-f="label" value="'+esc(f.label)+'"></div>'
+      +'<div><label class="ed-lb">คำอธิบาย</label><input class="ed" data-f="desc" value="'+esc(f.desc)+'"></div></div>'
+      +'<div><label class="ed-lb">URL</label><input class="ed" data-f="url" value="'+esc(f.url)+'" placeholder="https://forms.gle/..."></div>'
+      +'<div class="ed-item-bar" style="justify-content:space-between"><label class="ed-check"><input type="checkbox" data-f="admin"'+(f.admin?" checked":"")+'>ป้าย Admin</label>'
+      +'<button class="ed-del" data-delform="'+i+'">ลบ</button></div></div>';
+  }).join("");
+  document.querySelectorAll("[data-delform]").forEach(function(b){b.onclick=function(){collect();EDIT.forms.splice(+b.dataset.delform,1);renderEdForms();};});
+}
+function renderEdTopics(){
+  document.getElementById("edTopics").innerHTML=EDIT.topics.map(function(o,i){
+    return '<div class="ed-item" data-topicrow="'+i+'">'
+      +'<div><label class="ed-lb">ชื่อหัวข้อ</label><input class="ed" data-f="t" value="'+esc(o.t)+'"></div>'
+      +'<div><label class="ed-lb">ลิงค์ Google Drive</label><input class="ed" data-f="id" value="'+esc(o.id)+'" placeholder="https://drive.google.com/file/d/.../view"></div>'
+      +'<div class="ed-item-bar"><button class="ed-del" data-deltopic="'+i+'">ลบ</button></div></div>';
+  }).join("");
+  document.querySelectorAll("[data-deltopic]").forEach(function(b){b.onclick=function(){collect();EDIT.topics.splice(+b.dataset.deltopic,1);renderEdTopics();};});
+}
+function renderEdOrg(){
+  document.getElementById("edOrg").innerHTML=EDIT.org.map(function(row,li){
+    return '<div class="ed-level" data-level="'+li+'"><h4>ชั้นที่ '+(li+1)+' <button class="ed-del" data-dellevel="'+li+'">ลบทั้งชั้น</button></h4>'
+      +row.map(function(p,pi){
+        return '<div class="ed-item" data-person="'+li+'-'+pi+'">'
+          +'<div class="ed-grid2"><div><label class="ed-lb">ชื่อ-สกุล</label><input class="ed" data-f="n" value="'+esc(p.n)+'"></div>'
+          +'<div><label class="ed-lb">ตำแหน่ง</label><input class="ed" data-f="t" value="'+esc(p.t)+'"></div></div>'
+          +'<div class="ed-item-bar" style="justify-content:space-between"><label class="ed-check"><input type="checkbox" data-f="lead"'+(p.lead?" checked":"")+'>หัวหน้า</label>'
+          +'<button class="ed-del" data-delperson="'+li+'-'+pi+'">ลบ</button></div></div>';
+      }).join("")
+      +'<button class="ed-add" data-addperson="'+li+'">＋ เพิ่มคน</button></div>';
+  }).join("");
+  document.querySelectorAll("[data-dellevel]").forEach(function(b){b.onclick=function(){collect();EDIT.org.splice(+b.dataset.dellevel,1);renderEdOrg();};});
+  document.querySelectorAll("[data-delperson]").forEach(function(b){b.onclick=function(){collect();const parts=b.dataset.delperson.split("-");const li=+parts[0];const pi=+parts[1];EDIT.org[li].splice(pi,1);if(!EDIT.org[li].length)EDIT.org.splice(li,1);renderEdOrg();};});
+  document.querySelectorAll("[data-addperson]").forEach(function(b){b.onclick=function(){collect();EDIT.org[+b.dataset.addperson].push({n:"",t:"พนักงานเครื่องมือวัด"});renderEdOrg();};});
+}
+
+function collect(){
+  if(!EDIT.theme) EDIT.theme={navy:"#003866",gold:"#D4A437"};
+  const nh=document.getElementById("colorNavyHex"); if(nh) EDIT.theme.navy=nh.value;
+  const gh=document.getElementById("colorGoldHex"); if(gh) EDIT.theme.gold=gh.value;
+  document.querySelectorAll("[data-news]").forEach(function(it){const n=EDIT.news[+it.dataset.news];if(!n)return;it.querySelectorAll("[data-f]").forEach(function(f){n[f.dataset.f]=f.value;});});
+  document.querySelectorAll("[data-linkkey]").forEach(function(f){EDIT.links[f.dataset.linkkey]=f.value.trim();});
+  document.querySelectorAll("[data-form]").forEach(function(it){const o=EDIT.forms[+it.dataset.form];if(!o)return;it.querySelectorAll("[data-f]").forEach(function(f){o[f.dataset.f]=f.type==="checkbox"?f.checked:f.value;});o.url=(o.url||"").trim();if(o.url&&!/^https?:\/\//i.test(o.url))o.url="https://"+o.url;});
+  document.querySelectorAll("[data-topicrow]").forEach(function(it){const o=EDIT.topics[+it.dataset.topicrow];if(!o)return;it.querySelectorAll("[data-f]").forEach(function(f){o[f.dataset.f]=f.value;});o.id=extractId(o.id);});
+  document.querySelectorAll("[data-person]").forEach(function(it){const parts=it.dataset.person.split("-");const li=+parts[0];const pi=+parts[1];const p=EDIT.org[li]&&EDIT.org[li][pi];if(!p)return;it.querySelectorAll("[data-f]").forEach(function(f){if(f.type==="checkbox"){if(f.checked)p.lead=true;else delete p.lead;}else p[f.dataset.f]=f.value;});});
+  const d=document.getElementById("edOrgDate");if(d)EDIT.orgUpdate=d.value;
+  EDIT.forms=EDIT.forms.filter(function(f){return f.label.trim()||f.url.trim();});
+  EDIT.topics=EDIT.topics.filter(function(o){return o.t.trim()||o.id.trim();});
+  EDIT.org=EDIT.org.map(function(r){return r.filter(function(p){return p.n.trim();});}).filter(function(r){return r.length;});
+}
+
+document.getElementById("edPreview").addEventListener("click",function(){
+  collect();DATA=deep(EDIT);localStorage.setItem(DRAFT_KEY,JSON.stringify(DATA));renderAll();
+  document.getElementById("draftBar").classList.add("show");showPage("home");
+  alert("บันทึกร่างแล้ว — พนักงานคนอื่นยังเห็นเวอร์ชันเดิม");
+});
+document.getElementById("edPublish").addEventListener("click",function(){collect();DATA=deep(EDIT);renderAll();publishFile();});
+document.getElementById("edDownload").addEventListener("click",function(){collect();DATA=deep(EDIT);renderAll();downloadFile();});
+document.getElementById("edDiscard").addEventListener("click",function(){
+  if(!confirm("ยกเลิกร่างทั้งหมด แล้วกลับไปใช้ข้อมูลที่เผยแพร่ล่าสุด?"))return;
+  localStorage.removeItem(DRAFT_KEY);DATA=loadEmbedded();EDIT=deep(DATA);renderAll();buildEditor();
+  document.getElementById("draftBar").classList.remove("show");
+});
+document.getElementById("edExit").addEventListener("click",function(){collect();showPage("home");});
+document.getElementById("draftPublishBtn").addEventListener("click",function(){EDIT=deep(DATA);publishFile();});
+document.getElementById("draftClearBtn").addEventListener("click",function(){
+  if(!confirm("ยกเลิกร่าง?"))return;
+  localStorage.removeItem(DRAFT_KEY);DATA=loadEmbedded();renderAll();
+  document.getElementById("draftBar").classList.remove("show");
+});
+
+async function publishFile(){
+  if(API_URL){
+    if(!sessionPin){sessionPin=prompt("ยืนยันรหัสผู้ดูแล:")||"";if(!sessionPin)return;}
+    try{
+      const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({pin:sessionPin,data:DATA})});
+      const j=await r.json();if(!j.ok)throw new Error(j.error||"เซิร์ฟเวอร์ปฏิเสธ");
+      localStorage.removeItem(DRAFT_KEY);document.getElementById("draftBar").classList.remove("show");showPage("home");
+      alert("เผยแพร่สำเร็จ ✓\nพนักงานทุกคนจะเห็นทันทีที่รีเฟรช");
+    }catch(err){sessionPin="";alert("เผยแพร่ไม่สำเร็จ: "+err.message);}
+    return;
+  }
+  downloadFile();
+}
+function downloadFile(){
+  document.getElementById("SITE_DATA").textContent="\n"+JSON.stringify(DATA,null,1).replace(/</g,"\\u003c")+"\n";
+  document.getElementById("editorBody").innerHTML="";
+  document.getElementById("searchResults").innerHTML="";
+  document.getElementById("searchInput").value="";
+  document.getElementById("draftBar").classList.remove("show");
+  showPage("home");
+  const html="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
+  const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="index.html";
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(a.href);},5000);
+  localStorage.removeItem(DRAFT_KEY);
+  alert(API_URL?"ดาวน์โหลดไฟล์สำรองแล้ว ✓":"ดาวน์โหลดไฟล์ index.html ใหม่แล้ว ✓\nนำไปวางแทนไฟล์เดิมที่ GitHub Pages");
+}
+</script>
+</body>
+</html>
