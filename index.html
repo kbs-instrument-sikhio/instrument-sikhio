@@ -621,11 +621,19 @@ let sessionPin  = "";
 
 /* ---------- โหลดข้อมูล ---------- */
 function loadEmbedded(){ return JSON.parse(document.getElementById("SITE_DATA").textContent); }
+const FILE_VER = "202606160810";
 let DATA;
 try{
   const draft = localStorage.getItem(DRAFT_KEY);
-  DATA = draft ? JSON.parse(draft) : loadEmbedded();
-  if(draft) document.getElementById("draftBar").classList.add("show");
+  const savedVer = localStorage.getItem(DRAFT_KEY+"_ver");
+  /* ถ้าไฟล์ถูกอัปเดต (version เปลี่ยน) ให้ล้าง draft เก่าออกอัตโนมัติ */
+  if(draft && savedVer === FILE_VER){
+    DATA = JSON.parse(draft);
+    document.getElementById("draftBar").classList.add("show");
+  } else {
+    if(draft) localStorage.removeItem(DRAFT_KEY);
+    DATA = loadEmbedded();
+  }
 }catch(e){ DATA = loadEmbedded(); }
 
 const driveView  = id => "https://drive.google.com/file/d/"+id+"/view";
@@ -1121,7 +1129,7 @@ function collect(){
 }
 
 document.getElementById("edPreview").addEventListener("click",function(){
-  collect();DATA=deep(EDIT);localStorage.setItem(DRAFT_KEY,JSON.stringify(DATA));renderAll();
+  collect();DATA=deep(EDIT);localStorage.setItem(DRAFT_KEY,JSON.stringify(DATA));localStorage.setItem(DRAFT_KEY+"_ver",FILE_VER);renderAll();
   document.getElementById("draftBar").classList.add("show");showPage("home");
   alert("บันทึกร่างแล้ว — พนักงานคนอื่นยังเห็นเวอร์ชันเดิม");
 });
