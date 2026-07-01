@@ -62,22 +62,6 @@
    {"n": "นายสิทธิศักดิ์ ภูผิวฟ้า", "t": "พนักงานเครื่องมือวัด"}]
  ],
  "orgUpdate": "22/2/2569",
- "siteInfo": {
-  "deptName":  "แผนกเครื่องมือวัด สีคิ้ว",
-  "deptShort": "แผนกเครื่องมือวัด",
-  "orgName":   "KBS Sugar Group",
-  "subName":   "สาขาสีคิ้ว · KBS Sugar Group"
- },
- "menus": [
-  {"label":"ข้อมูลงานซ่อม", "desc":"ประวัติและบันทึก",  "type":"link","key":"repairData"},
-  {"label":"การรับพัสดุ",   "desc":"ข้อมูลรับเข้า",     "type":"link","key":"receiveData"},
-  {"label":"การเบิกภายใน", "desc":"สรุปการเบิกพัสดุ",  "type":"link","key":"withdrawData"},
-  {"label":"สต็อคในแผนก",  "desc":"รายการสต็อค",       "type":"link","key":"stockList"},
-  {"label":"Learning",      "desc":"ความรู้ Instrument","type":"page","key":"learning"},
-  {"label":"บุคลากร",       "desc":"ผังโครงสร้าง",      "type":"page","key":"employees"},
-  {"label":"นโยบายคุณภาพ", "desc":"ISO-9001",           "type":"page","key":"policy"},
-  {"label":"อื่น ·",        "desc":"เพิ่มเติม",          "type":"page","key":"other"}
- ],
  "logo": "",
  "theme": {"navy":"#003866","gold":"#D4A437"},
  "policy": {
@@ -429,7 +413,7 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
   <button class="ham-btn" id="hamBtn" aria-label="เมนู"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg></button>
   <div class="topbar-logo">
     <span class="mark" id="topLogoMark"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg></span>
-    <div id="topDeptName">แผนกเครื่องมือวัด สีคิ้ว<sub id="topOrgName">KBS Sugar Group</sub></div>
+    <div>แผนกเครื่องมือวัด สีคิ้ว<sub>KBS Sugar Group</sub></div>
   </div>
   <div class="topbar-search">
     <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
@@ -450,8 +434,8 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
   <aside class="sidebar" id="sidebar">
     <div class="sb-brand">
       <div class="avatar-wrap" id="sbLogoWrap"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg></div>
-      <h2 id="sbDeptShort">แผนกเครื่องมือวัด</h2>
-      <small id="sbSubName">สาขาสีคิ้ว · KBS Sugar Group</small>
+      <h2>แผนกเครื่องมือวัด</h2>
+      <small>สาขาสีคิ้ว · KBS Sugar Group</small>
     </div>
 
     <nav class="sb-menu">
@@ -502,7 +486,40 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
       <div class="widget">
         <div class="widget-head"><svg viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/></svg>เมนูหลัก</div>
         <div class="widget-body">
-          <div class="menu-grid" id="menuGrid"></div>
+          <div class="menu-grid" id="menuGrid">
+            <a class="menu-card" data-link="repairData">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span>
+              <b>ข้อมูลงานซ่อม</b><span>ประวัติและบันทึก</span>
+            </a>
+            <a class="menu-card" data-link="receiveData">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2zm0 2.2 7 3.5-7 3.5-7-3.5 7-3.5zM4 9.5l7 3.5v6.8l-7-3.5V9.5zm9 10.3v-6.8l7-3.5v6.8l-7 3.5z"/></svg></span>
+              <b>การรับพัสดุ</b><span>ข้อมูลรับเข้า</span>
+            </a>
+            <a class="menu-card" data-link="withdrawData">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></span>
+              <b>การเบิกภายใน</b><span>สรุปการเบิกพัสดุ</span>
+            </a>
+            <a class="menu-card" data-link="stockList">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg></span>
+              <b>สต็อคในแผนก</b><span>รายการสต็อค</span>
+            </a>
+            <button class="menu-card" data-page="learning">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1zm-2 7H8V7h8v2z"/></svg></span>
+              <b>Learning</b><span id="menuLearnCount">21 หัวข้อ</span>
+            </button>
+            <button class="menu-card" data-page="employees">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M16 11a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 16 11zm-8 0a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 8 11zm0 2c-2.7 0-8 1.3-8 4v3h16v-3c0-2.7-5.3-4-8-4zm8 0h-.9a5.6 5.6 0 0 1 2.9 4v3h6v-3c0-2.7-5.3-4-8-4z"/></svg></span>
+              <b>บุคลากร</b><span id="menuOrgCount">ผังโครงสร้าง</span>
+            </button>
+            <button class="menu-card" data-page="policy">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3zm-1.2 13.6-3-3 1.4-1.4 1.6 1.6 4-4 1.4 1.4-5.4 5.4z"/></svg></span>
+              <b>นโยบายคุณภาพ</b><span>ISO-9001</span>
+            </button>
+            <button class="menu-card" data-page="other">
+              <span class="menu-ic"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg></span>
+              <b>อื่น ๆ</b><span>เพิ่มเติม</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -682,36 +699,6 @@ function applyLogo(src){
 /* ---------- Render ทุกส่วน ---------- */
 let INDEX=[];
 function renderAll(){
-  /* ── siteInfo ── */
-  var si=DATA.siteInfo||{};
-  var e1=document.getElementById("topDeptName"); if(e1)e1.childNodes[0].textContent=si.deptName||"แผนกเครื่องมือวัด สีคิ้ว";
-  var e2=document.getElementById("topOrgName");  if(e2)e2.textContent=si.orgName||"KBS Sugar Group";
-  var e3=document.getElementById("sbDeptShort"); if(e3)e3.textContent=si.deptShort||"แผนกเครื่องมือวัด";
-  var e4=document.getElementById("sbSubName");   if(e4)e4.textContent=si.subName||"สาขาสีคิ้ว · KBS Sugar Group";
-  document.title=(si.deptName||"แผนกเครื่องมือวัด สีคิ้ว")+" | "+(si.orgName||"KBS Sugar Group");
-  /* ── menuGrid ── */
-  var MICO={
-    repairData:  '<svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>',
-    receiveData: '<svg viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2zm0 2.2 7 3.5-7 3.5-7-3.5 7-3.5zM4 9.5l7 3.5v6.8l-7-3.5V9.5zm9 10.3v-6.8l7-3.5v6.8l-7 3.5z"/></svg>',
-    withdrawData:'<svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
-    stockList:   '<svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>',
-    learning:    '<svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1zm-2 7H8V7h8v2z"/></svg>',
-    employees:   '<svg viewBox="0 0 24 24"><path d="M16 11a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 16 11zm-8 0a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 8 11zm0 2c-2.7 0-8 1.3-8 4v3h16v-3c0-2.7-5.3-4-8-4zm8 0h-.9a5.6 5.6 0 0 1 2.9 4v3h6v-3c0-2.7-5.3-4-8-4z"/></svg>',
-    policy:      '<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3zm-1.2 13.6-3-3 1.4-1.4 1.6 1.6 4-4 1.4 1.4-5.4 5.4z"/></svg>',
-    other:       '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>'
-  };
-  var _mg=document.getElementById("menuGrid");
-  if(_mg) _mg.innerHTML=(DATA.menus||[]).map(function(m){
-    var ico=MICO[m.key]||MICO.other;
-    var lbl=esc(m.label); var dsc=esc(m.desc||"");
-    if(m.type==="link"){
-      var _u=(DATA.links&&DATA.links[m.key])||"";
-      return '<a class="menu-card" data-link="'+m.key+'"'+(_u?' href="'+_u+'" target="_blank" rel="noopener"':'')+
-        '><span class="menu-ic">'+ico+'</span><b>'+lbl+'</b><span>'+dsc+'</span></a>';
-    }
-    return '<button class="menu-card" data-page="'+esc(m.key)+'"><span class="menu-ic">'+ico+'</span><b>'+lbl+'</b><span>'+dsc+'</span></button>';
-  }).join("");
-
   /* ประกาศ */
   document.getElementById("noticeStack").innerHTML=DATA.news.map(function(n){
     return '<div class="notice'+(n.type==="alert"?" alert":"")+'"><span class="notice-ic">'+NOTICE_IC[n.type==="alert"?"alert":"normal"]+'</span><p><span class="tag">'+esc(n.tag)+'</span><br>'+esc(n.text)+'</p></div>';
@@ -871,14 +858,6 @@ function buildEditor(){
   /* guard: ถ้า EDIT ยังเป็น null ให้ copy จาก DATA ก่อน */
   if(!EDIT) EDIT=deep(DATA);
   if(!EDIT.theme) EDIT.theme={navy:"#003866",gold:"#D4A437"};
-  var _si=EDIT.siteInfo||(EDIT.siteInfo={});
-  var _simap={deptName:"edDeptName",deptShort:"edDeptShort",orgName:"edOrgName",subName:"edSubName"};
-  Object.keys(_simap).forEach(function(k){var el=document.getElementById(_simap[k]);if(el)_si[k]=el.value;});
-  document.querySelectorAll("[data-menurow]").forEach(function(row){
-    var i=+row.dataset.menurow;
-    if(!EDIT.menus||!EDIT.menus[i]) return;
-    row.querySelectorAll("[data-mf]").forEach(function(f){EDIT.menus[i][f.dataset.mf]=f.value;});
-  });
   if(!EDIT.policy) EDIT.policy={companyName:"บริษัท เคบีเอส เพาเวอร์ จำกัด",intro:"",items:[],badges:["ISO 9001 · SGS Certified","KBS SUGAR"]};
   if(!EDIT.news) EDIT.news=[];
   if(!EDIT.links) EDIT.links={};
@@ -969,20 +948,7 @@ function buildEditor(){
 
   /* ===== การ์ดที่เหลือ ===== */
   eb.insertAdjacentHTML("beforeend",
-    '<div class="ed-card"><h3>🏠 ข้อมูลทั่วไป</h3><div class="hint">ชื่อแผนก องค์กร และหัวข้อเมนูหลัก 8 ช่อง</div>'
-    +'<div class="ed-grid2">'
-    +'<div><label class="ed-lb">ชื่อแผนก (เต็ม — Topbar)</label>'
-    +'<input class="ed" id="edDeptName" value="'+esc((EDIT.siteInfo&&EDIT.siteInfo.deptName)||"แผนกเครื่องมือวัด สีคิ้ว")+'"></div>'
-    +'<div><label class="ed-lb">ชื่อย่อ (Sidebar)</label>'
-    +'<input class="ed" id="edDeptShort" value="'+esc((EDIT.siteInfo&&EDIT.siteInfo.deptShort)||"แผนกเครื่องมือวัด")+'"></div></div>'
-    +'<div class="ed-grid2" style="margin-top:8px">'
-    +'<div><label class="ed-lb">ชื่อองค์กร</label>'
-    +'<input class="ed" id="edOrgName" value="'+esc((EDIT.siteInfo&&EDIT.siteInfo.orgName)||"KBS Sugar Group")+'"></div>'
-    +'<div><label class="ed-lb">ชื่อรอง Sidebar</label>'
-    +'<input class="ed" id="edSubName" value="'+esc((EDIT.siteInfo&&EDIT.siteInfo.subName)||"สาขาสีคิ้ว · KBS Sugar Group")+'"></div></div>'
-    +'<div style="margin-top:14px"><label class="ed-lb" style="margin-bottom:8px">หัวข้อเมนูหลัก (แก้ชื่อและคำอธิบายแต่ละช่อง)</label>'
-    +'<div id="edMenus"></div></div></div>'
-    +'<div class="ed-card"><h3>📢 ประกาศ / ข่าวสาร</h3><div class="hint">ประเภท "สำคัญ" จะเป็นแถบสีแดง</div><div id="edNews"></div><button class="ed-add" id="addNews">＋ เพิ่มประกาศ</button></div>'
+    '<div class="ed-card"><h3>📢 ประกาศ / ข่าวสาร</h3><div class="hint">ประเภท "สำคัญ" จะเป็นแถบสีแดง</div><div id="edNews"></div><button class="ed-add" id="addNews">＋ เพิ่มประกาศ</button></div>'
     +'<div class="ed-card"><h3>🔗 ลิงค์เมนูหลัก</h3><div class="hint">URL ของ Google Drive / Sheet</div><div id="edLinks"></div></div>'
     +'<div class="ed-card"><h3>📝 แบบฟอร์มกรอกข้อมูล</h3><div class="hint">ลิงค์ Google Form</div><div id="edForms"></div><button class="ed-add" id="addForm">＋ เพิ่มแบบฟอร์ม</button></div>'
     +'<div class="ed-card"><h3>🛡 นโยบายคุณภาพ</h3><div class="hint">แก้ไขชื่อบริษัท คำนำ รายการข้อปฏิบัติ และป้ายด้านล่าง</div>'
@@ -999,7 +965,6 @@ function buildEditor(){
     +'<div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+esc(EDIT.orgUpdate)+'" placeholder="22/2/2569"></div></div>'
   );
 
-  renderEdMenus();
   renderEdNews();renderEdLinks();renderEdForms();renderEdPolicy();renderEdTopics();renderEdOrg();
 
   /* ผูก event ด้วย helper ที่ปลอดภัย — ถ้าหา element ไม่เจอจะ log แทน crash */
@@ -1083,18 +1048,6 @@ function bindColor(pickerId,hexId,previewId,cssVar,themeKey){
 }
 
 /* renderEd* */
-function renderEdMenus(){
-  var el=document.getElementById("edMenus"); if(!el) return;
-  el.innerHTML=(EDIT.menus||[]).map(function(m,i){
-    return '<div class="ed-item" data-menurow="'+i+'" style="display:grid;gap:6px;padding:10px;margin-bottom:8px">'
-      +'<div class="ed-grid2">'
-      +'<div><label class="ed-lb">'+(i+1)+'. ชื่อเมนู</label>'
-      +'<input class="ed" data-mf="label" value="'+esc(m.label||"")+'"></div>'
-      +'<div><label class="ed-lb">คำอธิบาย</label>'
-      +'<input class="ed" data-mf="desc" value="'+esc(m.desc||"")+'"></div>'
-      +'</div></div>';
-  }).join("");
-}
 function renderEdNews(){
   document.getElementById("edNews").innerHTML=EDIT.news.map(function(n,i){
     return '<div class="ed-item" data-news="'+i+'">'
