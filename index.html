@@ -88,6 +88,7 @@
     {"label":"สต็อคในแผนก",     "type":"link","key":"stockList"}
   ]}
  ],
+ "customPages": [],
  "policy": {
   "companyName": "บริษัท เคบีเอส เพาเวอร์ จำกัด",
   "intro": "เราจะมุ่งมั่นผลิตกระแสไฟฟ้าที่มีคุณภาพจากพลังงานชีวมวล โดยใช้เทคโนโลยีการผลิตที่ทันสมัย ใช้การบริหารกระบวนการผลิตที่มีคุณภาพและประสิทธิภาพสูงสุด รวมทั้งคำนึงถึงความปลอดภัย อาชีวอนามัย และอนุรักษ์ความหลากหลายทางชีวภาพด้านสิ่งแวดล้อมของบริษัทและชุมชน เพื่อตอบสนองความต้องการของลูกค้า สอดคล้องตามกฎหมาย และระบบการบริหารงานคุณภาพ โดยปฏิบัติดังนี้",
@@ -604,6 +605,9 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
       </div>
     </div>
 
+    <!-- CUSTOM PAGES (dynamic) -->
+    <div id="customPagesContainer"></div>
+
     <!-- ADMIN -->
     <div class="page" id="page-admin">
       <div class="breadcrumb">หน้าหลัก › <span>โหมดผู้ดูแล</span></div>
@@ -822,6 +826,33 @@ function renderAll(){
     }).join("") || '<p style="color:var(--ink-3);font-size:.9rem;padding:14px 16px">ยังไม่มีแบบฟอร์ม — ตั้งค่าในโหมดผู้ดูแล</p>';
   }
 
+  /* Custom pages — dynamic */
+  var cpContainer=document.getElementById("customPagesContainer");
+  if(cpContainer){
+    cpContainer.innerHTML=(DATA.customPages||[]).map(function(pg){
+      var cards=(pg.topics||[]).map(function(o){
+        var id=extractId(o.id);
+        if(!id) return '<div class="kcard" style="opacity:.5"><span class="thumb">'+PLACE_ICON+'</span><span class="cap">'+esc(o.t)+'</span></div>';
+        return cardHTML(o);
+      }).join("")||'<p style="color:var(--ink-3);font-size:.9rem;padding:8px 0">ยังไม่มีเอกสาร</p>';
+      var forms=(pg.forms||[]).map(function(f){
+        if(!f.url) return '';
+        return '<a class="form-row" href="'+esc(f.url)+'" target="_blank" rel="noopener">'+
+          '<span class="form-ic">'+FORM_IC+'</span>'+
+          '<span class="txt"><b>'+esc(f.label)+'</b><small>'+esc(f.desc)+'</small></span>'+CHEV+'</a>';
+      }).join("");
+      var formWidget=forms?'<div class="widget"><div class="widget-head"><svg viewBox="0 0 24 24"><path d="M19 13v6H5v-6H3v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2zM13 12.67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/></svg>แบบฟอร์ม</div><div>'+forms+'</div></div>':'';
+      return '<div class="page" id="page-cp-'+esc(pg.id)+'">'
+        +'<div class="breadcrumb">หน้าหลัก › <span>'+esc(pg.title)+'</span></div>'
+        +'<div class="page-title"><span class="eyebrow">'+esc(pg.eyebrow||"")+'</span><h2>'+esc(pg.title)+'</h2></div>'
+        +'<div class="widget"><div class="widget-head">'
+        +'<svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1z"/></svg>'
+        +esc(pg.title)+'</div>'
+        +'<div class="widget-body"><div class="cards-grid">'+cards+'</div></div></div>'
+        +formWidget+'</div>';
+    }).join("");
+  }
+
   /* Search index */
   INDEX=[];
   document.querySelectorAll("#menuGrid .menu-card").forEach(function(b){INDEX.push({label:b.querySelector("b").textContent,type:"เมนู",el:b});});
@@ -848,8 +879,9 @@ async function syncFromCloud(){
       if(!merged.theme) merged.theme=DATA.theme||{};
       if(!merged.logo)  merged.logo=DATA.logo||"";
       if(!merged.policy)merged.policy=DATA.policy||{};
-      if(!merged.sbNav)   merged.sbNav=DATA.sbNav||[];
-      if(!merged.safety)  merged.safety=DATA.safety||{topics:[],forms:[]};
+      if(!merged.sbNav)        merged.sbNav=DATA.sbNav||[];
+      if(!merged.safety)       merged.safety=DATA.safety||{topics:[],forms:[]};
+      if(!merged.customPages)  merged.customPages=DATA.customPages||[];
       DATA=merged;
       renderAll();
     }
@@ -860,7 +892,9 @@ syncFromCloud();
 /* ============================================================ Navigation */
 function showPage(id){
   document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
-  document.getElementById("page-"+id).classList.add("active");
+  /* รองรับทั้ง page-xxx และ page-cp-xxx (custom pages) */
+  var el=document.getElementById("page-"+id)||document.getElementById("page-cp-"+id);
+  if(el) el.classList.add("active");
   document.querySelectorAll(".sb-item[data-page]").forEach(function(b){b.classList.toggle("active",b.dataset.page===id);});
   window.scrollTo({top:0});
   document.getElementById("sidebar").classList.remove("open");
@@ -1042,16 +1076,25 @@ function buildEditor(){
     +'</div>'
     +'<div class="ed-card"><h3>📚 หัวข้อ Learning</h3><div class="hint">วางลิงค์ไฟล์รูปจาก Google Drive</div><div id="edTopics"></div><button class="ed-add" id="addTopic">＋ เพิ่มหัวข้อ</button></div>'
         +'<div class="ed-card"><h3>🦺 งานด้านความปลอดภัย</h3><div class="hint">ใส่ชื่อหัวข้อและลิงค์ Google Drive — แสดงเป็นการ์ดรูปแบบเดียวกับ Learning</div><div id="edSafetyTopics"></div><button class="ed-add" id="addSafetyTopic">＋ เพิ่มหัวข้อ</button><div style="margin-top:14px"><label class="ed-lb" style="margin-bottom:6px">แบบฟอร์มรายงาน / แบบสอบถาม</label><div id="edSafetyForms"></div><button class="ed-add" id="addSafetyForm">＋ เพิ่มแบบฟอร์ม</button></div></div>'
+    +'<div class="ed-card"><h3>📄 หน้าแบบ Learning (กำหนดเอง)</h3><div class="hint">สร้างหน้าใหม่พร้อมการ์ดรูปแบบ Learning — ตั้งค่า Key แล้วเพิ่มเป็นเมนูใน แถบเมนูซ้าย ได้เลย</div><div id="edCustomPages"></div><button class="ed-add" id="addCustomPage">＋ สร้างหน้าใหม่</button></div>'
     +'<div class="ed-card"><h3>👥 บุคลากร</h3><div class="hint">แต่ละ "ชั้น" = หนึ่งแถวในผัง</div><div id="edOrg"></div><button class="ed-add" id="addLevel">＋ เพิ่มชั้นใหม่</button>'
     +'<div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+esc(EDIT.orgUpdate)+'" placeholder="22/2/2569"></div></div>'
   );
 
   renderEdSbNav();
+  renderEdCustomPages();
   renderEdSafety();
   renderEdNews();renderEdLinks();renderEdForms();renderEdPolicy();renderEdTopics();renderEdOrg();
 
   /* ผูก event ด้วย helper ที่ปลอดภัย — ถ้าหา element ไม่เจอจะ log แทน crash */
   function bindBtn(id,fn){var el=document.getElementById(id);if(el)el.onclick=fn;else console.warn("ไม่พบปุ่ม:",id);}
+  bindBtn("addCustomPage",function(){
+    collect();
+    if(!EDIT.customPages) EDIT.customPages=[];
+    var newId="page"+Date.now();
+    EDIT.customPages.push({id:newId,title:"หน้าใหม่",eyebrow:"",topics:[],forms:[]});
+    renderEdCustomPages();
+  });
   bindBtn("addSafetyTopic",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.topics)EDIT.safety.topics=[];EDIT.safety.topics.push({t:"",id:""});renderEdSafety();});
   bindBtn("addSafetyForm",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.forms)EDIT.safety.forms=[];EDIT.safety.forms.push({label:"",desc:"",url:""});renderEdSafety();});
   bindBtn("addSbSection",function(){collect();if(!EDIT.sbNav)EDIT.sbNav=[];EDIT.sbNav.push({section:"หมวดใหม่",items:[{label:"รายการใหม่",type:"page",key:"home"}]});renderEdSbNav();});
@@ -1182,6 +1225,70 @@ function renderEdSbNav(){
     };
   });
 }
+function renderEdCustomPages(){
+  var el=document.getElementById("edCustomPages"); if(!el) return;
+  var pages=EDIT.customPages||[];
+  el.innerHTML=pages.map(function(pg,pi){
+    var topics=(pg.topics||[]).map(function(o,ti){
+      return '<div class="ed-item" data-cppage="'+pi+'" data-cptopic="'+ti+'" style="display:grid;gap:6px;padding:10px;margin-bottom:6px">'
+        +'<div><label class="ed-lb">ชื่อหัวข้อ</label>'
+        +'<input class="ed" data-tf="t" value="'+esc(o.t||"")+'"></div>'
+        +'<div><label class="ed-lb">ลิงค์ Google Drive</label>'
+        +'<input class="ed" data-tf="id" value="'+esc(o.id||"")+'" placeholder="https://drive.google.com/file/d/.../view หรือ ID"></div>'
+        +'<div class="ed-item-bar"><button class="ed-del" data-delcptopic="'+pi+'-'+ti+'">ลบ</button></div>'
+        +'</div>';
+    }).join('');
+    var forms=(pg.forms||[]).map(function(f,fi){
+      return '<div class="ed-item" data-cppage="'+pi+'" data-cpform="'+fi+'" style="margin-bottom:6px">'
+        +'<div class="ed-grid2">'
+        +'<div><label class="ed-lb">ชื่อแบบฟอร์ม</label>'
+        +'<input class="ed" data-ff="label" value="'+esc(f.label||"")+'"></div>'
+        +'<div><label class="ed-lb">คำอธิบาย</label>'
+        +'<input class="ed" data-ff="desc" value="'+esc(f.desc||"")+'"></div>'
+        +'</div>'
+        +'<div><label class="ed-lb">URL</label>'
+        +'<input class="ed" data-ff="url" value="'+esc(f.url||"")+'" placeholder="https://forms.gle/..."></div>'
+        +'<div class="ed-item-bar"><button class="ed-del" data-delcpform="'+pi+'-'+fi+'">ลบ</button></div>'
+        +'</div>';
+    }).join('');
+    return '<div class="ed-level" style="margin-bottom:16px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">'
+      +'<span style="font-family:Prompt;font-weight:700;color:var(--gold);font-size:.85rem">หน้า '+(pi+1)+'</span>'
+      +'<button class="ed-del" data-delcppage="'+pi+'" style="margin-left:auto">ลบหน้านี้</button></div>'
+      +'<div class="ed-grid2" style="margin-bottom:10px">'
+      +'<div><label class="ed-lb">ชื่อหน้า (แสดงในเมนู)</label>'
+      +'<input class="ed" data-cpf="title" data-cppage="'+pi+'" value="'+esc(pg.title||"")+'"></div>'
+      +'<div><label class="ed-lb">Key (ใช้เป็น key ใน แถบเมนูซ้าย เช่น safety2)</label>'
+      +'<input class="ed" data-cpf="id" data-cppage="'+pi+'" value="'+esc(pg.id||"")+'"></div>'
+      +'</div>'
+      +'<div style="margin-bottom:8px"><label class="ed-lb">หัวเรื่องย่อย (Eyebrow เช่น "Knowledge")</label>'
+      +'<input class="ed" data-cpf="eyebrow" data-cppage="'+pi+'" value="'+esc(pg.eyebrow||"")+'"></div>'
+      +'<label class="ed-lb" style="margin-bottom:6px">การ์ดรูป (Google Drive)</label>'
+      +topics
+      +'<button class="ed-add" data-addcptopic="'+pi+'" style="margin-bottom:10px">＋ เพิ่มการ์ด</button>'
+      +'<label class="ed-lb" style="margin-bottom:6px;display:block;margin-top:6px">แบบฟอร์ม (Google Form)</label>'
+      +forms
+      +'<button class="ed-add" data-addcpform="'+pi+'">＋ เพิ่มแบบฟอร์ม</button>'
+      +'</div>';
+  }).join('');
+
+  /* events */
+  el.querySelectorAll("[data-delcppage]").forEach(function(b){
+    b.onclick=function(){collect();EDIT.customPages.splice(+b.dataset.delcppage,1);renderEdCustomPages();};
+  });
+  el.querySelectorAll("[data-addcptopic]").forEach(function(b){
+    b.onclick=function(){collect();EDIT.customPages[+b.dataset.addcptopic].topics.push({t:"",id:""});renderEdCustomPages();};
+  });
+  el.querySelectorAll("[data-addcpform]").forEach(function(b){
+    b.onclick=function(){collect();EDIT.customPages[+b.dataset.addcpform].forms.push({label:"",desc:"",url:""});renderEdCustomPages();};
+  });
+  el.querySelectorAll("[data-delcptopic]").forEach(function(b){
+    b.onclick=function(){collect();var p=b.dataset.delcptopic.split("-");EDIT.customPages[+p[0]].topics.splice(+p[1],1);renderEdCustomPages();};
+  });
+  el.querySelectorAll("[data-delcpform]").forEach(function(b){
+    b.onclick=function(){collect();var p=b.dataset.delcpform.split("-");EDIT.customPages[+p[0]].forms.splice(+p[1],1);renderEdCustomPages();};
+  });
+}
 function renderEdSafety(){
   var saf=EDIT.safety||{};
   /* Topics — แบบ Learning */
@@ -1305,6 +1412,28 @@ function collect(){
     if(polBadges) EDIT.policy.badges=polBadges.value.split("|").map(function(s){return s.trim();}).filter(function(s){return s;});
     const polItemEls=document.querySelectorAll("[data-politem] textarea");
     if(polItemEls.length) EDIT.policy.items=Array.from(polItemEls).map(function(t){return t.value;}).filter(function(s){return s.trim();});
+  }
+  /* customPages collect */
+  if(EDIT.customPages){
+    /* page-level fields */
+    document.querySelectorAll("[data-cpf][data-cppage]").forEach(function(inp){
+      var pi=+inp.dataset.cppage; var field=inp.dataset.cpf;
+      if(EDIT.customPages[pi]) EDIT.customPages[pi][field]=inp.value;
+    });
+    /* topics */
+    document.querySelectorAll("[data-cppage][data-cptopic]").forEach(function(row){
+      var pi=+row.dataset.cppage; var ti=+row.dataset.cptopic;
+      var pg=EDIT.customPages[pi]; if(!pg||!pg.topics[ti]) return;
+      row.querySelectorAll("[data-tf]").forEach(function(f){pg.topics[ti][f.dataset.tf]=f.value;});
+      if(pg.topics[ti].id) pg.topics[ti].id=extractId(pg.topics[ti].id);
+    });
+    /* forms */
+    document.querySelectorAll("[data-cppage][data-cpform]").forEach(function(row){
+      var pi=+row.dataset.cppage; var fi=+row.dataset.cpform;
+      var pg=EDIT.customPages[pi]; if(!pg||!pg.forms[fi]) return;
+      row.querySelectorAll("[data-ff]").forEach(function(f){pg.forms[fi][f.dataset.ff]=f.value;});
+    });
+    EDIT.customPages=EDIT.customPages.filter(function(pg){return pg.title.trim();});
   }
   /* safety collect — แบบ Learning */
   if(EDIT.safety){
