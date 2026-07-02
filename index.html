@@ -64,6 +64,20 @@
  "orgUpdate": "22/2/2569",
  "logo": "",
  "theme": {"navy":"#003866","gold":"#D4A437"},
+ "sbNav": [
+  {"section":"เมนูหลัก","items":[
+    {"label":"หน้าหลัก",       "type":"page","key":"home"},
+    {"label":"Learning",        "type":"page","key":"learning","badge":"sbLearnBadge"},
+    {"label":"บุคลากร",         "type":"page","key":"employees"},
+    {"label":"นโยบายคุณภาพ",   "type":"page","key":"policy"}
+  ]},
+  {"section":"ข้อมูลแผนก","items":[
+    {"label":"ข้อมูลงานซ่อม",   "type":"link","key":"repairData"},
+    {"label":"การรับพัสดุ",      "type":"link","key":"receiveData"},
+    {"label":"การเบิกภายใน",    "type":"link","key":"withdrawData"},
+    {"label":"สต็อคในแผนก",     "type":"link","key":"stockList"}
+  ]}
+ ],
  "policy": {
   "companyName": "บริษัท เคบีเอส เพาเวอร์ จำกัด",
   "intro": "เราจะมุ่งมั่นผลิตกระแสไฟฟ้าที่มีคุณภาพจากพลังงานชีวมวล โดยใช้เทคโนโลยีการผลิตที่ทันสมัย ใช้การบริหารกระบวนการผลิตที่มีคุณภาพและประสิทธิภาพสูงสุด รวมทั้งคำนึงถึงความปลอดภัย อาชีวอนามัย และอนุรักษ์ความหลากหลายทางชีวภาพด้านสิ่งแวดล้อมของบริษัทและชุมชน เพื่อตอบสนองความต้องการของลูกค้า สอดคล้องตามกฎหมาย และระบบการบริหารงานคุณภาพ โดยปฏิบัติดังนี้",
@@ -438,37 +452,7 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
       <small>สาขาสีคิ้ว · KBS Sugar Group</small>
     </div>
 
-    <nav class="sb-menu">
-      <div class="sb-section">เมนูหลัก</div>
-      <button class="sb-item active" data-page="home">
-        <svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>หน้าหลัก
-      </button>
-      <button class="sb-item" data-page="learning">
-        <svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1z"/></svg>
-        Learning <span class="badge" id="sbLearnBadge">21</span>
-      </button>
-      <button class="sb-item" data-page="employees">
-        <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.34 0-8 1.67-8 5v3h16v-3c0-3.33-4.66-5-8-5z"/></svg>บุคลากร
-      </button>
-      <button class="sb-item" data-page="policy">
-        <svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3z"/></svg>นโยบายคุณภาพ
-      </button>
-
-      <hr class="sb-divider">
-      <div class="sb-section">ข้อมูลแผนก</div>
-      <a class="sb-item" data-link="repairData">
-        <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>ข้อมูลงานซ่อม
-      </a>
-      <a class="sb-item" data-link="receiveData">
-        <svg viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2zm0 2.2 7 3.5-7 3.5-7-3.5 7-3.5zM4 9.5l7 3.5v6.8l-7-3.5V9.5zm9 10.3v-6.8l7-3.5v6.8l-7 3.5z"/></svg>การรับพัสดุ
-      </a>
-      <a class="sb-item" data-link="withdrawData">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>การเบิกภายใน
-      </a>
-      <a class="sb-item" data-link="stockList">
-        <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>สต็อคในแผนก
-      </a>
-    </nav>
+    <nav class="sb-menu" id="sbMenuNav"></nav>
   </aside>
 
   <!-- ===== MAIN ===== -->
@@ -699,37 +683,67 @@ function applyLogo(src){
 /* ---------- Render ทุกส่วน ---------- */
 let INDEX=[];
 function renderAll(){
+  /* sidebar nav dynamic */
+  var _links=DATA.links||{};
+  var SB_ICONS={
+    home:         '<svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>',
+    learning:     '<svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1z"/></svg>',
+    employees:    '<svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.34 0-8 1.67-8 5v3h16v-3c0-3.33-4.66-5-8-5z"/></svg>',
+    policy:       '<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3z"/></svg>',
+    other:        '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>',
+    repairData:   '<svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>',
+    receiveData:  '<svg viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2zm0 2.2 7 3.5-7 3.5-7-3.5 7-3.5zM4 9.5l7 3.5v6.8l-7-3.5V9.5zm9 10.3v-6.8l7-3.5v6.8l-7 3.5z"/></svg>',
+    withdrawData: '<svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
+    stockList:    '<svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>',
+    _default:     '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>'
+  };
+  var sbNavEl=document.getElementById("sbMenuNav");
+  if(sbNavEl){
+    var _cnt=(DATA.topics||[]).length;
+    sbNavEl.innerHTML=(DATA.sbNav||[]).map(function(sec,si){
+      var rows=(sec.items||[]).map(function(item){
+        var ico=SB_ICONS[item.key]||SB_ICONS._default;
+        var badge=item.badge?'<span class="badge" id="'+item.badge+'">'+_cnt+'</span>':'';
+        if(item.type==='link'){
+          var url=_links[item.key]||'';
+          return '<a class="sb-item" data-link="'+item.key+'"'+(url?' href="'+url+'" target="_blank" rel="noopener"':'')+'>'+ico+esc(item.label)+badge+'</a>';
+        }
+        return '<button class="sb-item" data-page="'+esc(item.key)+'">'+ico+esc(item.label)+badge+'</button>';
+      }).join('');
+      return (si>0?'<hr class="sb-divider">':'')+'<div class="sb-section">'+esc(sec.section)+'</div>'+rows;
+    }).join('');
+  }
+
   /* ประกาศ */
-  document.getElementById("noticeStack").innerHTML=(DATA.news||[]).map(function(n){
+  document.getElementById("noticeStack").innerHTML=DATA.news.map(function(n){
     return '<div class="notice'+(n.type==="alert"?" alert":"")+'"><span class="notice-ic">'+NOTICE_IC[n.type==="alert"?"alert":"normal"]+'</span><p><span class="tag">'+esc(n.tag)+'</span><br>'+esc(n.text)+'</p></div>';
   }).join("");
 
   /* ลิงค์เมนู + sidebar */
-  var _links=DATA.links||{};
   Array.from(document.querySelectorAll("[data-link]")).forEach(function(el){
-    const url=_links[el.dataset.link]||"";
+    const url=DATA.links[el.dataset.link]||"";
     if(url){el.setAttribute("href",url);el.setAttribute("target","_blank");el.setAttribute("rel","noopener");}
     else{el.removeAttribute("href");}
   });
 
   /* แบบฟอร์ม */
-  document.getElementById("formList").innerHTML=(DATA.forms||[]).map(function(f){
+  document.getElementById("formList").innerHTML=DATA.forms.map(function(f){
     return '<a class="form-row" href="'+esc(f.url)+'" target="_blank" rel="noopener"><span class="form-ic">'+FORM_IC+'</span><span class="txt"><b>'+esc(f.label)+'</b><small>'+esc(f.desc)+'</small></span>'+(f.admin?'<span class="badge-admin">Admin</span>':"")+CHEV+'</a>';
   }).join("");
 
   /* Learning */
-  document.getElementById("cardsAll").innerHTML=(DATA.topics||[]).map(cardHTML).join("");
-  document.getElementById("learnPreview").innerHTML=(DATA.topics||[]).slice(0,8).map(cardHTML).join("");
+  document.getElementById("cardsAll").innerHTML=DATA.topics.map(cardHTML).join("");
+  document.getElementById("learnPreview").innerHTML=DATA.topics.slice(0,8).map(cardHTML).join("");
   const cnt=DATA.topics.length;
   document.getElementById("seeAllBtn").textContent="ดูทั้งหมด ("+cnt+")";
   document.getElementById("menuLearnCount").textContent=cnt+" หัวข้อ";
   document.getElementById("sbLearnBadge").textContent=cnt;
 
   /* ผังพนักงาน — table */
-  const allPeople=(DATA.org||[]).reduce(function(acc,row){return acc.concat(row);}, []);
+  const allPeople=DATA.org.reduce(function(acc,row){return acc.concat(row);}, []);
   document.getElementById("orgChart").innerHTML=
     '<thead><tr><th style="width:40px"></th><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th><th>ชั้น</th></tr></thead><tbody>'
-    +(DATA.org||[]).map(function(row,li){
+    +DATA.org.map(function(row,li){
       return row.map(function(p){
         return '<tr class="'+(p.lead?"lead":"")+'">'
           +'<td><div class="av-sm'+(p.lead?" gold":"")+'">'+AV+'</div></td>'
@@ -775,7 +789,6 @@ async function syncFromCloud(){
     const r=await fetch(API_URL+"?v="+Date.now());
     const j=await r.json();
     if(j&&j.news&&j.topics){
-      /* merge: เก็บ keys ที่ไม่ได้ส่งมาจาก API ไว้ */
       var merged=Object.assign({},DATA,j);
       if(!merged.links) merged.links=DATA.links||{};
       if(!merged.forms) merged.forms=DATA.forms||[];
@@ -783,6 +796,7 @@ async function syncFromCloud(){
       if(!merged.theme) merged.theme=DATA.theme||{};
       if(!merged.logo)  merged.logo=DATA.logo||"";
       if(!merged.policy)merged.policy=DATA.policy||{};
+      if(!merged.sbNav) merged.sbNav=DATA.sbNav||[];
       DATA=merged;
       renderAll();
     }
@@ -960,7 +974,8 @@ function buildEditor(){
 
   /* ===== การ์ดที่เหลือ ===== */
   eb.insertAdjacentHTML("beforeend",
-    '<div class="ed-card"><h3>📢 ประกาศ / ข่าวสาร</h3><div class="hint">ประเภท "สำคัญ" จะเป็นแถบสีแดง</div><div id="edNews"></div><button class="ed-add" id="addNews">＋ เพิ่มประกาศ</button></div>'
+    '<div class="ed-card"><h3>📋 แถบเมนูซ้าย (Sidebar)</h3><div class="hint">แก้ชื่อหมวด/รายการ หรือเพิ่ม/ลบได้ — ประเภท page=หน้าในเว็บ, link=ลิงค์ภายนอก</div><div id="edSbNav"></div><button class="ed-add" id="addSbSection">＋ เพิ่มหมวดใหม่</button></div>'
+    +'<div class="ed-card"><h3>📢 ประกาศ / ข่าวสาร</h3><div class="hint">ประเภท "สำคัญ" จะเป็นแถบสีแดง</div><div id="edNews"></div><button class="ed-add" id="addNews">＋ เพิ่มประกาศ</button></div>'
     +'<div class="ed-card"><h3>🔗 ลิงค์เมนูหลัก</h3><div class="hint">URL ของ Google Drive / Sheet</div><div id="edLinks"></div></div>'
     +'<div class="ed-card"><h3>📝 แบบฟอร์มกรอกข้อมูล</h3><div class="hint">ลิงค์ Google Form</div><div id="edForms"></div><button class="ed-add" id="addForm">＋ เพิ่มแบบฟอร์ม</button></div>'
     +'<div class="ed-card"><h3>🛡 นโยบายคุณภาพ</h3><div class="hint">แก้ไขชื่อบริษัท คำนำ รายการข้อปฏิบัติ และป้ายด้านล่าง</div>'
@@ -977,10 +992,12 @@ function buildEditor(){
     +'<div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+esc(EDIT.orgUpdate)+'" placeholder="22/2/2569"></div></div>'
   );
 
+  renderEdSbNav();
   renderEdNews();renderEdLinks();renderEdForms();renderEdPolicy();renderEdTopics();renderEdOrg();
 
   /* ผูก event ด้วย helper ที่ปลอดภัย — ถ้าหา element ไม่เจอจะ log แทน crash */
   function bindBtn(id,fn){var el=document.getElementById(id);if(el)el.onclick=fn;else console.warn("ไม่พบปุ่ม:",id);}
+  bindBtn("addSbSection",function(){collect();if(!EDIT.sbNav)EDIT.sbNav=[];EDIT.sbNav.push({section:"หมวดใหม่",items:[{label:"รายการใหม่",type:"page",key:"home"}]});renderEdSbNav();});
   bindBtn("addNews",    function(){collect();EDIT.news.push({tag:"ประกาศ",text:"",type:"normal"});renderEdNews();});
   bindBtn("addForm",    function(){collect();EDIT.forms.push({label:"",desc:"",url:"",admin:false});renderEdForms();});
   bindBtn("addPolItem", function(){collect();if(!EDIT.policy)EDIT.policy={};if(!EDIT.policy.items)EDIT.policy.items=[];EDIT.policy.items.push("");renderEdPolicy();});
@@ -1060,6 +1077,54 @@ function bindColor(pickerId,hexId,previewId,cssVar,themeKey){
 }
 
 /* renderEd* */
+function renderEdSbNav(){
+  var el=document.getElementById("edSbNav"); if(!el) return;
+  var nav=EDIT.sbNav||[];
+  el.innerHTML=nav.map(function(sec,si){
+    var items=(sec.items||[]).map(function(item,ii){
+      return '<div class="ed-item" data-sbsec="'+si+'" data-sbitem="'+ii+'" style="display:grid;gap:6px;padding:10px;margin-bottom:6px">'
+        +'<div class="ed-grid2">'
+        +'<div><label class="ed-lb">ชื่อรายการ</label>'
+        +'<input class="ed" data-sf="label" value="'+esc(item.label||"")+'"></div>'
+        +'<div><label class="ed-lb">ประเภท</label>'
+        +'<select class="ed" data-sf="type">'
+        +'<option value="page"'+(item.type==="page"?" selected":"")+'>หน้าในเว็บ (page)</option>'
+        +'<option value="link"'+(item.type==="link"?" selected":"")+'>ลิงค์ภายนอก (link)</option>'
+        +'</select></div></div>'
+        +'<div><label class="ed-lb">Key (page: home / learning / employees / policy / other  |  link: repairData / receiveData / withdrawData / stockList)</label>'
+        +'<input class="ed" data-sf="key" value="'+esc(item.key||"")+'"></div>'
+        +'<div class="ed-item-bar"><button class="ed-del" data-delsbitem="'+si+'-'+ii+'">ลบรายการ</button></div>'
+        +'</div>';
+    }).join('');
+    return '<div class="ed-level" style="margin-bottom:14px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">'
+      +'<label class="ed-lb" style="margin:0;flex:none">ชื่อหมวด:</label>'
+      +'<input class="ed" data-sbsecname="'+si+'" value="'+esc(sec.section||"")+'" style="flex:1;margin:0">'
+      +'<button class="ed-del" data-delsbsec="'+si+'">ลบหมวด</button></div>'
+      +items
+      +'<button class="ed-add" data-addsbitem="'+si+'" style="margin-top:6px">＋ เพิ่มรายการในหมวดนี้</button>'
+      +'</div>';
+  }).join('');
+  document.querySelectorAll("[data-delsbsec]").forEach(function(b){
+    b.onclick=function(){collect();EDIT.sbNav.splice(+b.dataset.delsbsec,1);renderEdSbNav();};
+  });
+  document.querySelectorAll("[data-delsbitem]").forEach(function(b){
+    b.onclick=function(){
+      collect();
+      var p=b.dataset.delsbitem.split("-");
+      EDIT.sbNav[+p[0]].items.splice(+p[1],1);
+      renderEdSbNav();
+    };
+  });
+  document.querySelectorAll("[data-addsbitem]").forEach(function(b){
+    b.onclick=function(){
+      collect();
+      if(!EDIT.sbNav[+b.dataset.addsbitem].items) EDIT.sbNav[+b.dataset.addsbitem].items=[];
+      EDIT.sbNav[+b.dataset.addsbitem].items.push({label:"รายการใหม่",type:"page",key:"home"});
+      renderEdSbNav();
+    };
+  });
+}
 function renderEdNews(){
   document.getElementById("edNews").innerHTML=EDIT.news.map(function(n,i){
     return '<div class="ed-item" data-news="'+i+'">'
@@ -1148,6 +1213,20 @@ function collect(){
     if(polBadges) EDIT.policy.badges=polBadges.value.split("|").map(function(s){return s.trim();}).filter(function(s){return s;});
     const polItemEls=document.querySelectorAll("[data-politem] textarea");
     if(polItemEls.length) EDIT.policy.items=Array.from(polItemEls).map(function(t){return t.value;}).filter(function(s){return s.trim();});
+  }
+  /* sbNav collect */
+  if(EDIT.sbNav){
+    document.querySelectorAll("[data-sbsecname]").forEach(function(inp){
+      var si=+inp.dataset.sbsecname;
+      if(EDIT.sbNav[si]) EDIT.sbNav[si].section=inp.value;
+    });
+    document.querySelectorAll("[data-sbsec][data-sbitem]").forEach(function(row){
+      var si=+row.dataset.sbsec; var ii=+row.dataset.sbitem;
+      if(!EDIT.sbNav[si]||!EDIT.sbNav[si].items||!EDIT.sbNav[si].items[ii]) return;
+      row.querySelectorAll("[data-sf]").forEach(function(f){
+        EDIT.sbNav[si].items[ii][f.dataset.sf]=f.value;
+      });
+    });
   }
   document.querySelectorAll("[data-news]").forEach(function(it){const n=EDIT.news[+it.dataset.news];if(!n)return;it.querySelectorAll("[data-f]").forEach(function(f){n[f.dataset.f]=f.value;});});
   document.querySelectorAll("[data-linkkey]").forEach(function(f){EDIT.links[f.dataset.linkkey]=f.value.trim();});
