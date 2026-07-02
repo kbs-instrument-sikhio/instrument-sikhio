@@ -64,6 +64,16 @@
  "orgUpdate": "22/2/2569",
  "logo": "",
  "theme": {"navy":"#003866","gold":"#D4A437"},
+ "safety": {
+  "notices": [
+   {"title":"ประกาศ — กรุณาระวังพื้นลื่นบริเวณหน้าโรงงาน","date":"2 ก.ค. 2569","type":"alert"},
+   {"title":"แจ้งเตือน — ตรวจสอบอุปกรณ์ PPE ให้ครบถ้วนก่อนเข้าพื้นที่","date":"1 ก.ค. 2569","type":"normal"}
+  ],
+  "forms": [
+   {"label":"รายงานอุบัติเหตุ / เหตุการณ์เกือบเกิดอุบัติเหตุ","desc":"กรอกแบบฟอร์มเพื่อรายงานเหตุการณ์","url":"https://forms.gle/"},
+   {"label":"แบบสอบถามความปลอดภัย","desc":"ประเมินความรู้ด้านความปลอดภัย","url":"https://forms.gle/"}
+  ]
+ },
  "sbNav": [
   {"section":"เมนูหลัก","items":[
     {"label":"หน้าหลัก",       "type":"page","key":"home"},
@@ -571,6 +581,28 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
       </div>
     </div>
 
+    <!-- SAFETY -->
+    <div class="page" id="page-safety">
+      <div class="breadcrumb">หน้าหลัก › <span>งานด้านความปลอดภัย</span></div>
+      <div class="page-title"><span class="eyebrow">Safety</span><h2>งานด้านความปลอดภัย</h2></div>
+
+      <div class="widget">
+        <div class="widget-head">
+          <svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3z"/></svg>
+          ประกาศ / อุบัติเหตุ / เหตุการณ์ความปลอดภัย
+        </div>
+        <div class="widget-body" id="safetyNotices" style="display:grid;gap:8px"></div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-head">
+          <svg viewBox="0 0 24 24"><path d="M19 13v6H5v-6H3v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2zM13 12.67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/></svg>
+          แบบฟอร์มรายงาน / แบบสอบถาม
+        </div>
+        <div id="safetyForms"></div>
+      </div>
+    </div>
+
     <!-- ADMIN -->
     <div class="page" id="page-admin">
       <div class="breadcrumb">หน้าหลัก › <span>โหมดผู้ดูแล</span></div>
@@ -695,6 +727,7 @@ function renderAll(){
     receiveData:  '<svg viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2zm0 2.2 7 3.5-7 3.5-7-3.5 7-3.5zM4 9.5l7 3.5v6.8l-7-3.5V9.5zm9 10.3v-6.8l7-3.5v6.8l-7 3.5z"/></svg>',
     withdrawData: '<svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
     stockList:    '<svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>',
+    safety:       '<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3zm-1.2 13.6-3-3 1.4-1.4 1.6 1.6 4-4 1.4 1.4-5.4 5.4z"/></svg>',
     _default:     '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>'
   };
   var sbNavEl=document.getElementById("sbMenuNav");
@@ -770,6 +803,25 @@ function renderAll(){
       +'<div class="policy-footer">'+(pol.badges||[]).map(function(b){return '<span class="cert-pill">'+esc(b)+'</span>';}).join("")+"</div>";
   }
 
+  /* Safety page */
+  var saf=DATA.safety||{};
+  var safNotices=document.getElementById("safetyNotices");
+  if(safNotices){
+    safNotices.innerHTML=(saf.notices||[]).map(function(n){
+      return '<div class="notice'+(n.type==="alert"?" alert":"")+'">'+
+        '<span class="notice-ic">'+(n.type==="alert"?NOTICE_IC.alert:NOTICE_IC.normal)+'</span>'+
+        '<p><span class="tag">'+esc(n.date||"")+'</span><br>'+esc(n.title)+'</p></div>';
+    }).join("") || '<p style="color:var(--ink-3);font-size:.9rem;padding:8px 0">ยังไม่มีประกาศ</p>';
+  }
+  var safForms=document.getElementById("safetyForms");
+  if(safForms){
+    safForms.innerHTML=(saf.forms||[]).map(function(f){
+      return '<a class="form-row" href="'+esc(f.url)+'" target="_blank" rel="noopener">'+
+        '<span class="form-ic">'+FORM_IC+'</span>'+
+        '<span class="txt"><b>'+esc(f.label)+'</b><small>'+esc(f.desc)+'</small></span>'+CHEV+'</a>';
+    }).join("") || '<p style="color:var(--ink-3);font-size:.9rem;padding:14px 16px">ยังไม่มีแบบฟอร์ม</p>';
+  }
+
   /* Search index */
   INDEX=[];
   document.querySelectorAll("#menuGrid .menu-card").forEach(function(b){INDEX.push({label:b.querySelector("b").textContent,type:"เมนู",el:b});});
@@ -796,7 +848,8 @@ async function syncFromCloud(){
       if(!merged.theme) merged.theme=DATA.theme||{};
       if(!merged.logo)  merged.logo=DATA.logo||"";
       if(!merged.policy)merged.policy=DATA.policy||{};
-      if(!merged.sbNav) merged.sbNav=DATA.sbNav||[];
+      if(!merged.sbNav)   merged.sbNav=DATA.sbNav||[];
+      if(!merged.safety)  merged.safety=DATA.safety||{notices:[],forms:[]};
       DATA=merged;
       renderAll();
     }
@@ -988,15 +1041,19 @@ function buildEditor(){
     +'<input class="ed" id="edPolBadges" value="'+esc(((EDIT.policy&&EDIT.policy.badges)||[]).join("|"))+'"></div>'
     +'</div>'
     +'<div class="ed-card"><h3>📚 หัวข้อ Learning</h3><div class="hint">วางลิงค์ไฟล์รูปจาก Google Drive</div><div id="edTopics"></div><button class="ed-add" id="addTopic">＋ เพิ่มหัวข้อ</button></div>'
+    +'<div class="ed-card"><h3>🦺 งานด้านความปลอดภัย</h3><div class="hint">ประกาศอุบัติเหตุ/เหตุการณ์ และแบบฟอร์มรายงาน ที่แสดงในหน้า Safety</div><label class="ed-lb" style="margin-bottom:6px">ประกาศ / อุบัติเหตุ</label><div id="edSafetyNotices"></div><button class="ed-add" id="addSafetyNotice">＋ เพิ่มประกาศ</button><div style="margin-top:14px"><label class="ed-lb" style="margin-bottom:6px">แบบฟอร์มรายงาน / แบบสอบถาม</label><div id="edSafetyForms"></div><button class="ed-add" id="addSafetyForm">＋ เพิ่มแบบฟอร์ม</button></div></div>'
     +'<div class="ed-card"><h3>👥 บุคลากร</h3><div class="hint">แต่ละ "ชั้น" = หนึ่งแถวในผัง</div><div id="edOrg"></div><button class="ed-add" id="addLevel">＋ เพิ่มชั้นใหม่</button>'
     +'<div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+esc(EDIT.orgUpdate)+'" placeholder="22/2/2569"></div></div>'
   );
 
   renderEdSbNav();
+  renderEdSafety();
   renderEdNews();renderEdLinks();renderEdForms();renderEdPolicy();renderEdTopics();renderEdOrg();
 
   /* ผูก event ด้วย helper ที่ปลอดภัย — ถ้าหา element ไม่เจอจะ log แทน crash */
   function bindBtn(id,fn){var el=document.getElementById(id);if(el)el.onclick=fn;else console.warn("ไม่พบปุ่ม:",id);}
+  bindBtn("addSafetyNotice",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.notices)EDIT.safety.notices=[];EDIT.safety.notices.push({title:"",date:"",type:"normal"});renderEdSafety();});
+  bindBtn("addSafetyForm",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.forms)EDIT.safety.forms=[];EDIT.safety.forms.push({label:"",desc:"",url:""});renderEdSafety();});
   bindBtn("addSbSection",function(){collect();if(!EDIT.sbNav)EDIT.sbNav=[];EDIT.sbNav.push({section:"หมวดใหม่",items:[{label:"รายการใหม่",type:"page",key:"home"}]});renderEdSbNav();});
   bindBtn("addNews",    function(){collect();EDIT.news.push({tag:"ประกาศ",text:"",type:"normal"});renderEdNews();});
   bindBtn("addForm",    function(){collect();EDIT.forms.push({label:"",desc:"",url:"",admin:false});renderEdForms();});
@@ -1125,6 +1182,46 @@ function renderEdSbNav(){
     };
   });
 }
+function renderEdSafety(){
+  var saf=EDIT.safety||{};
+  var nEl=document.getElementById("edSafetyNotices");
+  if(nEl) nEl.innerHTML=(saf.notices||[]).map(function(n,i){
+    return '<div class="ed-item" data-safnotice="'+i+'">'
+      +'<div class="ed-grid2">'
+      +'<div><label class="ed-lb">ชื่อประกาศ / รายละเอียด</label>'
+      +'<input class="ed" data-nf="title" value="'+esc(n.title||"")+'"></div>'
+      +'<div><label class="ed-lb">วันที่</label>'
+      +'<input class="ed" data-nf="date" value="'+esc(n.date||"")+'" placeholder="เช่น 2 ก.ค. 2569"></div>'
+      +'</div>'
+      +'<div><label class="ed-lb">ประเภท</label>'
+      +'<select class="ed" data-nf="type">'
+      +'<option value="normal"'+(n.type!=="alert"?" selected":"")+'>ทั่วไป (เหลือง)</option>'
+      +'<option value="alert"'+(n.type==="alert"?" selected":"")+'>สำคัญ (แดง)</option>'
+      +'</select></div>'
+      +'<div class="ed-item-bar"><button class="ed-del" data-delsafnotice="'+i+'">ลบ</button></div>'
+      +'</div>';
+  }).join("");
+  var fEl=document.getElementById("edSafetyForms");
+  if(fEl) fEl.innerHTML=(saf.forms||[]).map(function(f,i){
+    return '<div class="ed-item" data-safform="'+i+'">'
+      +'<div class="ed-grid2">'
+      +'<div><label class="ed-lb">ชื่อแบบฟอร์ม</label>'
+      +'<input class="ed" data-ff="label" value="'+esc(f.label||"")+'"></div>'
+      +'<div><label class="ed-lb">คำอธิบาย</label>'
+      +'<input class="ed" data-ff="desc" value="'+esc(f.desc||"")+'"></div>'
+      +'</div>'
+      +'<div><label class="ed-lb">URL (Google Form)</label>'
+      +'<input class="ed" data-ff="url" value="'+esc(f.url||"")+'" placeholder="https://forms.gle/..."></div>'
+      +'<div class="ed-item-bar"><button class="ed-del" data-delsafform="'+i+'">ลบ</button></div>'
+      +'</div>';
+  }).join("");
+  document.querySelectorAll("[data-delsafnotice]").forEach(function(b){
+    b.onclick=function(){collect();EDIT.safety.notices.splice(+b.dataset.delsafnotice,1);renderEdSafety();};
+  });
+  document.querySelectorAll("[data-delsafform]").forEach(function(b){
+    b.onclick=function(){collect();EDIT.safety.forms.splice(+b.dataset.delsafform,1);renderEdSafety();};
+  });
+}
 function renderEdNews(){
   document.getElementById("edNews").innerHTML=EDIT.news.map(function(n,i){
     return '<div class="ed-item" data-news="'+i+'">'
@@ -1213,6 +1310,21 @@ function collect(){
     if(polBadges) EDIT.policy.badges=polBadges.value.split("|").map(function(s){return s.trim();}).filter(function(s){return s;});
     const polItemEls=document.querySelectorAll("[data-politem] textarea");
     if(polItemEls.length) EDIT.policy.items=Array.from(polItemEls).map(function(t){return t.value;}).filter(function(s){return s.trim();});
+  }
+  /* safety collect */
+  if(EDIT.safety){
+    document.querySelectorAll("[data-safnotice]").forEach(function(row){
+      var i=+row.dataset.safnotice;
+      if(!EDIT.safety.notices||!EDIT.safety.notices[i]) return;
+      row.querySelectorAll("[data-nf]").forEach(function(f){EDIT.safety.notices[i][f.dataset.nf]=f.value;});
+    });
+    document.querySelectorAll("[data-safform]").forEach(function(row){
+      var i=+row.dataset.safform;
+      if(!EDIT.safety.forms||!EDIT.safety.forms[i]) return;
+      row.querySelectorAll("[data-ff]").forEach(function(f){EDIT.safety.forms[i][f.dataset.ff]=f.value;});
+    });
+    EDIT.safety.notices=(EDIT.safety.notices||[]).filter(function(n){return n.title.trim();});
+    EDIT.safety.forms=(EDIT.safety.forms||[]).filter(function(f){return f.label.trim()||f.url.trim();});
   }
   /* sbNav collect */
   if(EDIT.sbNav){
