@@ -65,19 +65,13 @@
  "logo": "",
  "theme": {"navy":"#003866","gold":"#D4A437"},
  "safety": {
-  "companyName": "บริษัท น้ำตาลครบุรี สาขาสีคิ้ว",
-  "intro": "บริษัทมุ่งมั่นดำเนินงานด้วยความปลอดภัยสูงสุด โดยยึดหลักการป้องกันอุบัติเหตุเป็นสิ่งสำคัญลำดับแรก เพื่อดูแลสุขภาพและความปลอดภัยของพนักงานทุกคน ตลอดจนผู้ที่เกี่ยวข้องทุกฝ่าย โดยปฏิบัติดังนี้",
-  "items": [
-   "พนักงานทุกคนต้องสวมใส่อุปกรณ์ป้องกันส่วนบุคคล (PPE) ที่ถูกต้องและครบถ้วนก่อนเข้าพื้นที่ปฏิบัติงาน",
-   "ต้องเปิด Work Permit ให้เรียบร้อยก่อนเริ่มงานทุกครั้ง โดยเฉพาะงานที่มีความเสี่ยงสูง",
-   "รายงานอุบัติเหตุหรือเหตุการณ์เกือบเกิดอุบัติเหตุทุกกรณีต่อหัวหน้างานและกรอกแบบฟอร์มรายงานทันที",
-   "ปฏิบัติตามขั้นตอนความปลอดภัยและกฎระเบียบของบริษัทอย่างเคร่งครัด",
-   "เข้าร่วมการฝึกอบรมด้านความปลอดภัยตามที่บริษัทกำหนดอย่างสม่ำเสมอ"
+  "topics": [
+   {"t": "ข้อปฏิบัติด้านความปลอดภัย", "id": ""},
+   {"t": "แผนความปลอดภัยประจำปี", "id": ""}
   ],
-  "badges": ["ISO 45001","KBS SAFETY"],
   "forms": [
-   {"label":"รายงานอุบัติเหตุ / เหตุการณ์เกือบเกิดอุบัติเหตุ","desc":"กรอกแบบฟอร์มเพื่อรายงานเหตุการณ์","url":"https://forms.gle/"},
-   {"label":"แบบสอบถามความปลอดภัย","desc":"ประเมินความรู้ด้านความปลอดภัย","url":"https://forms.gle/"}
+   {"label":"รายงานอุบัติเหตุ / เหตุการณ์เกือบเกิดอุบัติเหตุ","desc":"กรอกแบบฟอร์มเพื่อรายงานเหตุการณ์","url":""},
+   {"label":"แบบสอบถามความปลอดภัย","desc":"ประเมินความรู้ด้านความปลอดภัย","url":""}
   ]
  },
  "sbNav": [
@@ -592,12 +586,13 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
       <div class="breadcrumb">หน้าหลัก › <span>งานด้านความปลอดภัย</span></div>
       <div class="page-title"><span class="eyebrow">Safety</span><h2>งานด้านความปลอดภัย</h2></div>
       <div class="widget">
-        <div class="widget-head" id="safetyHead">
+        <div class="widget-head">
           <svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3z"/></svg>
-          <span id="safetyCompany">บริษัท น้ำตาลครบุรี สาขาสีคิ้ว</span>
+          ข้อมูลความปลอดภัย
+          <button class="wh-link" data-page="safety" id="seeSafetyBtn" style="margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.7)"></button>
         </div>
         <div class="widget-body">
-          <div class="policy-body" id="safetyBody"></div>
+          <div class="cards-grid" id="safetyCards"></div>
         </div>
       </div>
       <div class="widget">
@@ -809,23 +804,22 @@ function renderAll(){
       +'<div class="policy-footer">'+(pol.badges||[]).map(function(b){return '<span class="cert-pill">'+esc(b)+'</span>';}).join("")+"</div>";
   }
 
-  /* Safety page — เหมือน policy */
+  /* Safety page — แบบ Learning */
   var saf=DATA.safety||{};
-  var safComp=document.getElementById("safetyCompany");
-  if(safComp) safComp.textContent=saf.companyName||"บริษัท น้ำตาลครบุรี สาขาสีคิ้ว";
-  var safBody=document.getElementById("safetyBody");
-  if(safBody){
-    safBody.innerHTML="<p>"+esc(saf.intro||"")+"</p>"
-      +"<ol>"+(saf.items||[]).map(function(it){return "<li>"+esc(it)+"</li>";}).join("")+"</ol>"
-      +'<div class="policy-footer">'+(saf.badges||[]).map(function(b){return '<span class="cert-pill">'+esc(b)+'</span>';}).join("")+"</div>";
-  }
+  var safCards=document.getElementById("safetyCards");
+  if(safCards) safCards.innerHTML=(saf.topics||[]).map(function(o){
+    var id=extractId(o.id);
+    if(!id) return '<div class="kcard" style="opacity:.5"><span class="thumb">'+PLACE_ICON+'</span><span class="cap">'+esc(o.t)+'</span></div>';
+    return cardHTML(o);
+  }).join("") || '<p style="color:var(--ink-3);font-size:.9rem;padding:8px 0">ยังไม่มีเอกสาร</p>';
   var safForms=document.getElementById("safetyForms");
   if(safForms){
     safForms.innerHTML=(saf.forms||[]).map(function(f){
+      if(!f.url||f.url==="https://forms.gle/") return '';
       return '<a class="form-row" href="'+esc(f.url)+'" target="_blank" rel="noopener">'+
         '<span class="form-ic">'+FORM_IC+'</span>'+
         '<span class="txt"><b>'+esc(f.label)+'</b><small>'+esc(f.desc)+'</small></span>'+CHEV+'</a>';
-    }).join("")||'<p style="color:var(--ink-3);font-size:.9rem;padding:14px 16px">ยังไม่มีแบบฟอร์ม</p>';
+    }).join("") || '<p style="color:var(--ink-3);font-size:.9rem;padding:14px 16px">ยังไม่มีแบบฟอร์ม — ตั้งค่าในโหมดผู้ดูแล</p>';
   }
 
   /* Search index */
@@ -855,7 +849,7 @@ async function syncFromCloud(){
       if(!merged.logo)  merged.logo=DATA.logo||"";
       if(!merged.policy)merged.policy=DATA.policy||{};
       if(!merged.sbNav)   merged.sbNav=DATA.sbNav||[];
-      if(!merged.safety)  merged.safety=DATA.safety||{companyName:"",intro:"",items:[],badges:[],forms:[]};
+      if(!merged.safety)  merged.safety=DATA.safety||{topics:[],forms:[]};
       DATA=merged;
       renderAll();
     }
@@ -1047,7 +1041,7 @@ function buildEditor(){
     +'<input class="ed" id="edPolBadges" value="'+esc(((EDIT.policy&&EDIT.policy.badges)||[]).join("|"))+'"></div>'
     +'</div>'
     +'<div class="ed-card"><h3>📚 หัวข้อ Learning</h3><div class="hint">วางลิงค์ไฟล์รูปจาก Google Drive</div><div id="edTopics"></div><button class="ed-add" id="addTopic">＋ เพิ่มหัวข้อ</button></div>'
-    +'<div class="ed-card"><h3>🦺 งานด้านความปลอดภัย</h3><div class="hint">แก้ไขข้อมูลหน้าความปลอดภัย — โครงสร้างเหมือนนโยบายคุณภาพ</div><div style="margin-bottom:10px"><label class="ed-lb">ชื่อบริษัท/หน่วยงาน (แสดงในหัวกล่อง)</label><input class="ed" id="edSafCompany" value="'+esc((EDIT.safety&&EDIT.safety.companyName)||"บริษัท น้ำตาลครบุรี สาขาสีคิ้ว")+'"></div><div style="margin-bottom:10px"><label class="ed-lb">คำนำ (ย่อหน้าแรก)</label><textarea class="ed" id="edSafIntro" style="min-height:80px">'+esc((EDIT.safety&&EDIT.safety.intro)||"")+"</textarea></div>"+'<label class="ed-lb" style="margin-bottom:6px">ข้อปฏิบัติด้านความปลอดภัย</label><div id="edSafetyItems"></div><button class="ed-add" id="addSafetyItem" style="margin-top:6px">＋ เพิ่มข้อปฏิบัติ</button><div style="margin-top:12px"><label class="ed-lb">ป้ายกำกับ (คั่นด้วย | เช่น ISO 45001|KBS SAFETY)</label><input class="ed" id="edSafBadges" value="'+esc(((EDIT.safety&&EDIT.safety.badges)||[]).join("|"))+'"></div><div style="margin-top:14px"><label class="ed-lb" style="margin-bottom:6px">แบบฟอร์มรายงาน / แบบสอบถาม</label><div id="edSafetyForms"></div><button class="ed-add" id="addSafetyForm">＋ เพิ่มแบบฟอร์ม</button></div></div>'
+        +'<div class="ed-card"><h3>🦺 งานด้านความปลอดภัย</h3><div class="hint">ใส่ชื่อหัวข้อและลิงค์ Google Drive — แสดงเป็นการ์ดรูปแบบเดียวกับ Learning</div><div id="edSafetyTopics"></div><button class="ed-add" id="addSafetyTopic">＋ เพิ่มหัวข้อ</button><div style="margin-top:14px"><label class="ed-lb" style="margin-bottom:6px">แบบฟอร์มรายงาน / แบบสอบถาม</label><div id="edSafetyForms"></div><button class="ed-add" id="addSafetyForm">＋ เพิ่มแบบฟอร์ม</button></div></div>'
     +'<div class="ed-card"><h3>👥 บุคลากร</h3><div class="hint">แต่ละ "ชั้น" = หนึ่งแถวในผัง</div><div id="edOrg"></div><button class="ed-add" id="addLevel">＋ เพิ่มชั้นใหม่</button>'
     +'<div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+esc(EDIT.orgUpdate)+'" placeholder="22/2/2569"></div></div>'
   );
@@ -1058,7 +1052,7 @@ function buildEditor(){
 
   /* ผูก event ด้วย helper ที่ปลอดภัย — ถ้าหา element ไม่เจอจะ log แทน crash */
   function bindBtn(id,fn){var el=document.getElementById(id);if(el)el.onclick=fn;else console.warn("ไม่พบปุ่ม:",id);}
-  bindBtn("addSafetyItem",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.items)EDIT.safety.items=[];EDIT.safety.items.push("");renderEdSafety();});
+  bindBtn("addSafetyTopic",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.topics)EDIT.safety.topics=[];EDIT.safety.topics.push({t:"",id:""});renderEdSafety();});
   bindBtn("addSafetyForm",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.forms)EDIT.safety.forms=[];EDIT.safety.forms.push({label:"",desc:"",url:""});renderEdSafety();});
   bindBtn("addSbSection",function(){collect();if(!EDIT.sbNav)EDIT.sbNav=[];EDIT.sbNav.push({section:"หมวดใหม่",items:[{label:"รายการใหม่",type:"page",key:"home"}]});renderEdSbNav();});
   bindBtn("addNews",    function(){collect();EDIT.news.push({tag:"ประกาศ",text:"",type:"normal"});renderEdNews();});
@@ -1190,16 +1184,18 @@ function renderEdSbNav(){
 }
 function renderEdSafety(){
   var saf=EDIT.safety||{};
-  /* ข้อปฏิบัติ — เหมือน renderEdPolicy */
-  var iEl=document.getElementById("edSafetyItems");
-  if(iEl) iEl.innerHTML=(saf.items||[]).map(function(it,i){
-    return '<div class="ed-item" style="display:flex;gap:8px;align-items:center" data-safitem="'+i+'">'
-      +'<span style="font-family:Prompt;font-weight:700;color:var(--navy);min-width:22px">'+(i+1)+'.</span>'
-      +'<textarea class="ed" style="min-height:46px;flex:1">'+esc(it)+'</textarea>'
-      +'<button class="ed-del" data-delsafitem="'+i+'">ลบ</button>'
+  /* Topics — แบบ Learning */
+  var tEl=document.getElementById("edSafetyTopics");
+  if(tEl) tEl.innerHTML=(saf.topics||[]).map(function(o,i){
+    return '<div class="ed-item" data-saftopic="'+i+'">'
+      +'<div><label class="ed-lb">ชื่อหัวข้อ</label>'
+      +'<input class="ed" data-sf="t" value="'+esc(o.t||"")+'"></div>'
+      +'<div><label class="ed-lb">ลิงค์ Google Drive (ลิงค์ไฟล์รูป/เอกสาร)</label>'
+      +'<input class="ed" data-sf="id" value="'+esc(o.id||"")+'" placeholder="https://drive.google.com/file/d/.../view"></div>'
+      +'<div class="ed-item-bar"><button class="ed-del" data-delsaftopic="'+i+'">ลบ</button></div>'
       +'</div>';
   }).join("");
-  /* แบบฟอร์ม */
+  /* Forms */
   var fEl=document.getElementById("edSafetyForms");
   if(fEl) fEl.innerHTML=(saf.forms||[]).map(function(f,i){
     return '<div class="ed-item" data-safform="'+i+'">'
@@ -1214,8 +1210,8 @@ function renderEdSafety(){
       +'<div class="ed-item-bar"><button class="ed-del" data-delsafform="'+i+'">ลบ</button></div>'
       +'</div>';
   }).join("");
-  document.querySelectorAll("[data-delsafitem]").forEach(function(b){
-    b.onclick=function(){collect();EDIT.safety.items.splice(+b.dataset.delsafitem,1);renderEdSafety();};
+  document.querySelectorAll("[data-delsaftopic]").forEach(function(b){
+    b.onclick=function(){collect();EDIT.safety.topics.splice(+b.dataset.delsaftopic,1);renderEdSafety();};
   });
   document.querySelectorAll("[data-delsafform]").forEach(function(b){
     b.onclick=function(){collect();EDIT.safety.forms.splice(+b.dataset.delsafform,1);renderEdSafety();};
@@ -1310,19 +1306,20 @@ function collect(){
     const polItemEls=document.querySelectorAll("[data-politem] textarea");
     if(polItemEls.length) EDIT.policy.items=Array.from(polItemEls).map(function(t){return t.value;}).filter(function(s){return s.trim();});
   }
-  /* safety collect — เหมือน policy */
+  /* safety collect — แบบ Learning */
   if(EDIT.safety){
-    var sc=document.getElementById("edSafCompany"); if(sc) EDIT.safety.companyName=sc.value;
-    var si=document.getElementById("edSafIntro");   if(si) EDIT.safety.intro=si.value;
-    var sb=document.getElementById("edSafBadges");
-    if(sb) EDIT.safety.badges=sb.value.split("|").map(function(s){return s.trim();}).filter(function(s){return s;});
-    var safItemEls=document.querySelectorAll("[data-safitem] textarea");
-    if(safItemEls.length) EDIT.safety.items=Array.from(safItemEls).map(function(t){return t.value;}).filter(function(s){return s.trim();});
+    document.querySelectorAll("[data-saftopic]").forEach(function(row){
+      var i=+row.dataset.saftopic;
+      if(!EDIT.safety.topics||!EDIT.safety.topics[i]) return;
+      row.querySelectorAll("[data-sf]").forEach(function(f){EDIT.safety.topics[i][f.dataset.sf]=f.value;});
+      if(EDIT.safety.topics[i].id) EDIT.safety.topics[i].id=extractId(EDIT.safety.topics[i].id);
+    });
     document.querySelectorAll("[data-safform]").forEach(function(row){
       var i=+row.dataset.safform;
       if(!EDIT.safety.forms||!EDIT.safety.forms[i]) return;
       row.querySelectorAll("[data-ff]").forEach(function(f){EDIT.safety.forms[i][f.dataset.ff]=f.value;});
     });
+    EDIT.safety.topics=(EDIT.safety.topics||[]).filter(function(o){return o.t.trim()||o.id.trim();});
     EDIT.safety.forms=(EDIT.safety.forms||[]).filter(function(f){return f.label.trim()||f.url.trim();});
   }
   /* sbNav collect */
