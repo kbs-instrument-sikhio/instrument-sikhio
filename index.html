@@ -62,7 +62,6 @@
    {"n": "นายสิทธิศักดิ์ ภูผิวฟ้า", "t": "พนักงานเครื่องมือวัด"}]
  ],
  "orgUpdate": "22/2/2569",
- "orgImage": "",
  "logo": "",
  "theme": {"navy":"#003866","gold":"#D4A437"},
  "safety": {
@@ -552,14 +551,9 @@ label.ed-lb{font-family:'Prompt';font-size:.73rem;font-weight:600;color:var(--in
       <div class="breadcrumb">หน้าหลัก › <span>บุคลากร</span></div>
       <div class="page-title"><span class="eyebrow">Team</span><h2>ข้อมูลบุคลากร แผนกเครื่องมือวัด สีคิ้ว</h2></div>
       <div class="widget">
-        <div class="widget-head">
-          <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.34 0-8 1.67-8 5v3h16v-3c0-3.33-4.66-5-8-5z"/></svg>
-          ผังโครงสร้างแผนก
-        </div>
-        <div class="widget-body" id="orgImageWrap" style="text-align:center;padding:20px 16px">
-          <p style="color:var(--ink-3);font-size:.9rem" id="orgImagePlaceholder">ยังไม่ได้อัปโหลดรูปผังองค์กร — ตั้งค่าในโหมดผู้ดูแล ⚙️</p>
-          <img id="orgImageEl" src="" alt="ผังองค์กร"
-            style="display:none;max-width:100%;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.1)">
+        <div class="widget-head"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.34 0-8 1.67-8 5v3h16v-3c0-3.33-4.66-5-8-5z"/></svg>ผังโครงสร้างแผนก</div>
+        <div class="widget-body" style="overflow-x:auto">
+          <table class="org-table" id="orgChart"></table>
         </div>
         <div class="widget-body" style="padding-top:4px">
           <span style="font-size:.75rem;color:var(--ink-3)" id="orgUpdate"></span>
@@ -784,19 +778,22 @@ function renderAll(){
   document.getElementById("sbLearnBadge").textContent=cnt;
 
   /* ผังพนักงาน — table */
-  /* org image */
-  var orgImg=document.getElementById("orgImageEl");
-  var orgPh=document.getElementById("orgImagePlaceholder");
-  if(DATA.orgImage){
-    if(orgImg){orgImg.src=DATA.orgImage;orgImg.style.display="block";}
-    if(orgPh) orgPh.style.display="none";
-  } else {
-    if(orgImg) orgImg.style.display="none";
-    if(orgPh)  orgPh.style.display="block";
-  }
-  document.getElementById("orgUpdate").textContent=DATA.orgUpdate?"อัปเดตล่าสุด "+DATA.orgUpdate:"";
-  var allPeople=(DATA.org||[]).reduce(function(acc,row){return acc.concat(row);},[]);
-  document.getElementById("menuOrgCount").textContent=allPeople.length?(allPeople.length+" คน"):"ผังองค์กร";
+  /* org table */
+  const AV2='<svg viewBox="0 0 24 24"><path d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 9c4 0 8 2 8 5v2H4v-2c0-3 4-5 8-5z"/></svg>';
+  const allPeople=(DATA.org||[]).reduce(function(acc,row){return acc.concat(row);}, []);
+  document.getElementById("orgChart").innerHTML=
+    '<thead><tr><th style="width:40px"></th><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th><th>ชั้น</th></tr></thead><tbody>'
+    +(DATA.org||[]).map(function(row,li){
+      return row.map(function(p){
+        return '<tr class="'+(p.lead?"lead":"")+'">'
+          +'<td><div class="av-sm'+(p.lead?" gold":"")+'">'+AV2+'</div></td>'
+          +'<td><b>'+esc(p.n)+'</b></td>'
+          +'<td><span class="pos-badge'+(p.lead?" lead":"")+'">'+esc(p.t)+'</span></td>'
+          +'<td style="color:var(--ink-3);font-size:.78rem">ชั้น '+(li+1)+'</td></tr>';
+      }).join("");
+    }).join("")+'</tbody>';
+  document.getElementById("orgUpdate").textContent="อัปเดตล่าสุด "+(DATA.orgUpdate||"");
+  document.getElementById("menuOrgCount").textContent=allPeople.length+" คน";
 
   /* ธีมและโลโก้ */
   applyTheme(DATA.theme);
@@ -885,7 +882,6 @@ async function syncFromCloud(){
       if(!merged.logo)  merged.logo=DATA.logo||"";
       if(!merged.policy)merged.policy=DATA.policy||{};
       if(!merged.sbNav)        merged.sbNav=DATA.sbNav||[];
-      if(!merged.orgImage)     merged.orgImage=DATA.orgImage||"";
       if(!merged.safety)       merged.safety=DATA.safety||{topics:[],forms:[]};
       if(!merged.customPages)  merged.customPages=DATA.customPages||[];
       DATA=merged;
@@ -1083,12 +1079,7 @@ function buildEditor(){
     +'<div class="ed-card"><h3>📚 หัวข้อ Learning</h3><div class="hint">วางลิงค์ไฟล์รูปจาก Google Drive</div><div id="edTopics"></div><button class="ed-add" id="addTopic">＋ เพิ่มหัวข้อ</button></div>'
         +'<div class="ed-card"><h3>🦺 งานด้านความปลอดภัย</h3><div class="hint">ใส่ชื่อหัวข้อและลิงค์ Google Drive — แสดงเป็นการ์ดรูปแบบเดียวกับ Learning</div><div id="edSafetyTopics"></div><button class="ed-add" id="addSafetyTopic">＋ เพิ่มหัวข้อ</button><div style="margin-top:14px"><label class="ed-lb" style="margin-bottom:6px">แบบฟอร์มรายงาน / แบบสอบถาม</label><div id="edSafetyForms"></div><button class="ed-add" id="addSafetyForm">＋ เพิ่มแบบฟอร์ม</button></div></div>'
     +'<div class="ed-card"><h3>📄 เมนูหลัก (กำหนดเอง)</h3><div class="hint">สร้างหน้าใหม่พร้อมการ์ดรูปแบบ Learning — ตั้งค่า Key แล้วเพิ่มเป็นเมนูใน แถบเมนูซ้าย ได้เลย</div><div id="edCustomPages"></div><button class="ed-add" id="addCustomPage">＋ สร้างหน้าใหม่</button></div>'
-    +'<div class="ed-card"><h3>👥 บุคลากร</h3><div class="hint">อัปโหลดรูปผังองค์กร 1 รูป (JPG, PNG) — จะแสดงแทนตารางเดิม</div>'
-    +'<div class="upload-area" id="orgImgDropArea"><input type="file" id="orgImgFileInput" accept="image/*"><svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#9AA0A8;display:block;margin:0 auto 6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><p>คลิกหรือลากรูปผังองค์กรมาวาง<br><small>JPG, PNG — แนะนำไม่เกิน 2 MB</small></p><div class="fname" id="orgImgFileName">'+((EDIT.orgImage)?"✓ มีรูปอยู่แล้ว — อัปโหลดใหม่เพื่อเปลี่ยน":"ยังไม่ได้เลือกไฟล์")+'</div></div>'
-    +'<div class="logo-preview-box" style="margin-top:12px"><div id="orgImgPreview" style="flex:1;text-align:center">'+((EDIT.orgImage)?'<img src="'+EDIT.orgImage+'" style="max-width:100%;max-height:200px;border-radius:8px;object-fit:contain">':'<p style="color:var(--ink-3);font-size:.85rem">ยังไม่มีรูป</p>')+'</div></div>'
-    +'<div style="margin-top:12px;display:flex;gap:10px;align-items:center"><label class="ed-lb" style="margin:0">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+(EDIT.orgUpdate||'')+'" placeholder="22/2/2569" style="max-width:180px"></div>'
-    +'<div style="margin-top:10px"><button id="orgImgDelBtn" class="btn btn-danger" style="font-size:.8rem;padding:6px 14px'+((EDIT.orgImage)?'':';display:none')+'">✕ ลบรูปออก</button></div>'
-    +'</div>'
+    +'<div class="ed-card"><h3>👥 บุคลากร</h3><div class="hint">แต่ละ "ชั้น" = หนึ่งแถวในผัง | หัวหน้า = แถบสีทอง</div><div id="edOrg"></div><button class="ed-add" id="addLevel">＋ เพิ่มชั้นใหม่</button><div style="margin-top:12px"><label class="ed-lb">วันที่อัปเดต</label><input class="ed" id="edOrgDate" value="'+(EDIT.orgUpdate||'')+'" placeholder="22/2/2569"></div></div>'
   );
 
   renderEdSbNav();
@@ -1108,56 +1099,11 @@ function buildEditor(){
   bindBtn("addSafetyTopic",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.topics)EDIT.safety.topics=[];EDIT.safety.topics.push({t:"",id:""});renderEdSafety();});
   bindBtn("addSafetyForm",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.forms)EDIT.safety.forms=[];EDIT.safety.forms.push({label:"",desc:"",url:""});renderEdSafety();});
   bindBtn("addSbSection",function(){collect();if(!EDIT.sbNav)EDIT.sbNav=[];EDIT.sbNav.push({section:"หมวดใหม่",items:[{label:"รายการใหม่",type:"page",key:"home"}]});renderEdSbNav();});
+  bindBtn("addLevel",   function(){collect();EDIT.org.push([{n:"",t:"พนักงานเครื่องมือวัด"}]);renderEdOrg();});
   bindBtn("addNews",    function(){collect();EDIT.news.push({tag:"ประกาศ",text:"",type:"normal"});renderEdNews();});
   bindBtn("addForm",    function(){collect();EDIT.forms.push({label:"",desc:"",url:"",admin:false});renderEdForms();});
   bindBtn("addPolItem", function(){collect();if(!EDIT.policy)EDIT.policy={};if(!EDIT.policy.items)EDIT.policy.items=[];EDIT.policy.items.push("");renderEdPolicy();});
   bindBtn("addTopic",   function(){collect();EDIT.topics.push({t:"",id:""});renderEdTopics();});
-
-  /* org image upload */
-  var orgFileInput=document.getElementById("orgImgFileInput");
-  if(orgFileInput){
-    orgFileInput.addEventListener("change",function(e){
-      var file=e.target.files[0]; if(!file) return;
-      if(file.size>20*1024*1024){alert("ไฟล์ใหญ่เกิน 20 MB");return;}
-      var fname=document.getElementById("orgImgFileName");
-      fname.textContent="กำลังประมวลผลรูป...";
-      /* JPEG 95% — คมพอ แต่ขนาดเล็กกว่า PNG มาก */
-      compressImageJpeg(file, 2400, 2400, 0.95, function(dataUrl){
-        var kb=Math.round(dataUrl.length*0.75/1024);
-        EDIT.orgImage=dataUrl;
-        fname.textContent="✓ "+file.name+" | JPEG 95% (~"+kb+" KB)";
-        document.getElementById("orgImgPreview").innerHTML=
-          '<img src="'+dataUrl+'" style="max-width:100%;max-height:300px;border-radius:8px;object-fit:contain">';
-        var delBtn=document.getElementById("orgImgDelBtn");
-        if(delBtn) delBtn.style.display="";
-      });
-    });
-  }
-  var orgDelBtn=document.getElementById("orgImgDelBtn");
-  if(orgDelBtn){
-    orgDelBtn.addEventListener("click",function(){
-      EDIT.orgImage="";
-      document.getElementById("orgImgFileName").textContent="ลบรูปแล้ว";
-      document.getElementById("orgImgPreview").innerHTML='<p style="color:var(--ink-3);font-size:.85rem">ยังไม่มีรูป</p>';
-      orgDelBtn.style.display="none";
-    });
-  }
-  /* logo upload */
-  document.getElementById("logoFileInput").addEventListener("change",function(e){
-    var file=e.target.files[0]; if(!file) return;
-    if(file.size>5*1024*1024){alert("ไฟล์ใหญ่เกิน 5 MB");return;}
-    compressImageJpeg(file, 300, 300, 0.92, function(dataUrl){
-      EDIT.logo=dataUrl;
-      document.getElementById("logoFileName").textContent="✓ "+file.name;
-      var pc=document.getElementById("logoPreviewCircle");
-      pc.innerHTML="";
-      var img=document.createElement("img");
-      img.src=dataUrl;
-      img.style.cssText="width:100%;height:100%;object-fit:cover;border-radius:50%";
-      pc.appendChild(img);
-      applyLogo(dataUrl);
-    });
-  });
 
   /* ลบโลโก้ */
   const delBtn=document.getElementById("logoDeleteBtn");
@@ -1507,7 +1453,6 @@ function collect(){
   document.querySelectorAll("[data-topicrow]").forEach(function(it){const o=EDIT.topics[+it.dataset.topicrow];if(!o)return;it.querySelectorAll("[data-f]").forEach(function(f){o[f.dataset.f]=f.value;});o.id=extractId(o.id);});
   document.querySelectorAll("[data-person]").forEach(function(it){const parts=it.dataset.person.split("-");const li=+parts[0];const pi=+parts[1];const p=EDIT.org[li]&&EDIT.org[li][pi];if(!p)return;it.querySelectorAll("[data-f]").forEach(function(f){if(f.type==="checkbox"){if(f.checked)p.lead=true;else delete p.lead;}else p[f.dataset.f]=f.value;});});
   const d=document.getElementById("edOrgDate");if(d)EDIT.orgUpdate=d.value;
-  /* orgImage เก็บใน EDIT.orgImage โดยตรงจาก event handler แล้ว */
   EDIT.forms=EDIT.forms.filter(function(f){return f.label.trim()||f.url.trim();});
   EDIT.topics=EDIT.topics.filter(function(o){return o.t.trim()||o.id.trim();});
   EDIT.org=EDIT.org.map(function(r){return r.filter(function(p){return p.n.trim();});}).filter(function(r){return r.length;});
