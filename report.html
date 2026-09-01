@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สรุปการทำแบบทดสอบความปลอดภัย</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-1:#0f5c4a; --teal-2:#0c7a5c; --gold:#e0a72e;
+    --bg:#e9efec; --surface:#ffffff;
+    --ink:#1c2624; --ink-2:#5b6864; --ink-3:#93a09b;
+    --line:#e0e8e4;
+    --green:#1e8a4a; --green-bg:#e9f7ef;
+    --red:#c0392b; --red-bg:#fdecec;
+    --amber-bg:#fff8e1; --amber-line:#e6bf3a; --amber-ink:#5c4d19; --amber-strong:#8a6d1a;
+    --shadow:0 4px 22px rgba(10,30,25,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0d1613; --surface:#132420;
+      --ink:#e7efec; --ink-2:#a9b8b3; --ink-3:#728079;
+      --line:#22342e;
+      --green:#4fd382; --green-bg:#173425;
+      --red:#ff8a7a; --red-bg:#3a1d1a;
+      --amber-bg:#2c260f; --amber-line:#6b5a1e; --amber-ink:#e8d9a3; --amber-strong:#f0cf6a;
+      --shadow:0 4px 26px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1613; --surface:#132420;
+    --ink:#e7efec; --ink-2:#a9b8b3; --ink-3:#728079;
+    --line:#22342e;
+    --green:#4fd382; --green-bg:#173425;
+    --red:#ff8a7a; --red-bg:#3a1d1a;
+    --amber-bg:#2c260f; --amber-line:#6b5a1e; --amber-ink:#e8d9a3; --amber-strong:#f0cf6a;
+    --shadow:0 4px 26px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink);padding:28px 16px 48px}
+  .sheet{max-width:1080px;margin:0 auto;background:var(--surface);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+  h1{text-wrap:balance}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .head{background:linear-gradient(135deg,var(--teal-1) 0%,var(--teal-2) 100%);color:#fff;text-align:center;padding:34px 20px 26px}
+  .head .icon{width:46px;height:46px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.3rem;color:var(--teal-1);font-weight:700}
+  .head h1{font-family:'Prompt',sans-serif;font-weight:700;font-size:1.55rem;margin-bottom:8px}
+  .head p{font-family:'Sarabun';font-weight:400;font-size:.92rem;opacity:.92;margin-bottom:16px}
+  .head .chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:6px 16px;font-size:.82rem;font-weight:500}
+
+  .gold-bar{height:5px;background:linear-gradient(90deg,var(--gold),#f2c94c,var(--gold))}
+
+  .body-pad{padding:22px 26px 30px}
+
+  .notice{display:flex;gap:12px;background:var(--amber-bg);border:1px solid var(--amber-line);border-left:5px solid var(--gold);border-radius:10px;padding:14px 16px;margin-bottom:22px}
+  .notice b{font-family:'Prompt';color:var(--amber-strong);font-size:.9rem}
+  .notice p{font-size:.85rem;line-height:1.6;color:var(--amber-ink);margin-top:3px}
+
+  table{width:100%;border-collapse:collapse;font-size:.86rem;font-variant-numeric:tabular-nums}
+  thead th{background:linear-gradient(90deg,var(--teal-1),var(--teal-2));color:#fff;font-family:'Prompt';font-weight:600;font-size:.82rem;padding:12px 10px;text-align:center;white-space:nowrap}
+  thead th:nth-child(2){text-align:left;padding-left:16px}
+  tbody td{padding:11px 10px;text-align:center;border-bottom:1px solid var(--line);color:var(--ink)}
+  tbody td:nth-child(2){text-align:left;padding-left:16px;font-weight:500}
+  tbody tr:nth-child(even){background:color-mix(in srgb, var(--teal-2) 5%, var(--surface))}
+  tbody tr:hover{background:color-mix(in srgb, var(--teal-2) 10%, var(--surface))}
+
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;border-radius:20px;padding:4px 12px;white-space:nowrap}
+  .pill.ok{background:var(--green-bg);color:var(--green)}
+  .pill.no{background:var(--red-bg);color:var(--red)}
+
+  .status.full{color:var(--green);font-family:'Prompt';font-weight:700}
+  .status.partial{color:#b8860b;font-family:'Prompt';font-weight:700}
+
+  .footnote{margin-top:18px;font-size:.78rem;color:var(--ink-3);line-height:1.7;border-top:1px dashed var(--line);padding-top:14px}
+  .footnote b{color:var(--ink-2)}
+  .footnote strong.count{color:var(--ink);font-weight:700}
+
+  .foot{background:linear-gradient(135deg,var(--teal-1),var(--teal-2));color:#fff;text-align:center;padding:18px;font-family:'Prompt'}
+  .foot b{letter-spacing:.5px;font-size:.9rem}
+  .foot div{font-size:.78rem;opacity:.85;margin-top:4px;font-family:'Sarabun'}
+
+  @media(max-width:720px){
+    .body-pad{padding:16px}
+    table{font-size:.72rem}
+    thead th{padding:8px 5px}
+    tbody td{padding:8px 5px}
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <div class="head">
+    <div class="icon">+</div>
+    <h1>สรุปการทำแบบทดสอบความปลอดภัย</h1>
+    <p>เปรียบเทียบการเข้าร่วมแบบทดสอบ ครั้งที่ 1-6/69 ถึง ครั้งที่ 9/69</p>
+    <span class="chip">🛈 ข้อมูลอัปเดตล่าสุด ณ วันที่ <b id="updateDate">1 กันยายน 2569</b></span>
+  </div>
+
+  <div class="gold-bar"></div>
+
+  <div class="body-pad">
+
+    <div class="notice">
+      <div>⚠️</div>
+      <div>
+        <b>สื่อสารเน้นย้ำเรื่องความปลอดภัยและการระมัดระวังในการทำงาน</b>
+        <p>การทบทวนความรู้ความปลอดภัยคือหัวใจสำคัญในการป้องกันอุบัติเหตุ ขอความร่วมมือพนักงานทุกท่านที่ยังตอบคำถามไม่ครบถ้วน ดำเนินการทำแบบทดสอบให้ครบถ้วนเพื่อความปลอดภัยของตัวท่านและเพื่อนร่วมงาน<br>
+        ข้อมูลนี้ดึงจากผลตอบกลับจริงในโฟลเดอร์ Google Drive "1.อุบัติเหตุ ปี 2569" และจะอัปเดตให้อัตโนมัติทุก 1 สัปดาห์</p>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>ลำดับ</th>
+          <th>ชื่อ - นามสกุล</th>
+          <th>ครั้งที่ 1-6/69</th>
+          <th>ครั้งที่ 7/69</th>
+          <th>ครั้งที่ 8/69</th>
+          <th>ครั้งที่ 9/69</th>
+          <th>สถานะ</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+      </tbody>
+    </table>
+    </div>
+
+    <div class="footnote" id="footnote"></div>
+
+  </div>
+
+  <div class="foot">
+    <b>SAFETY FIRST • ปลอดภัยไว้ก่อน</b>
+    <div>"ร่วมมือร่วมใจ ปฏิบัติตามมาตรการความปลอดภัย เพื่อการทำงานที่ปลอดภัยของทุกคน"</div>
+  </div>
+
+</div>
+
+<script>
+/* ===== ข้อมูลจริงจากผลตอบกลับ Google Form ในโฟลเดอร์ "1.อุบัติเหตุ ปี 2569" ===== */
+/* true = ทำแล้ว, false = ยังไม่ทำ */
+const DATA = [
+  {n:"นายอำพร นาคประสาท",        r:[1,1,1,1]},
+  {n:"นายบุรินทร์ บัวศรีทอง",      r:[1,1,1,1]},
+  {n:"นางสาวอนัญญา ธรรมส่งสุข",   r:[1,1,1,1]},
+  {n:"นายทัศนัยย์ ธรรมเสมอ",      r:[1,1,1,1]},
+  {n:"นายสิทธิศักดิ์ ภูผิวฟ้า",     r:[1,1,1,1]},
+  {n:"นายปริทัศน์ แทนสระน้อย",    r:[0,0,0,0]},
+  {n:"นายกมลเทพ ศรีมูลลัน",       r:[0,1,1,1]},
+  {n:"นายจิรภัทร ยาพิมาย",        r:[0,1,1,1]},
+  {n:"นายธนกฤต เพชรเสน่ห์กุล",    r:[0,1,1,1]},
+  {n:"นายธนวัฒน์ เขื่องสะถุ่ง",     r:[0,1,1,1]},
+  {n:"นายทวีทรัพย์ บุญทีย์กุล",     r:[0,1,1,1]},
+  {n:"นายธีระพงษ์ ทับพุดชา",      r:[0,1,1,1]},
+  {n:"นายกราดร ก้อนจันทึก",       r:[0,1,0,0]},
+  {n:"นายธีระวุฒิ ท่าเกลือ",       r:[0,1,1,1]},
+];
+
+const tbody = document.getElementById("tbody");
+tbody.innerHTML = DATA.map((row,i)=>{
+  const cells = row.r.map(v=> v
+    ? '<td><span class="pill ok">✓ ทำแล้ว</span></td>'
+    : '<td><span class="pill no">✗ ยังไม่ทำ</span></td>'
+  ).join("");
+  const full = row.r.every(v=>v===1);
+  const status = full
+    ? '<span class="status full">ครบทุกครั้ง</span>'
+    : '<span class="status partial">ยังไม่ครบ</span>';
+  return `<tr><td>${i+1}</td><td>${row.n}</td>${cells}<td>${status}</td></tr>`;
+}).join("");
+
+const fullCount = DATA.filter(d=>d.r.every(v=>v===1)).length;
+document.getElementById("footnote").innerHTML =
+  `สรุป: ครบทุกครั้ง ${fullCount} คน จากทั้งหมด ${DATA.length} คน &nbsp;|&nbsp; `+
+  `<b>หมายเหตุ:</b> พบคำตอบ "ครั้งที่ 1-6/69" จากนายมานพ สิทธ์ประเสริฐ ซึ่งไม่ใช่พนักงานในทะเบียน — ไม่นับรวมในตารางและไม่เพิ่มในทะเบียนตามที่ยืนยันแล้ว (ตรวจสอบซ้ำแล้วเมื่อ 1 ก.ย. 2569 — ยังไม่มีผู้ตอบกลับรายใหม่ที่ไม่ตรงทะเบียน และยังไม่มีรอบแบบทดสอบใหม่เพิ่มเติมจากครั้งที่ 9/69)`;
+</script>
+
+</body>
+</html>
