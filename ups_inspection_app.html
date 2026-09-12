@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>ตรวจเช็ค UPS ประจำวัน</title>
+<style>
+  :root{
+    --blue:#3b6fe0;
+    --blue-dark:#2c56b8;
+    --bg:#eef1f8;
+    --card:#ffffff;
+    --field:#f1f3f9;
+    --text:#1c2333;
+    --muted:#6b7385;
+    --ok:#1f9d55;
+    --bad:#d64545;
+    --border:#e3e7f1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans Thai",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    -webkit-tap-highlight-color:transparent;
+  }
+  #app{
+    max-width:480px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--bg);
+    padding-bottom:88px;
+    position:relative;
+  }
+  header.topbar{
+    background:var(--card);
+    padding:16px 18px 14px;
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:5;
+  }
+  header.topbar h1{
+    font-size:18px;
+    margin:0;
+    font-weight:700;
+  }
+  header.topbar p{
+    margin:2px 0 0;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  .setup-banner{
+    margin:12px 16px 0;
+    background:#fff4e0;
+    border:1px solid #f4d38c;
+    color:#8a5a00;
+    padding:10px 12px;
+    border-radius:10px;
+    font-size:12.5px;
+    line-height:1.5;
+  }
+  main{ padding:14px 16px 8px; }
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 1px 3px rgba(20,30,60,0.06);
+    border:1px solid var(--border);
+  }
+  .card h2{
+    font-size:14.5px;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text);
+  }
+  .card h2 .dot{
+    width:22px;height:22px;border-radius:7px;
+    background:#e7edff;color:var(--blue);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;flex:none;
+  }
+  .card p.hint{
+    font-size:12px;
+    color:var(--muted);
+    margin:-8px 0 14px;
+    line-height:1.5;
+  }
+
+  label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--text);
+  }
+  label .req{ color:var(--bad); }
+  .field{ margin-bottom:14px; }
+  .field:last-child{ margin-bottom:0; }
+
+  select, input[type=text], input[type=number], input[type=date], textarea{
+    width:100%;
+    background:var(--field);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:11px 12px;
+    font-size:14.5px;
+    color:var(--text);
+    font-family:inherit;
+    appearance:none;
+    -webkit-appearance:none;
+  }
+  select:disabled, input:disabled{ opacity:.55; }
+  textarea{ resize:vertical; min-height:64px; }
+  select{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%236b7385' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    padding-right:32px;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color:var(--blue);
+    background:#fff;
+  }
+  .hint-small{ font-size:11.5px; color:var(--muted); margin-top:5px; }
+
+  .check-row{
+    display:flex;
+    gap:10px;
+    background:var(--field);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px;
+    align-items:flex-start;
+  }
+  .check-row input[type=checkbox]{
+    width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--blue);
+  }
+  .check-row .txt strong{ display:block; font-size:14px; margin-bottom:2px; }
+  .check-row .txt span{ font-size:12px; color:var(--muted); line-height:1.5; }
+
+  .row2{ display:flex; gap:10px; }
+  .row2 .field{ flex:1; }
+
+  .btnbar{ display:flex; gap:10px; margin-top:4px; }
+  button{
+    font-family:inherit;
+    font-size:14.5px;
+    font-weight:700;
+    border-radius:11px;
+    padding:13px 14px;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-cancel{ flex:1; background:var(--field); color:var(--text); border:1px solid var(--border); }
+  .btn-submit{ flex:2; background:var(--blue); color:#fff; }
+  .btn-submit:disabled{ opacity:.6; }
+  .btn-refresh{
+    background:none;border:1px solid var(--border);color:var(--blue);
+    font-size:12.5px;padding:7px 12px;border-radius:20px;font-weight:600;
+  }
+
+  .status-msg{
+    margin-top:12px; padding:10px 12px; border-radius:10px; font-size:13px; display:none;
+  }
+  .status-msg.ok{ display:block; background:#e7f7ec; color:var(--ok); }
+  .status-msg.err{ display:block; background:#fdeceb; color:var(--bad); }
+  .status-msg.loading{ display:block; background:#eef1f8; color:var(--muted); }
+
+  /* Today / History views */
+  .view-header{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .view-header h2{ font-size:16px; margin:0; }
+  .filters{ display:flex; gap:8px; margin-bottom:12px; }
+  .filters select, .filters input{ font-size:13px; padding:9px 10px; }
+
+  .group-title{
+    font-size:12.5px; font-weight:700; color:var(--muted);
+    margin:16px 0 8px; text-transform:uppercase; letter-spacing:.03em;
+  }
+  .group-title:first-child{ margin-top:0; }
+
+  .checklist-item{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:11px 13px; margin-bottom:8px; display:flex; align-items:center; gap:10px;
+  }
+  .checklist-item .meta{ flex:1; min-width:0; }
+  .checklist-item .meta .name{ font-size:13.5px; font-weight:600; }
+  .checklist-item .meta .shift{ font-size:12px; color:var(--muted); margin-top:1px; }
+  .badge{
+    font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:20px; flex:none;
+  }
+  .badge.done{ background:#e7f7ec; color:var(--ok); }
+  .badge.pending{ background:#fdeceb; color:var(--bad); }
+
+  .history-card{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:13px; margin-bottom:10px;
+  }
+  .history-card .top{ display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px; }
+  .history-card .top .title{ font-size:14px; font-weight:700; }
+  .history-card .top .sub{ font-size:12px; color:var(--muted); margin-top:2px; }
+  .history-card .grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px 14px; font-size:12.5px; }
+  .history-card .grid div span{ color:var(--muted); }
+  .history-card .remarks{ margin-top:8px; font-size:12.5px; color:var(--text); background:var(--field); border-radius:8px; padding:8px 10px; }
+
+  .empty-state{ text-align:center; color:var(--muted); font-size:13px; padding:30px 10px; }
+
+  nav.bottomnav{
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:480px;
+    background:var(--card); border-top:1px solid var(--border);
+    display:flex; padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+    z-index:10;
+  }
+  nav.bottomnav button{
+    flex:1; background:none; border:none; padding:8px 4px;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    color:var(--muted); font-size:11.5px; font-weight:600; border-radius:10px;
+  }
+  nav.bottomnav button svg{ width:21px; height:21px; }
+  nav.bottomnav button.active{ color:var(--blue); background:#eef2fe; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar">
+    <h1>ตรวจเช็ค UPS ประจำวัน</h1>
+    <p>บันทึกผลตรวจ 2 กะการทำงาน — ข้อมูลจะถูกส่งไปยัง Google Sheet</p>
+  </header>
+  <div id="setupBanner" class="setup-banner" style="display:none;">
+    ⚠️ ยังไม่ได้ตั้งค่า Web App URL ของ Google Sheet — เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วแก้ค่า <code>webAppUrl</code> และ <code>token</code> ในส่วน CONFIG ด้านบนของไฟล์ (ดูวิธีทำในคู่มือติดตั้ง.md)
+  </div>
+
+  <main>
+
+    <!-- ===== TODAY VIEW ===== -->
+    <section id="view-today" class="view">
+      <div class="view-header">
+        <h2>สรุปวันนี้</h2>
+        <button class="btn-refresh" onclick="loadToday()">รีเฟรช</button>
+      </div>
+      <div id="todayDate" class="hint-small" style="margin-bottom:10px;"></div>
+      <div id="todayContent"><div class="empty-state">กำลังโหลด...</div></div>
+    </section>
+
+    <!-- ===== FORM VIEW ===== -->
+    <section id="view-form" class="view active">
+      <div class="card">
+        <h2><span class="dot">📋</span> ข้อมูลการตรวจ</h2>
+
+        <div class="field">
+          <label>เลือกพื้นที่ / อาคาร <span class="req">*</span></label>
+          <select id="fBuilding" onchange="onBuildingChange()">
+            <option value="">เลือกพื้นที่หรืออาคารก่อน</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>ชื่อ UPS / สถานที่ติดตั้ง <span class="req">*</span></label>
+          <select id="fUps" disabled onchange="onUpsChange()">
+            <option value="">เลือกอาคารก่อน</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>S/N ของ UPS <span class="req">*</span></label>
+          <input type="text" id="fSerial" placeholder="เช่น SN-2024-0012">
+          <div class="hint-small" id="serialHint">ดึงข้อมูลอัตโนมัติจากฐานข้อมูล UPS เมื่อเลือกชื่อ UPS ด้านบน (แก้ไขเองได้ถ้าจำเป็น)</div>
+        </div>
+
+        <div class="field">
+          <label>วันที่ตรวจ <span class="req">*</span></label>
+          <input type="date" id="fDate">
+          <div class="hint-small">วันที่ที่บันทึกจะถูกส่งไปยัง Google Sheet</div>
+        </div>
+
+        <div class="field">
+          <label>กะการทำงาน <span class="req">*</span></label>
+          <select id="fShift"></select>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="dot">✓</span> ผลการตรวจเช็ค</h2>
+        <p class="hint">ติ๊กถูกเมื่อสภาพภายนอกและสภาพแวดล้อมของ UPS อยู่ในสภาพปกติ</p>
+
+        <div class="field">
+          <div class="check-row">
+            <input type="checkbox" id="fVisual" checked onchange="onVisualChange()">
+            <div class="txt">
+              <strong>VISUAL CHECK ปกติ</strong>
+              <span>หากไม่ติ๊กถูก ให้ระบุรายละเอียดในหมายเหตุ</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>INPUT (V) <span class="req">*</span></label>
+            <input type="number" inputmode="decimal" id="fInput" placeholder="เช่น 230">
+          </div>
+          <div class="field">
+            <label>OUTPUT (V) <span class="req">*</span></label>
+            <input type="number" inputmode="decimal" id="fOutput" placeholder="เช่น 223">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>SIGNATURE / ชื่อผู้ตรวจเช็ค <span class="req">*</span></label>
+          <input type="text" id="fSignature" placeholder="พิมพ์ชื่อผู้ตรวจเช็ค">
+        </div>
+
+        <div class="field">
+          <label id="remarksLabel">หมายเหตุ / REMARKS</label>
+          <textarea id="fRemarks" placeholder="ระบุความผิดปกติหรือรายละเอียดเพิ่มเติม"></textarea>
+        </div>
+
+        <div id="statusMsg" class="status-msg"></div>
+
+        <div class="btnbar" style="margin-top:14px;">
+          <button class="btn-cancel" onclick="resetForm()">ยกเลิก</button>
+          <button class="btn-submit" id="submitBtn" onclick="submitForm()">บันทึกลง Google Sheet</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HISTORY VIEW ===== -->
+    <section id="view-history" class="view">
+      <div class="view-header">
+        <h2>ประวัติการตรวจ</h2>
+        <button class="btn-refresh" onclick="loadHistory()">รีเฟรช</button>
+      </div>
+      <div class="filters">
+        <input type="date" id="hDate" onchange="loadHistory()">
+        <select id="hBuilding" onchange="loadHistory()"></select>
+      </div>
+      <div id="historyContent"><div class="empty-state">กำลังโหลด...</div></div>
+    </section>
+
+  </main>
+
+  <nav class="bottomnav">
+    <button id="nav-today" onclick="showView('today')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      วันนี้
+    </button>
+    <button id="nav-form" class="active" onclick="showView('form')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+      กรอกข้อมูล
+    </button>
+    <button id="nav-history" onclick="showView('history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+      ประวัติ
+    </button>
+  </nav>
+
+</div>
+
+<script>
+/* ======================================================================
+   CONFIG — แก้ค่าตรงนี้ให้ตรงกับของจริงก่อนใช้งาน
+   1) webAppUrl: URL ของ Google Apps Script Web App (ดูวิธี deploy ในคู่มือติดตั้ง.md)
+   2) token: ต้องตรงกับตัวแปร TOKEN ใน Code.gs ทุกตัวอักษร
+   3) shifts: รายชื่อกะการทำงาน
+   หมายเหตุ: รายชื่อพื้นที่/อาคาร, ชื่อ UPS และ S/N ไม่ได้ตั้งค่าที่นี่แล้ว —
+   แอปจะดึงข้อมูลสดจากชีตต้นแบบ UPS ผ่าน Code.gs (mode=master) ทุกครั้งที่เปิดแอป
+   ต้องการเพิ่ม/แก้ UPS ให้ไปแก้ที่ชีตต้นแบบโดยตรง (ดูคู่มือติดตั้ง.md)
+   ====================================================================== */
+const CONFIG = {
+  webAppUrl: 'https://script.google.com/macros/s/AKfycbz1okGJzsaZ7KceEWIGoz7sU4n_cpXQ0kO54eKQ4G6tZiAq6I_rktVIU1k9AKAs0kMg/exec', // เช่น https://script.google.com/macros/s/xxxxx/exec
+  token: '5821C3p2S00v8lRJpw_BdX1Y',
+  shifts: ['กะที่ 1 (08.00 - 20.00 น.)', 'กะที่ 2 (20.00 - 08.00 น.)']
+};
+
+function isConfigured(){
+  return !!CONFIG.webAppUrl && CONFIG.webAppUrl.indexOf('https://') === 0;
+}
+
+function todayStr(){
+  const d = new Date();
+  const tz = d.getTimezoneOffset() * 60000;
+  return new Date(d - tz).toISOString().slice(0,10);
+}
+
+/* ---------- master data (พื้นที่/อาคาร, ชื่อ UPS, S/N) ---------- */
+// MASTER.list: [{building, upsName, serial}, ...]
+// MASTER.byBuilding: { 'อาคาร A': [{upsName, serial}, ...] }
+let MASTER = { list: [], byBuilding: {} };
+
+async function fetchMasterData(){
+  if (!isConfigured()) return false;
+  try {
+    const url = new URL(CONFIG.webAppUrl);
+    url.searchParams.set('token', CONFIG.token);
+    url.searchParams.set('mode', 'master');
+    const res = await fetch(url.toString());
+    const data = await res.json();
+    if (data.result !== 'success') return false;
+    MASTER.list = data.items || [];
+    MASTER.byBuilding = {};
+    MASTER.list.forEach(item => {
+      if (!item.building || !item.upsName) return;
+      if (!MASTER.byBuilding[item.building]) MASTER.byBuilding[item.building] = [];
+      MASTER.byBuilding[item.building].push({ upsName: item.upsName, serial: item.serial || '' });
+    });
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+function renderBuildingOptions(selectEl, placeholderText, keepValue){
+  const prevValue = keepValue ? selectEl.value : '';
+  selectEl.innerHTML = '';
+  const ph = document.createElement('option');
+  ph.value = ''; ph.textContent = placeholderText;
+  selectEl.appendChild(ph);
+  Object.keys(MASTER.byBuilding).forEach(b => {
+    const opt = document.createElement('option');
+    opt.value = b; opt.textContent = b;
+    selectEl.appendChild(opt);
+  });
+  if (prevValue && MASTER.byBuilding[prevValue]) selectEl.value = prevValue;
+}
+
+async function loadMasterData(){
+  const buildingSel = document.getElementById('fBuilding');
+  const hBuilding = document.getElementById('hBuilding');
+  if (!isConfigured()) {
+    buildingSel.innerHTML = '<option value="">ยังไม่ได้ตั้งค่า Web App URL</option>';
+    hBuilding.innerHTML = '<option value="">ทุกพื้นที่/อาคาร</option>';
+    return;
+  }
+  buildingSel.innerHTML = '<option value="">กำลังโหลดรายชื่อ...</option>';
+  const ok = await fetchMasterData();
+  if (!ok) {
+    buildingSel.innerHTML = '<option value="">โหลดรายชื่อ UPS ไม่สำเร็จ — ลองรีเฟรชหน้า</option>';
+    return;
+  }
+  renderBuildingOptions(buildingSel, 'เลือกพื้นที่หรืออาคารก่อน', true);
+  renderBuildingOptions(hBuilding, 'ทุกพื้นที่/อาคาร', true);
+}
+
+/* ---------- init ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  if (!isConfigured()) {
+    document.getElementById('setupBanner').style.display = 'block';
+  }
+
+  const shiftSel = document.getElementById('fShift');
+  CONFIG.shifts.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    shiftSel.appendChild(opt);
+  });
+
+  document.getElementById('fDate').value = todayStr();
+  document.getElementById('todayDate').textContent = 'วันที่ ' + todayStr();
+
+  loadMasterData();
+});
+
+function onBuildingChange(){
+  const building = document.getElementById('fBuilding').value;
+  const upsSel = document.getElementById('fUps');
+  upsSel.innerHTML = '';
+  document.getElementById('fSerial').value = '';
+  if (!building) {
+    upsSel.disabled = true;
+    upsSel.innerHTML = '<option value="">เลือกอาคารก่อน</option>';
+    return;
+  }
+  upsSel.disabled = false;
+  const placeholder = document.createElement('option');
+  placeholder.value = ''; placeholder.textContent = 'เลือก UPS';
+  upsSel.appendChild(placeholder);
+  (MASTER.byBuilding[building] || []).forEach(u => {
+    const opt = document.createElement('option');
+    opt.value = u.upsName; opt.textContent = u.upsName;
+    opt.dataset.serial = u.serial || '';
+    upsSel.appendChild(opt);
+  });
+}
+
+function onUpsChange(){
+  const upsSel = document.getElementById('fUps');
+  const opt = upsSel.options[upsSel.selectedIndex];
+  const serial = opt ? (opt.dataset.serial || '') : '';
+  if (serial) document.getElementById('fSerial').value = serial;
+}
+
+function onVisualChange(){
+  const checked = document.getElementById('fVisual').checked;
+  document.getElementById('remarksLabel').innerHTML =
+    checked ? 'หมายเหตุ / REMARKS' : 'หมายเหตุ / REMARKS <span class="req">*</span>';
+}
+
+/* ---------- tabs ---------- */
+function showView(name){
+  ['today','form','history'].forEach(v => {
+    document.getElementById('view-' + v).classList.toggle('active', v === name);
+    document.getElementById('nav-' + v).classList.toggle('active', v === name);
+  });
+  if (name === 'today') loadToday();
+  if (name === 'history') loadHistory();
+}
+
+/* ---------- form submit ---------- */
+function setStatus(type, text){
+  const el = document.getElementById('statusMsg');
+  el.className = 'status-msg' + (type ? ' ' + type : '');
+  el.textContent = text || '';
+}
+
+function resetForm(){
+  document.getElementById('fBuilding').value = '';
+  onBuildingChange();
+  document.getElementById('fSerial').value = '';
+  document.getElementById('fDate').value = todayStr();
+  document.getElementById('fShift').selectedIndex = 0;
+  document.getElementById('fVisual').checked = true;
+  onVisualChange();
+  document.getElementById('fInput').value = '';
+  document.getElementById('fOutput').value = '';
+  document.getElementById('fSignature').value = '';
+  document.getElementById('fRemarks').value = '';
+  setStatus(null, '');
+}
+
+async function submitForm(){
+  const building = document.getElementById('fBuilding').value;
+  const upsName = document.getElementById('fUps').value;
+  const serial = document.getElementById('fSerial').value.trim();
+  const date = document.getElementById('fDate').value;
+  const shift = document.getElementById('fShift').value;
+  const visualCheck = document.getElementById('fVisual').checked;
+  const inputV = document.getElementById('fInput').value;
+  const outputV = document.getElementById('fOutput').value;
+  const signature = document.getElementById('fSignature').value.trim();
+  const remarks = document.getElementById('fRemarks').value.trim();
+
+  if (!building || !upsName) return setStatus('err', 'กรุณาเลือกพื้นที่/อาคาร และ UPS');
+  if (!serial) return setStatus('err', 'กรุณากรอก S/N ของ UPS');
+  if (!date) return setStatus('err', 'กรุณาเลือกวันที่ตรวจ');
+  if (!shift) return setStatus('err', 'กรุณาเลือกกะการทำงาน');
+  if (inputV === '' || outputV === '') return setStatus('err', 'กรุณากรอกค่า INPUT (V) และ OUTPUT (V)');
+  if (isNaN(Number(inputV)) || isNaN(Number(outputV))) return setStatus('err', 'INPUT (V) และ OUTPUT (V) ต้องเป็นตัวเลขเท่านั้น');
+  if (!signature) return setStatus('err', 'กรุณาใส่ชื่อผู้ตรวจเช็ค');
+  if (!visualCheck && !remarks) return setStatus('err', 'VISUAL CHECK ไม่ปกติ กรุณาระบุรายละเอียดในหมายเหตุ');
+
+  if (!isConfigured()) return setStatus('err', 'ยังไม่ได้ตั้งค่า Web App URL — ดูคู่มือติดตั้ง.md');
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  setStatus('loading', 'กำลังบันทึก...');
+
+  try {
+    const res = await fetch(CONFIG.webAppUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        token: CONFIG.token,
+        building, upsName, serial, date, shift,
+        visualCheck, inputV, outputV, signature, remarks
+      })
+    });
+    const data = await res.json();
+    if (data.result === 'success') {
+      setStatus('ok', '✓ บันทึกข้อมูลลง Google Sheet เรียบร้อยแล้ว');
+      setTimeout(() => resetForm(), 1400);
+    } else {
+      setStatus('err', 'บันทึกไม่สำเร็จ: ' + (data.message || 'ไม่ทราบสาเหตุ'));
+    }
+  } catch (err) {
+    setStatus('err', 'เชื่อมต่อไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ---------- today view ---------- */
+async function loadToday(){
+  const container = document.getElementById('todayContent');
+  document.getElementById('todayDate').textContent = 'วันที่ ' + todayStr();
+  if (!isConfigured()) {
+    container.innerHTML = '<div class="empty-state">ยังไม่ได้ตั้งค่า Web App URL — ดูคู่มือติดตั้ง.md</div>';
+    return;
+  }
+  container.innerHTML = '<div class="empty-state">กำลังโหลด...</div>';
+  await fetchMasterData(); // ดึงรายชื่อ UPS ล่าสุดจากชีตต้นแบบทุกครั้งที่เปิด/รีเฟรชแท็บนี้
+  try {
+    const url = new URL(CONFIG.webAppUrl);
+    url.searchParams.set('token', CONFIG.token);
+    url.searchParams.set('date', todayStr());
+    const res = await fetch(url.toString());
+    const data = await res.json();
+    if (data.result !== 'success') {
+      container.innerHTML = '<div class="empty-state">โหลดข้อมูลไม่สำเร็จ: ' + (data.message || '') + '</div>';
+      return;
+    }
+    const done = new Set(data.rows.map(r => r.building + '|' + r.upsName + '|' + r.shift));
+    let html = '';
+    Object.keys(MASTER.byBuilding).forEach(building => {
+      html += '<div class="group-title">' + building + '</div>';
+      MASTER.byBuilding[building].forEach(u => {
+        CONFIG.shifts.forEach(shift => {
+          const isDone = done.has(building + '|' + u.upsName + '|' + shift);
+          html += '<div class="checklist-item"><div class="meta"><div class="name">' + u.upsName +
+            '</div><div class="shift">' + shift + '</div></div><span class="badge ' +
+            (isDone ? 'done">ตรวจแล้ว' : 'pending">ยังไม่ตรวจ') + '</span></div>';
+        });
+      });
+    });
+    container.innerHTML = html || '<div class="empty-state">ยังไม่มีรายชื่อ UPS ในชีตต้นแบบ</div>';
+  } catch (err) {
+    container.innerHTML = '<div class="empty-state">เชื่อมต่อไม่สำเร็จ กรุณาลองใหม่</div>';
+  }
+}
+
+/* ---------- history view ---------- */
+async function loadHistory(){
+  const container = document.getElementById('historyContent');
+  if (!isConfigured()) {
+    container.innerHTML = '<div class="empty-state">ยังไม่ได้ตั้งค่า Web App URL — ดูคู่มือติดตั้ง.md</div>';
+    return;
+  }
+  container.innerHTML = '<div class="empty-state">กำลังโหลด...</div>';
+  const masterOk = await fetchMasterData();
+  if (masterOk) renderBuildingOptions(document.getElementById('hBuilding'), 'ทุกพื้นที่/อาคาร', true);
+  try {
+    const dateFilter = document.getElementById('hDate').value;
+    const buildingFilter = document.getElementById('hBuilding').value;
+    const url = new URL(CONFIG.webAppUrl);
+    url.searchParams.set('token', CONFIG.token);
+    url.searchParams.set('limit', '100');
+    if (dateFilter) url.searchParams.set('date', dateFilter);
+    const res = await fetch(url.toString());
+    const data = await res.json();
+    if (data.result !== 'success') {
+      container.innerHTML = '<div class="empty-state">โหลดข้อมูลไม่สำเร็จ: ' + (data.message || '') + '</div>';
+      return;
+    }
+    let rows = data.rows;
+    if (buildingFilter) rows = rows.filter(r => r.building === buildingFilter);
+    if (!rows.length) {
+      container.innerHTML = '<div class="empty-state">ยังไม่มีข้อมูลตามเงื่อนไขที่เลือก</div>';
+      return;
+    }
+    container.innerHTML = rows.map(r => (
+      '<div class="history-card">' +
+        '<div class="top"><div><div class="title">' + r.upsName + '</div>' +
+        '<div class="sub">' + r.building + ' • ' + r.date + ' • ' + r.shift + '</div></div>' +
+        '<span class="badge ' + (r.visualCheck === 'ปกติ' ? 'done' : 'pending') + '">' + r.visualCheck + '</span></div>' +
+        '<div class="grid">' +
+          '<div><span>S/N: </span>' + (r.serial || '-') + '</div>' +
+          '<div><span>ผู้ตรวจ: </span>' + (r.signature || '-') + '</div>' +
+          '<div><span>Input: </span>' + r.inputV + ' V</div>' +
+          '<div><span>Output: </span>' + r.outputV + ' V</div>' +
+        '</div>' +
+        (r.remarks ? '<div class="remarks">' + r.remarks + '</div>' : '') +
+      '</div>'
+    )).join('');
+  } catch (err) {
+    container.innerHTML = '<div class="empty-state">เชื่อมต่อไม่สำเร็จ กรุณาลองใหม่</div>';
+  }
+}
+</script>
+</body>
+</html>
