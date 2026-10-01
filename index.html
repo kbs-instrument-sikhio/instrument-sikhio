@@ -673,6 +673,22 @@ const FORM_IC='<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.
 const CHEV='<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6V6z"/></svg>';
 const LOGO_SVG='<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9h2.2A6.8 6.8 0 0 1 12 5.2 6.8 6.8 0 0 1 18.8 12H21a9 9 0 0 0-9-9zm-.9 6.6L8 16l6.4-3.1a1.9 1.9 0 1 0-3.3-3.3zM3 14h2v2H3v-2zm16 0h2v2h-2v-2z"/></svg>';
 
+/* ---------- Key page ที่เลือกได้ในแถบเมนูซ้าย ---------- */
+const BUILTIN_PAGES={home:"หน้าหลัก",learning:"Learning",employees:"บุคลากร",policy:"นโยบายคุณภาพ",other:"อื่น ๆ",safety:"งานด้านความปลอดภัย"};
+const RESERVED_KEYS=Object.keys(BUILTIN_PAGES).concat(["admin"]);
+/* ไอคอนให้เลือกสำหรับหน้าที่สร้างเอง */
+const CP_ICONS={
+  shield:'<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3zm-1.2 13.6-3-3 1.4-1.4 1.6 1.6 4-4 1.4 1.4-5.4 5.4z"/></svg>',
+  book:  '<svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1z"/></svg>',
+  doc:   '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>',
+  tool:  '<svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>',
+  chart: '<svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
+  leaf:  '<svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.2 3.8 21.3l1.9.7 1-2.3c.5.2 1 .3 1.3.3C19 20 22 3 22 3c-1 2-8 2.3-13 3.3S2 11.5 2 13.5s1.8 3.8 1.8 3.8C7 8 17 8 17 8z"/></svg>'
+};
+const CP_ICON_LABELS={shield:"🛡 โล่ (Safety)",book:"📘 หนังสือ",doc:"📄 เอกสาร",tool:"🔧 เครื่องมือ",chart:"📊 กราฟ",leaf:"🌿 สิ่งแวดล้อม"};
+/* แปลง key ให้ใช้ได้ (a-z 0-9 _ -) */
+const sanitizeKey = s => String(s||"").trim().replace(/\s+/g,"-").replace(/[^A-Za-z0-9_-]/g,"");
+
 /* ---------- สร้าง Learning card ---------- */
 function cardHTML(o){
   const id=extractId(o.id);
@@ -735,12 +751,15 @@ function renderAll(){
     safety:       '<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3zm-1.2 13.6-3-3 1.4-1.4 1.6 1.6 4-4 1.4 1.4-5.4 5.4z"/></svg>',
     _default:     '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>'
   };
+  /* ไอคอนของหน้าที่สร้างเอง (customPages) */
+  var _cpIcon={};
+  (DATA.customPages||[]).forEach(function(pg){ _cpIcon[pg.id]=CP_ICONS[pg.icon]||CP_ICONS.shield; });
   var sbNavEl=document.getElementById("sbMenuNav");
   if(sbNavEl){
     var _cnt=(DATA.topics||[]).length;
     sbNavEl.innerHTML=(DATA.sbNav||[]).map(function(sec,si){
       var rows=(sec.items||[]).map(function(item){
-        var ico=SB_ICONS[item.key]||SB_ICONS._default;
+        var ico=(item.type!=='link'&&_cpIcon[item.key])||SB_ICONS[item.key]||SB_ICONS._default;
         var badge=item.badge?'<span class="badge" id="'+item.badge+'">'+_cnt+'</span>':'';
         if(item.type==='link'){
           var url=_links[item.key]||'';
@@ -775,7 +794,7 @@ function renderAll(){
   const cnt=DATA.topics.length;
   document.getElementById("seeAllBtn").textContent="ดูทั้งหมด ("+cnt+")";
   document.getElementById("menuLearnCount").textContent=cnt+" หัวข้อ";
-  document.getElementById("sbLearnBadge").textContent=cnt;
+  var _lb=document.getElementById("sbLearnBadge"); if(_lb) _lb.textContent=cnt; /* กันพังถ้าเอา Learning ออกจากเมนู */
 
   /* ผังพนักงาน — table */
   /* org table */
@@ -828,9 +847,10 @@ function renderAll(){
     }).join("") || '<p style="color:var(--ink-3);font-size:.9rem;padding:14px 16px">ยังไม่มีแบบฟอร์ม — ตั้งค่าในโหมดผู้ดูแล</p>';
   }
 
-  /* Custom pages — dynamic */
+  /* Custom pages — โครงเดียวกับหน้า Safety (การ์ด + แบบฟอร์ม) */
   var cpContainer=document.getElementById("customPagesContainer");
   if(cpContainer){
+    var FORM_HEAD_IC='<svg viewBox="0 0 24 24"><path d="M19 13v6H5v-6H3v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2zM13 12.67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/></svg>';
     cpContainer.innerHTML=(DATA.customPages||[]).map(function(pg){
       var cards=(pg.topics||[]).map(function(o){
         var id=extractId(o.id);
@@ -838,18 +858,18 @@ function renderAll(){
         return cardHTML(o);
       }).join("")||'<p style="color:var(--ink-3);font-size:.9rem;padding:8px 0">ยังไม่มีเอกสาร</p>';
       var forms=(pg.forms||[]).map(function(f){
-        if(!f.url) return '';
+        if(!f.url||f.url==="https://forms.gle/") return '';
         return '<a class="form-row" href="'+esc(f.url)+'" target="_blank" rel="noopener">'+
           '<span class="form-ic">'+FORM_IC+'</span>'+
           '<span class="txt"><b>'+esc(f.label)+'</b><small>'+esc(f.desc)+'</small></span>'+CHEV+'</a>';
-      }).join("");
-      var formWidget=forms?'<div class="widget"><div class="widget-head"><svg viewBox="0 0 24 24"><path d="M19 13v6H5v-6H3v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2zM13 12.67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/></svg>แบบฟอร์ม</div><div>'+forms+'</div></div>':'';
+      }).join("")||'<p style="color:var(--ink-3);font-size:.9rem;padding:14px 16px">ยังไม่มีแบบฟอร์ม — ตั้งค่าในโหมดผู้ดูแล</p>';
+      var ico=CP_ICONS[pg.icon]||CP_ICONS.shield;
+      var formWidget=(pg.showForms===false)?'':'<div class="widget"><div class="widget-head">'+FORM_HEAD_IC+esc(pg.formsTitle||"แบบฟอร์มรายงาน / แบบสอบถาม")+'</div><div>'+forms+'</div></div>';
       return '<div class="page" id="page-cp-'+esc(pg.id)+'">'
         +'<div class="breadcrumb">หน้าหลัก › <span>'+esc(pg.title)+'</span></div>'
         +'<div class="page-title"><span class="eyebrow">'+esc(pg.eyebrow||"")+'</span><h2>'+esc(pg.title)+'</h2></div>'
-        +'<div class="widget"><div class="widget-head">'
-        +'<svg viewBox="0 0 24 24"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13v-2H7a1 1 0 0 1 0-2h13V3a1 1 0 0 0-1-1z"/></svg>'
-        +esc(pg.title)+'</div>'
+        +'<div class="widget"><div class="widget-head">'+ico
+        +esc(pg.cardsTitle||pg.title)+'</div>'
         +'<div class="widget-body"><div class="cards-grid">'+cards+'</div></div></div>'
         +formWidget+'</div>';
     }).join("");
@@ -861,6 +881,13 @@ function renderAll(){
   DATA.forms.forEach(function(f){INDEX.push({label:f.label,type:"แบบฟอร์ม",url:f.url});});
   DATA.topics.forEach(function(o){INDEX.push({label:o.t,type:"ความรู้ Instrument",url:driveView(extractId(o.id))});});
   DATA.org.reduce(function(acc,r){return acc.concat(r);},[]).forEach(function(p){INDEX.push({label:p.n+" — "+p.t,type:"พนักงาน",page:"employees"});});
+  /* ค้นหา Safety และหน้าที่สร้างเอง */
+  INDEX.push({label:"งานด้านความปลอดภัย",type:"หน้า",page:"safety"});
+  ((DATA.safety||{}).topics||[]).forEach(function(o){var id=extractId(o.id);if(id)INDEX.push({label:o.t,type:"ความปลอดภัย",url:driveView(id)});});
+  (DATA.customPages||[]).forEach(function(pg){
+    INDEX.push({label:pg.title,type:"หน้า",page:pg.id});
+    (pg.topics||[]).forEach(function(o){var id=extractId(o.id);if(id)INDEX.push({label:o.t,type:pg.title,url:driveView(id)});});
+  });
 }
 
 /* วันที่ */
@@ -1092,9 +1119,13 @@ function buildEditor(){
   bindBtn("addCustomPage",function(){
     collect();
     if(!EDIT.customPages) EDIT.customPages=[];
-    var newId="page"+Date.now();
-    EDIT.customPages.push({id:newId,title:"หน้าใหม่",eyebrow:"",topics:[],forms:[]});
+    var newId=uniqueKey("page"+(EDIT.customPages.length+1),-1);
+    /* ค่าเริ่มต้นแบบเดียวกับหน้า Safety */
+    EDIT.customPages.push({id:newId,title:"หน้าใหม่",eyebrow:"",icon:"shield",
+      cardsTitle:"ข้อมูล",formsTitle:"แบบฟอร์มรายงาน / แบบสอบถาม",showForms:true,
+      topics:[{t:"",id:""}],forms:[{label:"",desc:"",url:""}]});
     renderEdCustomPages();
+    renderEdSbNav();
   });
   bindBtn("addSafetyTopic",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.topics)EDIT.safety.topics=[];EDIT.safety.topics.push({t:"",id:""});renderEdSafety();});
   bindBtn("addSafetyForm",function(){collect();if(!EDIT.safety)EDIT.safety={};if(!EDIT.safety.forms)EDIT.safety.forms=[];EDIT.safety.forms.push({label:"",desc:"",url:""});renderEdSafety();});
@@ -1173,8 +1204,8 @@ function renderEdSbNav(){
         +'<option value="page"'+(item.type==="page"?" selected":"")+'>หน้าในเว็บ (page)</option>'
         +'<option value="link"'+(item.type==="link"?" selected":"")+'>ลิงค์ภายนอก (link)</option>'
         +'</select></div></div>'
-        +'<div><label class="ed-lb">Key (page: home / learning / employees / policy / other  |  link: repairData / receiveData / withdrawData / stockList)</label>'
-        +'<input class="ed" data-sf="key" value="'+esc(item.key||"")+'"></div>'
+        +'<div><label class="ed-lb">'+(item.type==="link"?"ลิงค์ที่ต้องการ (Key link)":"หน้าที่ต้องการเปิด (Key page)")+'</label>'
+        +'<select class="ed" data-sf="key">'+keyOptionsHTML(item.type,item.key)+'</select></div>'
         +'<div class="ed-item-bar"><button class="ed-del" data-delsbitem="'+si+'-'+ii+'">ลบรายการ</button></div>'
         +'</div>';
     }).join('');
@@ -1206,6 +1237,66 @@ function renderEdSbNav(){
       renderEdSbNav();
     };
   });
+  /* เปลี่ยนประเภท page/link → โหลดรายการ Key ใหม่ */
+  el.querySelectorAll('select[data-sf="type"]').forEach(function(s){
+    s.onchange=function(){
+      var row=s.closest("[data-sbitem]");
+      var si=+row.dataset.sbsec, ii=+row.dataset.sbitem;
+      collect();
+      var it=EDIT.sbNav[si].items[ii];
+      it.key=(it.type==="link")?Object.keys(LINK_LABELS)[0]:"home";
+      renderEdSbNav();
+    };
+  });
+  /* เลือก Key page แล้ว ถ้าชื่อรายการยังเป็นค่าเริ่มต้น ให้ตั้งชื่อตามหน้าอัตโนมัติ */
+  el.querySelectorAll('select[data-sf="key"]').forEach(function(s){
+    s.onchange=function(){
+      var row=s.closest("[data-sbitem]");
+      var lb=row.querySelector('input[data-sf="label"]');
+      if(lb&&(!lb.value.trim()||lb.value==="รายการใหม่")){
+        var opt=s.options[s.selectedIndex];
+        lb.value=(opt.dataset.name||opt.textContent);
+      }
+    };
+  });
+}
+
+/* ---------- ตัวเลือก Key ใน dropdown ของแถบเมนูซ้าย ---------- */
+function keyOptionsHTML(type,current){
+  var html="",found=false;
+  function opt(k,name,suffix){
+    var sel=(k===current); if(sel) found=true;
+    return '<option value="'+esc(k)+'" data-name="'+esc(name)+'"'+(sel?" selected":"")+'>'+esc(name)+'  ('+esc(k)+')'+(suffix||"")+'</option>';
+  }
+  if(type==="link"){
+    html+='<optgroup label="ลิงค์ภายนอก">'
+      +Object.keys(LINK_LABELS).map(function(k){return opt(k,LINK_LABELS[k],EDIT.links&&EDIT.links[k]?"":" — ยังไม่ใส่ URL");}).join("")
+      +'</optgroup>';
+  } else {
+    html+='<optgroup label="หน้าในเว็บ (มีอยู่แล้ว)">'
+      +Object.keys(BUILTIN_PAGES).map(function(k){return opt(k,BUILTIN_PAGES[k]);}).join("")
+      +'</optgroup>';
+    var cps=(EDIT.customPages||[]).filter(function(p){return p.id;});
+    html+='<optgroup label="หน้าที่สร้างเอง (เมนูหลักกำหนดเอง)">'
+      +(cps.length?cps.map(function(p){return opt(p.id,p.title||p.id);}).join("")
+                  :'<option disabled>— ยังไม่มี: สร้างได้ที่การ์ด "เมนูหลัก (กำหนดเอง)" —</option>')
+      +'</optgroup>';
+  }
+  if(current&&!found) html='<option value="'+esc(current)+'" selected>⚠ ไม่พบหน้า "'+esc(current)+'" (ถูกลบหรือเปลี่ยน Key)</option>'+html;
+  return html;
+}
+function inSbNav(key){
+  return (EDIT.sbNav||[]).some(function(s){return (s.items||[]).some(function(it){return it.type!=="link"&&it.key===key;});});
+}
+/* สร้าง key ไม่ซ้ำกับหน้าที่มีอยู่ (skipIdx = index ของหน้าตัวเอง) */
+function uniqueKey(base,skipIdx){
+  var k=sanitizeKey(base)||"page", n=1, cand=k;
+  function taken(c){
+    if(RESERVED_KEYS.indexOf(c)>=0) return true;
+    return (EDIT.customPages||[]).some(function(p,i){return i!==skipIdx&&p.id===c;});
+  }
+  while(taken(cand)){ n++; cand=k+"-"+n; }
+  return cand;
 }
 function renderEdCustomPages(){
   var el=document.getElementById("edCustomPages"); if(!el) return;
@@ -1240,23 +1331,74 @@ function renderEdCustomPages(){
       +'<div class="ed-grid2" style="margin-bottom:10px">'
       +'<div><label class="ed-lb">ชื่อหน้า (แสดงในเมนู)</label>'
       +'<input class="ed" data-cpf="title" data-cppage="'+pi+'" value="'+esc(pg.title||"")+'"></div>'
-      +'<div><label class="ed-lb">Key (ใช้เป็น key ใน แถบเมนูซ้าย เช่น safety2)</label>'
+      +'<div><label class="ed-lb">Key page (ภาษาอังกฤษ/ตัวเลข เช่น safety2, env)</label>'
       +'<input class="ed" data-cpf="id" data-cppage="'+pi+'" value="'+esc(pg.id||"")+'"></div>'
       +'</div>'
-      +'<div style="margin-bottom:8px"><label class="ed-lb">หัวเรื่องย่อย (Eyebrow เช่น "Knowledge")</label>'
+      +'<div class="ed-grid2" style="margin-bottom:8px">'
+      +'<div><label class="ed-lb">หัวเรื่องย่อย (Eyebrow เช่น "Safety")</label>'
       +'<input class="ed" data-cpf="eyebrow" data-cppage="'+pi+'" value="'+esc(pg.eyebrow||"")+'"></div>'
+      +'<div><label class="ed-lb">ไอคอน (เมนูซ้าย + หัวกล่อง)</label>'
+      +'<select class="ed" data-cpf="icon" data-cppage="'+pi+'">'
+      +Object.keys(CP_ICON_LABELS).map(function(k){return '<option value="'+k+'"'+((pg.icon||"shield")===k?" selected":"")+'>'+CP_ICON_LABELS[k]+'</option>';}).join("")
+      +'</select></div></div>'
+      +'<div class="ed-grid2" style="margin-bottom:8px">'
+      +'<div><label class="ed-lb">หัวกล่องการ์ด (เช่น "ข้อมูลความปลอดภัย")</label>'
+      +'<input class="ed" data-cpf="cardsTitle" data-cppage="'+pi+'" value="'+esc(pg.cardsTitle||"")+'" placeholder="เว้นว่าง = ใช้ชื่อหน้า"></div>'
+      +'<div><label class="ed-lb">หัวกล่องแบบฟอร์ม</label>'
+      +'<input class="ed" data-cpf="formsTitle" data-cppage="'+pi+'" value="'+esc(pg.formsTitle||"")+'" placeholder="แบบฟอร์มรายงาน / แบบสอบถาม"></div>'
+      +'</div>'
+      +'<label class="ed-check" style="margin-bottom:10px"><input type="checkbox" data-cpshowforms="'+pi+'"'+(pg.showForms===false?"":" checked")+'>แสดงกล่องแบบฟอร์ม (แบบหน้า Safety)</label>'
       +'<label class="ed-lb" style="margin-bottom:6px">การ์ดรูป (Google Drive)</label>'
       +topics
       +'<button class="ed-add" data-addcptopic="'+pi+'" style="margin-bottom:10px">＋ เพิ่มการ์ด</button>'
       +'<label class="ed-lb" style="margin-bottom:6px;display:block;margin-top:6px">แบบฟอร์ม (Google Form)</label>'
       +forms
       +'<button class="ed-add" data-addcpform="'+pi+'">＋ เพิ่มแบบฟอร์ม</button>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center">'
+      +(inSbNav(pg.id)
+        ?'<span style="font-size:.8rem;color:var(--green);font-weight:600">✓ อยู่ในแถบเมนูซ้ายแล้ว</span>'
+        :'<button class="btn btn-gold" data-cptosb="'+pi+'" style="padding:6px 14px;font-size:.78rem">＋ เพิ่มเข้าแถบเมนูซ้าย (หมวดเมนูหลัก)</button>')
+      +'</div>'
       +'</div>';
   }).join('');
 
+  /* แก้ชื่อ/Key/ไอคอน → รีเฟรช dropdown ในแถบเมนูซ้ายทันที */
+  el.querySelectorAll('[data-cpf="title"],[data-cpf="id"],[data-cpf="icon"]').forEach(function(inp){
+    /* ไม่ re-render การ์ดหน้านี้ (จะลบช่องที่ผู้ใช้กำลังพิมพ์) — รีเฟรชเฉพาะ dropdown เมนูซ้าย */
+    inp.addEventListener("change",function(){
+      collect();
+      var pg=EDIT.customPages[+inp.dataset.cppage];
+      if(pg&&inp.dataset.cpf==="id"&&inp.value!==pg.id){
+        if(inp.value.trim()) alert('Key ใช้ได้เฉพาะ a-z 0-9 _ - และห้ามซ้ำกับหน้าอื่น\nปรับเป็น: '+pg.id);
+        inp.value=pg.id;
+      }
+      renderEdSbNav();
+    });
+  });
+  el.querySelectorAll("[data-cptosb]").forEach(function(b){
+    b.onclick=function(){
+      collect();
+      var pg=EDIT.customPages[+b.dataset.cptosb]; if(!pg) return;
+      if(!EDIT.sbNav) EDIT.sbNav=[];
+      var sec=EDIT.sbNav.find(function(s){return s.section==="เมนูหลัก";})||EDIT.sbNav[0];
+      if(!sec){sec={section:"เมนูหลัก",items:[]};EDIT.sbNav.unshift(sec);}
+      if(!sec.items) sec.items=[];
+      sec.items.push({label:pg.title,type:"page",key:pg.id});
+      renderEdCustomPages();renderEdSbNav();
+      alert('เพิ่ม "'+pg.title+'" เข้าแถบเมนูซ้ายแล้ว — กด "ดูตัวอย่าง" เพื่อเช็ค');
+    };
+  });
+
   /* events */
   el.querySelectorAll("[data-delcppage]").forEach(function(b){
-    b.onclick=function(){collect();EDIT.customPages.splice(+b.dataset.delcppage,1);renderEdCustomPages();};
+    b.onclick=function(){
+      collect();
+      var pg=EDIT.customPages[+b.dataset.delcppage];
+      if(!confirm('ลบหน้า "'+(pg&&pg.title)+'"?\n(รายการในแถบเมนูซ้ายที่ชี้มาหน้านี้จะถูกลบด้วย)')) return;
+      EDIT.customPages.splice(+b.dataset.delcppage,1);
+      if(pg&&EDIT.sbNav) EDIT.sbNav.forEach(function(s){s.items=(s.items||[]).filter(function(it){return !(it.type!=="link"&&it.key===pg.id);});});
+      renderEdCustomPages();renderEdSbNav();
+    };
   });
   el.querySelectorAll("[data-addcptopic]").forEach(function(b){
     b.onclick=function(){collect();EDIT.customPages[+b.dataset.addcptopic].topics.push({t:"",id:""});renderEdCustomPages();};
@@ -1395,12 +1537,39 @@ function collect(){
     const polItemEls=document.querySelectorAll("[data-politem] textarea");
     if(polItemEls.length) EDIT.policy.items=Array.from(polItemEls).map(function(t){return t.value;}).filter(function(s){return s.trim();});
   }
+  /* sbNav collect — ต้องทำก่อน customPages เพื่อให้เปลี่ยน Key แล้วตามไปแก้เมนูได้ */
+  if(EDIT.sbNav){
+    document.querySelectorAll("[data-sbsecname]").forEach(function(inp){
+      var si=+inp.dataset.sbsecname;
+      if(EDIT.sbNav[si]) EDIT.sbNav[si].section=inp.value;
+    });
+    document.querySelectorAll("[data-sbsec][data-sbitem]").forEach(function(row){
+      var si=+row.dataset.sbsec; var ii=+row.dataset.sbitem;
+      if(!EDIT.sbNav[si]||!EDIT.sbNav[si].items||!EDIT.sbNav[si].items[ii]) return;
+      row.querySelectorAll("[data-sf]").forEach(function(f){
+        EDIT.sbNav[si].items[ii][f.dataset.sf]=f.value;
+      });
+    });
+  }
   /* customPages collect */
   if(EDIT.customPages){
     /* page-level fields */
     document.querySelectorAll("[data-cpf][data-cppage]").forEach(function(inp){
       var pi=+inp.dataset.cppage; var field=inp.dataset.cpf;
-      if(EDIT.customPages[pi]) EDIT.customPages[pi][field]=inp.value;
+      var pg=EDIT.customPages[pi]; if(!pg) return;
+      if(field==="id"){
+        var oldId=pg.id;
+        var newId=uniqueKey(inp.value||pg.title||"page",pi);
+        if(newId!==sanitizeKey(inp.value)&&inp.value.trim()) console.info("Key ถูกปรับเป็น",newId);
+        pg.id=newId;
+        /* เปลี่ยน Key → แก้รายการในแถบเมนูซ้ายที่ชี้หน้านี้ให้อัตโนมัติ */
+        if(oldId&&oldId!==newId&&EDIT.sbNav){
+          EDIT.sbNav.forEach(function(s){(s.items||[]).forEach(function(it){if(it.type!=="link"&&it.key===oldId)it.key=newId;});});
+        }
+      } else pg[field]=inp.value;
+    });
+    document.querySelectorAll("[data-cpshowforms]").forEach(function(c){
+      var pg=EDIT.customPages[+c.dataset.cpshowforms]; if(pg) pg.showForms=c.checked;
     });
     /* topics */
     document.querySelectorAll("[data-cppage][data-cptopic]").forEach(function(row){
@@ -1414,8 +1583,9 @@ function collect(){
       var pi=+row.dataset.cppage; var fi=+row.dataset.cpform;
       var pg=EDIT.customPages[pi]; if(!pg||!pg.forms[fi]) return;
       row.querySelectorAll("[data-ff]").forEach(function(f){pg.forms[fi][f.dataset.ff]=f.value;});
+      var u=(pg.forms[fi].url||"").trim(); if(u&&!/^https?:\/\//i.test(u)) u="https://"+u; pg.forms[fi].url=u;
     });
-    EDIT.customPages=EDIT.customPages.filter(function(pg){return pg.title.trim();});
+    EDIT.customPages=EDIT.customPages.filter(function(pg){return (pg.title||"").trim();});
   }
   /* safety collect — แบบ Learning */
   if(EDIT.safety){
@@ -1432,20 +1602,6 @@ function collect(){
     });
     EDIT.safety.topics=(EDIT.safety.topics||[]).filter(function(o){return o.t.trim()||o.id.trim();});
     EDIT.safety.forms=(EDIT.safety.forms||[]).filter(function(f){return f.label.trim()||f.url.trim();});
-  }
-  /* sbNav collect */
-  if(EDIT.sbNav){
-    document.querySelectorAll("[data-sbsecname]").forEach(function(inp){
-      var si=+inp.dataset.sbsecname;
-      if(EDIT.sbNav[si]) EDIT.sbNav[si].section=inp.value;
-    });
-    document.querySelectorAll("[data-sbsec][data-sbitem]").forEach(function(row){
-      var si=+row.dataset.sbsec; var ii=+row.dataset.sbitem;
-      if(!EDIT.sbNav[si]||!EDIT.sbNav[si].items||!EDIT.sbNav[si].items[ii]) return;
-      row.querySelectorAll("[data-sf]").forEach(function(f){
-        EDIT.sbNav[si].items[ii][f.dataset.sf]=f.value;
-      });
-    });
   }
   document.querySelectorAll("[data-news]").forEach(function(it){const n=EDIT.news[+it.dataset.news];if(!n)return;it.querySelectorAll("[data-f]").forEach(function(f){n[f.dataset.f]=f.value;});});
   document.querySelectorAll("[data-linkkey]").forEach(function(f){EDIT.links[f.dataset.linkkey]=f.value.trim();});
